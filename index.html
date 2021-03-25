@@ -176,7 +176,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-03-25 14:55:45" itemprop="dateModified" datetime="2021-03-25T14:55:45+08:00">2021-03-25</time>
+                <time title="Modified: 2021-03-25 15:05:04" itemprop="dateModified" datetime="2021-03-25T15:05:04+08:00">2021-03-25</time>
               </span>
 
           
@@ -190,19 +190,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <pre><code>    一:写在前面
-    最近在研究odps的udf开发，不得不说maxcompute对hive的封装真的够狠的，用户需要关心的东西很少。UDF就不多说了，odps和hive没有什么差别，都是继承udf然后重写evaluate()就ok。本文主要介绍一下udaf的开发。
-    首先简单说一下udaf是什么吧。udaf是udf的一个子类。UDF(User Defined Function用户自定义函数)顾名思义就是用户自己用java或者python实现的，封装成一个函数可以到数据库中运行的函数。UDF中还包括UDF，UDAF(User Defined Aggregation),UDTF(User-Defined Table-Generating Functions）。
-    1.UDF指单行输入，单行输出的函数，我们常用的concat(),to_char()都是这样的函数。
-    2.UDAF指多行输入，单行输出的函数，一般和group by连用，常用的有sum(),avg()等等。
-    3.UDAF指单行输入，多行输出的函数，比较少用，用的比较多的有explode()
-    在通常的udaf-java开发流程中，需要继承AbstractGenericUDAFResolver，实现步骤十分复杂，而在odps中，我们只需要继承Aggregator，重点实现 merge(), iterate(), terminate() 这三个方法即可。
-    这里我们用一个Mysql里面十分常见，但是Hive中没有的函数group_concat()函数的UDAF实现来说明开发的流程。
-    （注:本文已经默认你安装了MaxCompute-IDEA所需要的东西并连接了自己的odps,具体过程可见https://help.aliyun.com/document_detail/50892.html)
-
-     二:目的
-     以表A为例子
-</code></pre>
+          <p>一:写在前面<br><br>&#160;&#160;&#160;&#160;最近在研究odps的udf开发，不得不说maxcompute对hive的封装真的够狠的，用户需要关心的东西很少。UDF就不多说了，odps和hive没有什么差别，都是继承udf然后重写evaluate()就ok。本文主要介绍一下udaf的开发。<br><br>&#160;&#160;&#160;&#160;首先简单说一下udaf是什么吧。udaf是udf的一个子类。UDF(User Defined Function用户自定义函数)顾名思义就是用户自己用java或者python实现的，封装成一个函数可以到数据库中运行的函数。UDF中还包括UDF，UDAF(User Defined Aggregation),UDTF(User-Defined Table-Generating Functions）。<br><br>&#160;&#160;&#160;&#160;1.UDF指单行输入，单行输出的函数，我们常用的concat(),to_char()都是这样的函数。<br><br>&#160;&#160;&#160;&#160;2.UDAF指多行输入，单行输出的函数，一般和group by连用，常用的有sum(),avg()等等。<br><br>&#160;&#160;&#160;&#160;3.UDAF指单行输入，多行输出的函数，比较少用，用的比较多的有explode()<br><br>&#160;&#160;&#160;&#160;在通常的udaf-java开发流程中，需要继承AbstractGenericUDAFResolver，实现步骤十分复杂，而在odps中，我们只需要继承Aggregator，重点实现 merge(), iterate(), terminate() 这三个方法即可。<br><br>&#160;&#160;&#160;&#160;这里我们用一个Mysql里面十分常见，但是Hive中没有的函数group_concat()函数的UDAF实现来说明开发的流程。<br><br>        （注:本文已经默认你安装了MaxCompute-IDEA所需要的东西并连接了自己的odps,具体过程可见<a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/50892.html">https://help.aliyun.com/document_detail/50892.html</a>)<br></p>
+<p> &#160;&#160;&#160;&#160;二:目的<br><br>&#160;&#160;&#160;&#160;以表A为例子</p>
 <table>
 <thead>
 <tr>
@@ -218,12 +207,16 @@
 <td>1</td>
 <td>android</td>
 </tr>
+<tr>
+<td>2</td>
+<td>ios</td>
+</tr>
+<tr>
+<td>1</td>
+<td>ios</td>
+</tr>
 </tbody></table>
-<pre><code> | 2 | ios |
- | 1  | ios |
- 
-实现如下聚合:
-</code></pre>
+<p>&#160;&#160;&#160;&#160;实现如下聚合:</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> id,group_concat(device) <span class="keyword">from</span> tableA <span class="keyword">group</span> <span class="keyword">by</span> id</span><br></pre></td></tr></table></figure>
 <table>
 <thead>
@@ -241,158 +234,18 @@
 <td>ios</td>
 </tr>
 </tbody></table>
-<pre><code>    三.具体实现:
-    根据mapreduce的工作原理，我们可以画一张流程图。把iterate想象成map()函数，merge想象成combine(),terminate想象成reduce()函数。
-    
-</code></pre>
+<p>&#160;&#160;&#160;&#160;三.具体实现:<br><br>&#160;&#160;&#160;&#160;根据mapreduce的工作原理，我们可以画一张流程图。把iterate想象成map()函数，merge想象成combine(),terminate想象成reduce()函数。</p>
 <p><img src="/images/pasted-1.png" alt="upload successful"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">代码如下</span><br><span class="line">package com.yupaopao.udaf;</span><br><span class="line"></span><br><span class="line">import com.aliyun.odps.io.Text;</span><br><span class="line">import com.aliyun.odps.io.Writable;</span><br><span class="line">import com.aliyun.odps.udf.UDFException;</span><br><span class="line">import com.aliyun.odps.udf.Aggregator;</span><br><span class="line">import com.aliyun.odps.udf.annotation.Resolve;</span><br><span class="line">import java.io.DataInput;</span><br><span class="line">import java.io.DataOutput;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 定义输入输出类型</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Resolve(&#123;&quot;String-&gt;String&quot;&#125;)</span><br><span class="line">public class GroupConcat extends Aggregator &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 继承Writable接口 自定义buffer进行序列化</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private static class GroupConcatBuffer implements Writable &#123;</span><br><span class="line">        private String str &#x3D; &quot;&quot;;</span><br><span class="line">        @Override</span><br><span class="line">        public void write(DataOutput out) throws IOException &#123;</span><br><span class="line">            out.writeChars(str);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;**</span><br><span class="line">         * Writable的readFields方法， 由于partial的writable对象是重用的，</span><br><span class="line">         * 同一个对象的readFields方法会被调用多次。该方法每次调用的时候重置整个对象，如果对象中包含Collection，则需要清空。</span><br><span class="line">         *&#x2F;</span><br><span class="line">        @Override</span><br><span class="line">        public void readFields(DataInput in) throws IOException &#123;</span><br><span class="line">            str &#x3D; in.readLine();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 声明最终结果变量</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private Text ret &#x3D; new Text();</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 创建初始返回结果的值</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Writable newBuffer() &#123;</span><br><span class="line">        return new GroupConcat.GroupConcatBuffer();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * @param buffer 为一个阶段的汇总数据(在不同map()中汇总出来的group by数据)</span><br><span class="line">     * @param args 表示一行数据 其中args[0]表示传入的第一列(一般仅传入一列)</span><br><span class="line">     * 每次新增一条数据 就把传入的列放入目前已有的累积字符串中。</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public void iterate(Writable buffer, Writable[] args) throws UDFException &#123;</span><br><span class="line">        Text arg &#x3D; (Text) args[0];</span><br><span class="line">        GroupConcat.GroupConcatBuffer buf &#x3D; (GroupConcat.GroupConcatBuffer) buffer;</span><br><span class="line">        if (arg !&#x3D; null) &#123;</span><br><span class="line">            buf.str&#x3D;buf.str+arg+&quot;,&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * @param buffer  聚合buffer</span><br><span class="line">     * @param partial 其他分片聚合结果</span><br><span class="line">     * 在这个方法中，对不同map()的结果进行汇总</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public void merge(Writable buffer, Writable partial) throws UDFException &#123;</span><br><span class="line">        GroupConcat.GroupConcatBuffer buf &#x3D; (GroupConcat.GroupConcatBuffer) buffer;</span><br><span class="line">        GroupConcat.GroupConcatBuffer p &#x3D; (GroupConcat.GroupConcatBuffer) partial;</span><br><span class="line">        buf.str &#x3D; buf.str+ p.str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 设置最终结果，同时把留在最后面的逗号去掉。</span><br><span class="line">     * @param buffer</span><br><span class="line">     * @return Object UDAF的最终结果</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Writable terminate(Writable buffer) throws UDFException &#123;</span><br><span class="line">        GroupConcatBuffer buf &#x3D; (GroupConcatBuffer) buffer;</span><br><span class="line">        if (buf.str&#x3D;&#x3D;&quot;&quot;)&#123;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            String result &#x3D; buf.str.substring(0, buf.str.length()-1);</span><br><span class="line">            ret.set(result);</span><br><span class="line">        &#125;</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
-<pre><code>    四:
-    打包右键点击写好的java文件，选择deploy to server打包
-    
-</code></pre>
+<p>&#160;&#160;&#160;&#160;四:<br><br>&#160;&#160;&#160;&#160;打包右键点击写好的java文件，选择deploy to server打包<br></p>
 <p><img src="/images/pasted-3.png" alt="upload successful"></p>
-<pre><code>    点击右上方的MaxCompute，选择添加资源，把资源上传到odps
-    
-</code></pre>
+<p>&#160;&#160;&#160;&#160;点击右上方的MaxCompute，选择添加资源，把资源上传到odps<br></p>
 <p><img src="/images/pasted-4.png" alt="upload successful"></p>
-<pre><code>    点击右上方的MaxCompute，选择创建UDF，起个名字，把udf注册进去(注意:这里使用的名字就是最后在odps里使用的名)
-</code></pre>
-<p><img src="/images/pasted-5.png" alt="upload successful"></p>
-<pre><code>   五:
-   函数使用。成功！
-</code></pre>
-<p> <img src="/images/pasted-2.png" alt="upload successful"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/24/newpapername/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/24/newpapername/" class="post-title-link" itemprop="url">newpapername</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-03-24 19:04:01" itemprop="dateCreated datePublished" datetime="2021-03-24T19:04:01+08:00">2021-03-24</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/24/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/24/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2021-03-24 17:49:43" itemprop="dateCreated datePublished" datetime="2021-03-24T17:49:43+08:00">2021-03-24</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>&#160;&#160;&#160;&#160;点击右上方的MaxCompute，选择创建UDF，起个名字，把udf注册进去(注意:这里使用的名字就是最后在odps里使用的名)<br><br><img src="/images/pasted-5.png" alt="upload successful"></p>
+<p>&#160;&#160;&#160;&#160;五:<br><br>&#160;&#160;&#160;&#160;函数使用。成功！<br><br> <img src="/images/pasted-2.png" alt="upload successful"></p>
 
       
     </div>
@@ -474,7 +327,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">1</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
