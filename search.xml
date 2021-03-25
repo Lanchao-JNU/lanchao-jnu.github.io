@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>odps上自定义UDAF-java开发</title>
+    <url>/2021/03/24/odps%E4%B8%8A%E8%87%AA%E5%AE%9A%E4%B9%89UDAF%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<p>一:写在前面<br><br>&#160;&#160;&#160;&#160;最近在研究odps的udf开发，不得不说maxcompute对hive的封装真的够狠的，用户需要关心的东西很少。UDF就不多说了，odps和hive没有什么差别，都是继承udf然后重写evaluate()就ok。本文主要介绍一下udaf的开发。<br><br>&#160;&#160;&#160;&#160;首先简单说一下udaf是什么吧。udaf是udf的一个子类。UDF(User Defined Function用户自定义函数)顾名思义就是用户自己用java或者python实现的，封装成一个函数可以到数据库中运行的函数。UDF中还包括UDF，UDAF(User Defined Aggregation),UDTF(User-Defined Table-Generating Functions）。<br><br>&#160;&#160;&#160;&#160;1.UDF指单行输入，单行输出的函数，我们常用的concat(),to_char()都是这样的函数。<br><br>&#160;&#160;&#160;&#160;2.UDAF指多行输入，单行输出的函数，一般和group by连用，常用的有sum(),avg()等等。<br><br>&#160;&#160;&#160;&#160;3.UDAF指单行输入，多行输出的函数，比较少用，用的比较多的有explode()<br><br>&#160;&#160;&#160;&#160;在通常的udaf-java开发流程中，需要继承AbstractGenericUDAFResolver，实现步骤十分复杂，而在odps中，我们只需要继承Aggregator，重点实现 merge(), iterate(), terminate() 这三个方法即可。<br><br>&#160;&#160;&#160;&#160;这里我们用一个Mysql里面十分常见，但是Hive中没有的函数group_concat()函数的UDAF实现来说明开发的流程。<br><br>        （注:本文已经默认你安装了MaxCompute-IDEA所需要的东西并连接了自己的odps,具体过程可见<a href="https://help.aliyun.com/document_detail/50892.html">https://help.aliyun.com/document_detail/50892.html</a>)<br></p>
+<p> &#160;&#160;&#160;&#160;二:目的<br><br>&#160;&#160;&#160;&#160;以表A为例子</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>device</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>ios</td>
+</tr>
+<tr>
+<td>1</td>
+<td>android</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ios</td>
+</tr>
+<tr>
+<td>1</td>
+<td>ios</td>
+</tr>
+</tbody></table>
+<p>&#160;&#160;&#160;&#160;实现如下聚合:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> id,group_concat(device) <span class="keyword">from</span> tableA <span class="keyword">group</span> <span class="keyword">by</span> id</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>device</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>ios,android,ios</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ios</td>
+</tr>
+</tbody></table>
+<p>&#160;&#160;&#160;&#160;三.具体实现:<br><br>&#160;&#160;&#160;&#160;根据mapreduce的工作原理，我们可以画一张流程图。把iterate想象成map()函数，merge想象成combine(),terminate想象成reduce()函数。</p>
+<p><img src="/images/pasted-1.png" alt="upload successful"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">代码如下</span><br><span class="line">package com.yupaopao.udaf;</span><br><span class="line"></span><br><span class="line">import com.aliyun.odps.io.Text;</span><br><span class="line">import com.aliyun.odps.io.Writable;</span><br><span class="line">import com.aliyun.odps.udf.UDFException;</span><br><span class="line">import com.aliyun.odps.udf.Aggregator;</span><br><span class="line">import com.aliyun.odps.udf.annotation.Resolve;</span><br><span class="line">import java.io.DataInput;</span><br><span class="line">import java.io.DataOutput;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 定义输入输出类型</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Resolve(&#123;&quot;String-&gt;String&quot;&#125;)</span><br><span class="line">public class GroupConcat extends Aggregator &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 继承Writable接口 自定义buffer进行序列化</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private static class GroupConcatBuffer implements Writable &#123;</span><br><span class="line">        private String str &#x3D; &quot;&quot;;</span><br><span class="line">        @Override</span><br><span class="line">        public void write(DataOutput out) throws IOException &#123;</span><br><span class="line">            out.writeChars(str);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;**</span><br><span class="line">         * Writable的readFields方法， 由于partial的writable对象是重用的，</span><br><span class="line">         * 同一个对象的readFields方法会被调用多次。该方法每次调用的时候重置整个对象，如果对象中包含Collection，则需要清空。</span><br><span class="line">         *&#x2F;</span><br><span class="line">        @Override</span><br><span class="line">        public void readFields(DataInput in) throws IOException &#123;</span><br><span class="line">            str &#x3D; in.readLine();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 声明最终结果变量</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private Text ret &#x3D; new Text();</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 创建初始返回结果的值</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Writable newBuffer() &#123;</span><br><span class="line">        return new GroupConcat.GroupConcatBuffer();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * @param buffer 为一个阶段的汇总数据(在不同map()中汇总出来的group by数据)</span><br><span class="line">     * @param args 表示一行数据 其中args[0]表示传入的第一列(一般仅传入一列)</span><br><span class="line">     * 每次新增一条数据 就把传入的列放入目前已有的累积字符串中。</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public void iterate(Writable buffer, Writable[] args) throws UDFException &#123;</span><br><span class="line">        Text arg &#x3D; (Text) args[0];</span><br><span class="line">        GroupConcat.GroupConcatBuffer buf &#x3D; (GroupConcat.GroupConcatBuffer) buffer;</span><br><span class="line">        if (arg !&#x3D; null) &#123;</span><br><span class="line">            buf.str&#x3D;buf.str+arg+&quot;,&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * @param buffer  聚合buffer</span><br><span class="line">     * @param partial 其他分片聚合结果</span><br><span class="line">     * 在这个方法中，对不同map()的结果进行汇总</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public void merge(Writable buffer, Writable partial) throws UDFException &#123;</span><br><span class="line">        GroupConcat.GroupConcatBuffer buf &#x3D; (GroupConcat.GroupConcatBuffer) buffer;</span><br><span class="line">        GroupConcat.GroupConcatBuffer p &#x3D; (GroupConcat.GroupConcatBuffer) partial;</span><br><span class="line">        buf.str &#x3D; buf.str+ p.str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 设置最终结果，同时把留在最后面的逗号去掉。</span><br><span class="line">     * @param buffer</span><br><span class="line">     * @return Object UDAF的最终结果</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Writable terminate(Writable buffer) throws UDFException &#123;</span><br><span class="line">        GroupConcatBuffer buf &#x3D; (GroupConcatBuffer) buffer;</span><br><span class="line">        if (buf.str&#x3D;&#x3D;&quot;&quot;)&#123;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            String result &#x3D; buf.str.substring(0, buf.str.length()-1);</span><br><span class="line">            ret.set(result);</span><br><span class="line">        &#125;</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>&#160;&#160;&#160;&#160;四:<br><br>&#160;&#160;&#160;&#160;打包右键点击写好的java文件，选择deploy to server打包<br></p>
+<p><img src="/images/pasted-3.png" alt="upload successful"></p>
+<p>&#160;&#160;&#160;&#160;点击右上方的MaxCompute，选择添加资源，把资源上传到odps<br></p>
+<p><img src="/images/pasted-4.png" alt="upload successful"></p>
+<p>&#160;&#160;&#160;&#160;点击右上方的MaxCompute，选择创建UDF，起个名字，把udf注册进去(注意:这里使用的名字就是最后在odps里使用的名)<br><br><img src="/images/pasted-5.png" alt="upload successful"></p>
+<p>&#160;&#160;&#160;&#160;五:<br><br>&#160;&#160;&#160;&#160;函数使用。成功！<br><br> <img src="/images/pasted-2.png" alt="upload successful"></p>
+]]></content>
+      <categories>
+        <category>BigData</category>
+      </categories>
+  </entry>
+</search>
