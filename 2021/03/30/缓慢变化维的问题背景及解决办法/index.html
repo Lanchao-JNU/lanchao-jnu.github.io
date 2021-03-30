@@ -23,17 +23,17 @@
   <meta name="description" content="&amp;#160;&amp;#160;&amp;#160;&amp;#160;在KimBall所提出并被各IT企业所推崇的维度建模方法中，数仓中的表被划分成了维度表和事实表。对维度建模的具体内容，这里暂不多赘述(后续会更新),今天先讨论一下为什么会出现缓慢变化维问题和怎么去解决这个问题。&amp;#160;&amp;#160;&amp;#160;&amp;#160;维度表作为事实表的维度补充，一般有扁平型(宽且数据量较少),数据稳定(比如说城市维度表，几乎不">
 <meta property="og:type" content="article">
 <meta property="og:title" content="缓慢变化维的问题背景及解决办法">
-<meta property="og:url" content="http://example.com/2021/03/25/%E7%BC%93%E6%85%A2%E5%8F%98%E5%8C%96%E7%BB%B4%E7%9A%84%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/index.html">
+<meta property="og:url" content="http://example.com/2021/03/30/%E7%BC%93%E6%85%A2%E5%8F%98%E5%8C%96%E7%BB%B4%E7%9A%84%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/index.html">
 <meta property="og:site_name" content="LanChao-JNU Blog">
 <meta property="og:description" content="&amp;#160;&amp;#160;&amp;#160;&amp;#160;在KimBall所提出并被各IT企业所推崇的维度建模方法中，数仓中的表被划分成了维度表和事实表。对维度建模的具体内容，这里暂不多赘述(后续会更新),今天先讨论一下为什么会出现缓慢变化维问题和怎么去解决这个问题。&amp;#160;&amp;#160;&amp;#160;&amp;#160;维度表作为事实表的维度补充，一般有扁平型(宽且数据量较少),数据稳定(比如说城市维度表，几乎不">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-03-25T11:55:00.000Z">
-<meta property="article:modified_time" content="2021-03-30T07:59:02.155Z">
+<meta property="article:published_time" content="2021-03-30T11:55:00.000Z">
+<meta property="article:modified_time" content="2021-03-30T09:52:09.089Z">
 <meta property="article:author" content="Lanchao">
 <meta property="article:tag" content="DataWarehouse">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2021/03/25/%E7%BC%93%E6%85%A2%E5%8F%98%E5%8C%96%E7%BB%B4%E7%9A%84%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
+<link rel="canonical" href="http://example.com/2021/03/30/%E7%BC%93%E6%85%A2%E5%8F%98%E5%8C%96%E7%BB%B4%E7%9A%84%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
 
 
 <script id="page-configurations">
@@ -167,7 +167,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/25/%E7%BC%93%E6%85%A2%E5%8F%98%E5%8C%96%E7%BB%B4%E7%9A%84%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/30/%E7%BC%93%E6%85%A2%E5%8F%98%E5%8C%96%E7%BB%B4%E7%9A%84%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -189,16 +189,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2021-03-25 19:55:00" itemprop="dateCreated datePublished" datetime="2021-03-25T19:55:00+08:00">2021-03-25</time>
+              <time title="Created: 2021-03-30 19:55:00 / Modified: 17:52:09" itemprop="dateCreated datePublished" datetime="2021-03-30T19:55:00+08:00">2021-03-30</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-03-30 15:59:02" itemprop="dateModified" datetime="2021-03-30T15:59:02+08:00">2021-03-30</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -219,8 +213,8 @@
       <span class="post-meta-item-text">Changyan: </span>
     
     
-      <a title="changyan" href="/2021/03/25/%E7%BC%93%E6%85%A2%E5%8F%98%E5%8C%96%E7%BB%B4%E7%9A%84%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/#SOHUCS" itemprop="discussionUrl">
-        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/03/25/缓慢变化维的问题背景及解决办法/" itemprop="commentCount"></span>
+      <a title="changyan" href="/2021/03/30/%E7%BC%93%E6%85%A2%E5%8F%98%E5%8C%96%E7%BB%B4%E7%9A%84%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/03/30/缓慢变化维的问题背景及解决办法/" itemprop="commentCount"></span>
       </a>
     
   </span>
@@ -315,13 +309,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/03/24/odps%E4%B8%8A%E8%87%AA%E5%AE%9A%E4%B9%89UDAF%E5%BC%80%E5%8F%91/" rel="prev" title="odps上自定义UDAF-java开发">
-      <i class="fa fa-chevron-left"></i> odps上自定义UDAF-java开发
+    <a href="/2021/03/29/2021-03-29-%E5%91%A8%E6%8A%A5/" rel="prev" title="2021-03-29 周报">
+      <i class="fa fa-chevron-left"></i> 2021-03-29 周报
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/" rel="next" title="Hadoop-MapReduce流程">
-      Hadoop-MapReduce流程 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
