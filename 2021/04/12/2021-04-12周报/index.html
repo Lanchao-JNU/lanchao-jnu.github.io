@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="&amp;#160;&amp;#160;&amp;#160;&amp;#160;有亿点点无聊的一周，需求比较紧密，去一家小公司面试被几道sql题难住了，Hql还是有蛮大进步空间的，然后网络的知识有点记不清，最近找时间复习一下。吃了23度不太冷椰子鸡，还可以吧，但是还是最想吃一绪和八库。周末和网友玩双人成行，已经差不多快通关了，泡了一下午书店，还玩了「最终幻想XV」，比预期中好多了。对了买了西湖音乐节的票，好久没去音乐节，期待！B">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021-04-12周报">
+<meta property="og:url" content="http://example.com/2021/04/12/2021-04-12%E5%91%A8%E6%8A%A5/index.html">
+<meta property="og:site_name" content="LanChao-JNU Blog">
+<meta property="og:description" content="&amp;#160;&amp;#160;&amp;#160;&amp;#160;有亿点点无聊的一周，需求比较紧密，去一家小公司面试被几道sql题难住了，Hql还是有蛮大进步空间的，然后网络的知识有点记不清，最近找时间复习一下。吃了23度不太冷椰子鸡，还可以吧，但是还是最想吃一绪和八库。周末和网友玩双人成行，已经差不多快通关了，泡了一下午书店，还玩了「最终幻想XV」，比预期中好多了。对了买了西湖音乐节的票，好久没去音乐节，期待！B">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-12T02:09:22.000Z">
+<meta property="article:modified_time" content="2021-04-19T02:28:09.475Z">
+<meta property="article:author" content="Lanchao">
+<meta property="article:tag" content="BigData,Game">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/04/12/2021-04-12%E5%91%A8%E6%8A%A5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>2021-04-12周报 | LanChao-JNU Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">LanChao-JNU Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/12/2021-04-12%E5%91%A8%E6%8A%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lanchao">
+      <meta itemprop="description" content="Lanchao's blog, focusing on big data technology, data warehouse and video game.岚朝的博客,关注大数据技术，数据仓库和电子游戏. ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LanChao-JNU Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2021-04-12周报
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-04-12 10:09:22" itemprop="dateCreated datePublished" datetime="2021-04-12T10:09:22+08:00">2021-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-04-19 10:28:09" itemprop="dateModified" datetime="2021-04-19T10:28:09+08:00">2021-04-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan: </span>
+    
+    
+      <a title="changyan" href="/2021/04/12/2021-04-12%E5%91%A8%E6%8A%A5/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/04/12/2021-04-12周报/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&#160;&#160;&#160;&#160;有亿点点无聊的一周，需求比较紧密，去一家小公司面试被几道sql题难住了，Hql还是有蛮大进步空间的，然后网络的知识有点记不清，最近找时间复习一下。吃了23度不太冷椰子鸡，还可以吧，但是还是最想吃一绪和八库。周末和网友玩双人成行，已经差不多快通关了，泡了一下午书店，还玩了「最终幻想XV」，比预期中好多了。对了买了西湖音乐节的票，好久没去音乐节，期待！<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「<font color=blue><a target="_blank" rel="noopener" href="https://my.oschina.net/dataclub/blog/4689656">如何使用阿里的OneData方法论</a>顺便复习了KIMBALL的企业数据仓库总线模型。</font>」<br><br>&#160;&#160;&#160;&#160;2.按照教程在IDEA上搭建Flink，并实现了一个简单的wordcount。<br><br>&#160;&#160;&#160;&#160;3.使用python爬取了steam上的部分游戏信息。<br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-19.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">steam游戏信息</font> 
+</center>
+目前能获取的信息还比较有限，发售日期和系统也需要迭代一下。现分享下现行代码，后续会更新优化版。
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">num = <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_text</span>(<span class="params">url</span>):</span> </span><br><span class="line">    <span class="keyword">try</span>: </span><br><span class="line">        headers = &#123; <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) &#x27;</span> <span class="string">&#x27;Chrome/85.0.4183.102 Safari/537.36&#x27;</span>, <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN &#x27;</span> &#125; </span><br><span class="line">        r = requests.get(url, headers=headers)</span><br><span class="line">        r.raise_for_status() </span><br><span class="line">        r.encoding = r.apparent_encoding </span><br><span class="line">        <span class="keyword">return</span> r.text</span><br><span class="line">    <span class="keyword">except</span>: </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;爬取网站失败！&quot;</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">game_info, jump_link, game_evaluation, text,Game_release_time,Game_os</span>):</span> </span><br><span class="line">    soup = BeautifulSoup(text, <span class="string">&quot;html.parser&quot;</span>) <span class="comment"># </span></span><br><span class="line">    <span class="comment">#游戏评价 </span></span><br><span class="line">    w = soup.find_all(class_=<span class="string">&quot;col search_reviewscore responsive_secondrow&quot;</span>) </span><br><span class="line">    <span class="keyword">for</span> u <span class="keyword">in</span> w: </span><br><span class="line">        <span class="keyword">if</span> u.span <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>: </span><br><span class="line">            game_evaluation.append( u.span[<span class="string">&quot;data-tooltip-html&quot;</span>].split(<span class="string">&quot;&lt;br&gt;&quot;</span>)[<span class="number">0</span>] + <span class="string">&quot;,&quot;</span> + u.span[<span class="string">&quot;data-tooltip-html&quot;</span>].split(<span class="string">&quot;&lt;br&gt;&quot;</span>)[-<span class="number">1</span>]) </span><br><span class="line">            </span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            game_evaluation.append(<span class="string">&quot;暂无评价！&quot;</span>) </span><br><span class="line">            </span><br><span class="line">    <span class="comment">#支持os</span></span><br><span class="line">    o = soup.find_all(class_=<span class="string">&quot;col search_name ellipsis&quot;</span>) </span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> o:</span><br><span class="line">        tmp=[]</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">1</span>==<span class="number">1</span>):</span><br><span class="line">            tmp=[]</span><br><span class="line">            tmp = re.findall(<span class="string">&quot;platform_img...&quot;</span>,<span class="built_in">str</span>(item.p))</span><br><span class="line">            <span class="built_in">print</span>(tmp)</span><br><span class="line"><span class="comment">#         except:</span></span><br><span class="line"><span class="comment">#             tmp.append(&#x27;unknown&#x27;)</span></span><br><span class="line">            </span><br><span class="line">        Game_os.append(tmp)</span><br><span class="line">  </span><br><span class="line">            </span><br><span class="line">    <span class="comment"># 游戏详情页面链接 </span></span><br><span class="line">    link_text = soup.find_all(<span class="string">&quot;div&quot;</span>, <span class="built_in">id</span>=<span class="string">&quot;search_resultsRows&quot;</span>) </span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> link_text:</span><br><span class="line">        b = k.find_all(<span class="string">&#x27;a&#x27;</span>) </span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> b: jump_link.append(j[<span class="string">&#x27;href&#x27;</span>]) </span><br><span class="line"></span><br><span class="line">    <span class="comment">#发售时间</span></span><br><span class="line">    release_text = soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&quot;col search_released responsive_secondrow&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> time <span class="keyword">in</span> release_text:</span><br><span class="line">        <span class="keyword">try</span>: </span><br><span class="line">            Game_release_time.append(time.string.strip());</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            Game_release_time.append(<span class="string">&#x27;unknown&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 名字和价格 </span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">global</span> num</span><br><span class="line">    name_text = soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&quot;responsive_search_name_combined&quot;</span>) </span><br><span class="line">    <span class="keyword">for</span> z <span class="keyword">in</span> name_text: </span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 每个游戏的价格 </span></span><br><span class="line">        name = z.find(class_=<span class="string">&quot;title&quot;</span>).string.strip() </span><br><span class="line">        <span class="comment"># 判断折扣是否为None，提取价格 </span></span><br><span class="line">        <span class="keyword">if</span> z.find(class_=<span class="string">&quot;col search_discount responsive_secondrow&quot;</span>).string <span class="keyword">is</span> <span class="literal">None</span>: </span><br><span class="line">            price = z.find(class_=<span class="string">&quot;col search_price discounted responsive_secondrow&quot;</span>).text.strip().split(<span class="string">&quot;₩&quot;</span>) </span><br><span class="line"></span><br><span class="line">            game_info.append([num+<span class="number">1</span> , name, price[<span class="number">2</span>].strip(), game_evaluation[num], jump_link[num],Game_release_time[num],Game_os[num]]) </span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            price = z.find(class_=<span class="string">&quot;col search_price responsive_secondrow&quot;</span>).string.strip().split(<span class="string">&quot;₩&quot;</span>) </span><br><span class="line">            game_info.append([num+<span class="number">1</span> , name, price[<span class="number">1</span>], game_evaluation[num], jump_link[num],Game_release_time[num],Game_os[num]]) </span><br><span class="line">            </span><br><span class="line">        num = num + <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_data</span>(<span class="params">game_info</span>):</span> </span><br><span class="line">    save_path = <span class="string">&quot;Steam.csv&quot;</span> </span><br><span class="line">    df = pd.DataFrame(game_info, columns=[<span class="string">&#x27;排行榜&#x27;</span>, <span class="string">&#x27;游戏名字&#x27;</span>, <span class="string">&#x27;目前游戏价格₩&#x27;</span>, <span class="string">&#x27;游戏评价&#x27;</span>, <span class="string">&#x27;游戏页面链接&#x27;</span>,<span class="string">&#x27;游戏发售日期&#x27;</span>,<span class="string">&#x27;游戏支持系统&#x27;</span>]) </span><br><span class="line">    df.to_csv(save_path, index=<span class="number">0</span>) </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;文件保存成功！&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>: </span><br><span class="line">    Game_info = [] </span><br><span class="line">    <span class="comment"># 游戏全部信息 </span></span><br><span class="line">    Turn_link = [] </span><br><span class="line">    <span class="comment"># 翻页链接 </span></span><br><span class="line">    Jump_link = [] </span><br><span class="line">    <span class="comment"># 游戏详情页面链接 </span></span><br><span class="line">    Game_evaluation = [] </span><br><span class="line">    <span class="comment"># 游戏好评率和评价 </span></span><br><span class="line">    Game_release_time = []</span><br><span class="line">    <span class="comment"># 游戏发售日期</span></span><br><span class="line">    Game_os = []</span><br><span class="line">    <span class="comment"># 游戏支持系统</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">11</span>): </span><br><span class="line">        Turn_link.append(<span class="string">&quot;https://store.steampowered.com/search/?filter=globaltopsellers&amp;page=1&amp;os=win&quot;</span> + <span class="built_in">str</span>(<span class="string">&quot;&amp;page=&quot;</span> + <span class="built_in">str</span>(i))) </span><br><span class="line">        run(Game_info, Jump_link, Game_evaluation, get_text(Turn_link[i-<span class="number">1</span>]),Game_release_time,Game_os) </span><br><span class="line">    save_data(Game_info)</span><br></pre></td></tr></table></figure>
+<p>目前的计划是每个周期爬游戏信息写到csv文件里，然后用flink去读取流数据并进行统计，做一个接口形式输出(或者输出到数据库里，再用springboot连接数据库去查询，可是有点麻烦)</p>
+<p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「双人成行」永远滴神，惊喜继续，这周卡关比较少感觉体验又上了一个台阶，游戏中后期制作人的分镜水平发挥更好，打起来就是非常流畅。预计下周通关。<br><br>&#160;&#160;&#160;&#160;2.「最终幻想XV 皇家版」，好像是16年的时候被狂喷的烂作。ps5会免体验了一下意外的不错，jrpg味道很浓，画面表现好于ff7re。叙事有点不流程，但是战斗系统和bgm真的很棒，在路上开车听「solidarity」的时候真的蛮有感觉。<br></p>
+<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.重读「海边的卡夫卡」。实在是太喜欢村上的「物语」味了，不管是奇妙的想象力还是各种隐喻，都特别吸引我，村上对暴力和system的「刺」也是我非常热衷的，如果说「奇鸟行状录」的刺是刺向战争，那么「海边的卡夫卡」是刺向父权，少年卡夫卡的弑父是必然的，他继承了父亲的诅咒，也打破了诅咒。（当然，我同意这里的父亲也是隐喻）<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    #剑指 Offer 40 最小的k个数<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 42 连续子数组的最大和<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 47 礼物的最大价值<br></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/09/OneData%E4%B8%8E%E4%BC%81%E4%B8%9A%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E6%80%BB%E7%BA%BF%E6%9E%B6%E6%9E%84%E7%9A%84%E5%BC%82%E5%90%8C/" rel="prev" title="OneData与企业数据仓库总线架构的异同">
+      <i class="fa fa-chevron-left"></i> OneData与企业数据仓库总线架构的异同
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/04/19/2021-04-19%E5%91%A8%E6%8A%A5/" rel="next" title="2021-04-19周报">
+      2021-04-19周报 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Lanchao</p>
+  <div class="site-description" itemprop="description">Lanchao's blog, focusing on big data technology, data warehouse and video game.岚朝的博客,关注大数据技术，数据仓库和电子游戏. </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Lanchao-JNU" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Lanchao-JNU" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:806866316@qq.com" title="E-Mail → mailto:806866316@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/2311360400" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;2311360400" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lanchao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script>
+  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
+    var appid = 'cyvn79Dgv';
+    var conf = '628c82b1ed1f78bab093e882953514ea';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+    } else {
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+    }
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1.2,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/mikoto.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script></body>
+</html>
