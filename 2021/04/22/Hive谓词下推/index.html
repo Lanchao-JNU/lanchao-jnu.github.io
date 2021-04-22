@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="&amp;#160;&amp;#160;&amp;#160;&amp;#160;谓词下推并不是Hive特有的概念，应该说在所有关系型数据库的关系型查询Sql或者NoSql中都有谓词下推的概念。本文主要以Hive Sql为例，提供一些从谓词下推出发，HQL的优化思路。&amp;#160;&amp;#160;&amp;#160;&amp;#160;定义&amp;#160;&amp;#160;&amp;#160;&amp;#160;首先要理解什么是谓词下推。谓词下推的定义: 将过滤表达式尽可能移动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hive谓词下推">
+<meta property="og:url" content="http://example.com/2021/04/22/Hive%E8%B0%93%E8%AF%8D%E4%B8%8B%E6%8E%A8/index.html">
+<meta property="og:site_name" content="LanChao-JNU Blog">
+<meta property="og:description" content="&amp;#160;&amp;#160;&amp;#160;&amp;#160;谓词下推并不是Hive特有的概念，应该说在所有关系型数据库的关系型查询Sql或者NoSql中都有谓词下推的概念。本文主要以Hive Sql为例，提供一些从谓词下推出发，HQL的优化思路。&amp;#160;&amp;#160;&amp;#160;&amp;#160;定义&amp;#160;&amp;#160;&amp;#160;&amp;#160;首先要理解什么是谓词下推。谓词下推的定义: 将过滤表达式尽可能移动">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-22T04:47:00.000Z">
+<meta property="article:modified_time" content="2021-04-22T05:59:38.522Z">
+<meta property="article:author" content="Lanchao">
+<meta property="article:tag" content="DataWareHouse">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/04/22/Hive%E8%B0%93%E8%AF%8D%E4%B8%8B%E6%8E%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hive谓词下推 | LanChao-JNU Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">LanChao-JNU Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/22/Hive%E8%B0%93%E8%AF%8D%E4%B8%8B%E6%8E%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lanchao">
+      <meta itemprop="description" content="Lanchao's blog, focusing on big data technology, data warehouse and video game.岚朝的博客,关注大数据技术，数据仓库和电子游戏. ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LanChao-JNU Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hive谓词下推
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-04-22 12:47:00 / Modified: 13:59:38" itemprop="dateCreated datePublished" datetime="2021-04-22T12:47:00+08:00">2021-04-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index"><span itemprop="name">BigData</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan: </span>
+    
+    
+      <a title="changyan" href="/2021/04/22/Hive%E8%B0%93%E8%AF%8D%E4%B8%8B%E6%8E%A8/#SOHUCS" itemprop="discussionUrl">
+        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/04/22/Hive谓词下推/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&#160;&#160;&#160;&#160;谓词下推并不是Hive特有的概念，应该说在所有关系型数据库的关系型查询Sql或者NoSql中都有谓词下推的概念。本文主要以Hive Sql为例，提供一些从谓词下推出发，HQL的优化思路。<br><br><br>&#160;&#160;&#160;&#160;<font size=5><strong>定义</strong></font><br><br>&#160;&#160;&#160;&#160;首先要理解什么是谓词下推。谓词下推的定义: <strong>将过滤表达式尽可能移动至靠近数据源的位置，以使真正执行时能直接跳过无关的数据。</strong>该定义来源网络，我个人认为有点不好理解。Talk is cheap,Let’s show the code.<br><br>&#160;&#160;&#160;&#160;比方说以下这段sql:<br></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">join</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id <span class="keyword">where</span> tab1.id<span class="operator">=</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;从直觉上说，这一段Sql的执行计划应该是:<br><br>&#160;&#160;&#160;&#160;1.启动一个Mapper任务对tab1和tab2进行打标。<br><br>&#160;&#160;&#160;&#160;2.在Reducer上进行连接操作。<br><br>&#160;&#160;&#160;&#160;3.用在Reducer中用Filter Operator过滤出tab.id=1的数据作为输出。<br><br><br>&#160;&#160;&#160;&#160;但实际情况并非如此，这里用Odps maxcompute的Hive执行计划做参考。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">job0</span> <span class="string">is</span> <span class="string">root</span> <span class="string">job</span></span><br><span class="line"><span class="attr">In Job job0:</span></span><br><span class="line"><span class="attr">root Tasks:</span> <span class="string">M1</span></span><br><span class="line"><span class="attr">J2_1 depends on:</span> <span class="string">M1</span></span><br><span class="line"><span class="attr">In Task M1:</span></span><br><span class="line">    <span class="attr">Data source:</span> <span class="string">data_platform.tab1</span></span><br><span class="line">    <span class="attr">TS:</span> <span class="string">data_platform.tab2</span></span><br><span class="line">        <span class="attr">FIL:</span> <span class="string">IN(id,1L)</span></span><br><span class="line">            <span class="attr">RS: order:</span> <span class="string">+</span></span><br><span class="line">                <span class="attr">nullDirection:</span> <span class="string">*</span></span><br><span class="line">                <span class="attr">optimizeOrderBy:</span> <span class="literal">False</span></span><br><span class="line">                <span class="attr">valueDestLimit:</span> <span class="number">0</span></span><br><span class="line">                <span class="attr">dist:</span> <span class="string">HASH</span></span><br><span class="line">                <span class="attr">keys:</span></span><br><span class="line">                      <span class="string">id</span></span><br><span class="line">                <span class="attr">values:</span></span><br><span class="line">                      <span class="string">id</span> <span class="string">(bigint)</span></span><br><span class="line">                <span class="attr">partitions:</span></span><br><span class="line">                      <span class="string">id</span></span><br><span class="line"><span class="attr">In Task J2_1:</span></span><br><span class="line">    <span class="attr">SEL:</span> <span class="string">id</span></span><br><span class="line">            <span class="attr">SEL:</span> <span class="string">id</span></span><br><span class="line">                <span class="attr">JOIN:</span></span><br><span class="line">                     <span class="string">Project1</span> <span class="string">INNERJOIN</span> <span class="string">BufferOperator1</span></span><br><span class="line">                     <span class="attr">keys:</span></span><br><span class="line">                         <span class="number">0</span><span class="string">:id</span></span><br><span class="line">                         <span class="number">1</span><span class="string">:id</span></span><br><span class="line">                    <span class="attr">FS: output:</span> <span class="string">Screen</span></span><br><span class="line">                        <span class="attr">schema:</span></span><br><span class="line">                          <span class="string">id</span> <span class="string">(bigint)</span></span><br><span class="line">                          <span class="string">id</span> <span class="string">(bigint)</span> <span class="string">AS</span> <span class="string">id2</span></span><br><span class="line">            <span class="attr">JOIN:</span></span><br><span class="line">                 <span class="string">Project1</span> <span class="string">INNERJOIN</span> <span class="string">BufferOperator1</span></span><br><span class="line">                 <span class="attr">keys:</span></span><br><span class="line">                     <span class="number">0</span><span class="string">:id</span></span><br><span class="line">                     <span class="number">1</span><span class="string">:id</span></span><br><span class="line">                <span class="attr">FS: output:</span> <span class="string">Screen</span></span><br><span class="line">                    <span class="attr">schema:</span></span><br><span class="line">                      <span class="string">id</span> <span class="string">(bigint)</span></span><br><span class="line">                      <span class="string">id</span> <span class="string">(bigint)</span> <span class="string">AS</span> <span class="string">id2</span></span><br><span class="line"><span class="string">OK</span></span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;可以看到，实际情况并非如猜想的一般。odps中给出的执行计划可以这么解读<br><br>&#160;&#160;&#160;&#160;1.在Mapper进行Table Scan的时候启动了Filter Operator，过滤出满足条件的数据，同时进行打标。<br><br>&#160;&#160;&#160;&#160;2.在Reducer上进行连接操作。<br><br>&#160;&#160;&#160;&#160;这就是Hive中的谓词下推：<strong>通过提前执行连接语句中where或者on中的谓词，以达到在mapper端提前过滤数据，减少shuffle阶段网络传输量和磁盘IO量的目的，最终形成了Sql的优化。</strong><br><br>&#160;&#160;&#160;&#160;当然，以上只给出了一个例子。HQL中除了以上的Inner Join以外，还有Left Join,Right Join,Full Join等等，同时谓词也包括where谓词和on谓词。下面将通过官方文档查看Hive中是分别是怎么处理谓词下推的。<br><br><br>&#160;&#160;&#160;&#160;<font size=5><strong>官方文档解释</strong></font><br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-21.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">Hive官方文档</font> 
+</center>
+
+
+
+<table>
+<thead>
+<tr>
+<th>定义</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主表</td>
+<td>在outer join中需要返回所有数据的表叫做主表，比如left join中的左表</td>
+</tr>
+<tr>
+<td>次表</td>
+<td>在outer join中没有匹配到需要用null填充的表，比如left join中的右表</td>
+</tr>
+<tr>
+<td>连接谓语</td>
+<td>写在on后面 where之前的逻辑表达式 比如on t1.id=1</td>
+</tr>
+<tr>
+<td>过滤谓语</td>
+<td>写在where之后的逻辑表达式 比如where t1.id=1</td>
+</tr>
+</tbody></table>
+<p>&#160;&#160;&#160;&#160;在大多数情况下，Hive中的谓词下推是自动的，该优化主要发生在编译过程中的生成逻辑执行计划(连接谓语优化)和优化逻辑执行计划(过滤谓语优化)中。但是Hive官方文档中也有点明，在以下两种情况下，Hive不会自动进行谓词下推:<br><br>&#160;&#160;&#160;&#160;1.对主表的连接谓词无法下推。<br><br>&#160;&#160;&#160;&#160;During Join predicates cannot be pushed past Preserved Row tables.<br><br>&#160;&#160;&#160;&#160;2.对次表的过滤谓词无法下推。<br>After Join predicates cannot be pushed past Null Supplying tables.</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-22.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">Hive Sql编译过程</font> 
+</center>
+&#160;&#160;&#160;&#160;我们同样通过一个例子看看什么时候不会进行谓词下推：
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 </span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> tab2 </span><br><span class="line"><span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="keyword">and</span> tab1.id<span class="operator">!=</span><span class="number">1</span> <span class="keyword">and</span> tab2.id<span class="operator">!=</span><span class="number">1</span> </span><br><span class="line"><span class="keyword">where</span> tab1.id<span class="operator">!=</span><span class="number">2</span> <span class="keyword">and</span> tab2.id<span class="operator">!=</span><span class="number">2</span></span><br></pre></td></tr></table></figure>
+我们看到tab1.id!=1这个谓词，符合主表/连接谓词这两个条件，应此不会进行下推。同时tab2.id!=2这个谓词，符合次表/过滤谓词这两个条件，所以也不会进行谓词下推。<br>
+&#160;&#160;&#160;&#160;当然，我们也必须注意到以上两种情况是在不开启CBO情况下发生的，开启CBO的话以我在网路上的观察，可以对第二种情况进行优化，做到谓词下推。<br><br>
+&#160;&#160;&#160;&#160;<font size=5>**优化思路**</font><br>
+&#160;&#160;&#160;&#160;了解了Hive中谓词下推的处理方式以后，我们来稍微想一想有什么优化上的思路。我首先想到的是，和CBO一样对第二种情况进行优化，连接之前先通过一个子查询执行后面的where条件，想必能起到谓词下推的效果。除此之外，第一种情况是不是在部分情况也可以实现谓词下推，一个直观的印象就是:不要对主表进行除了连接词意外的连接谓词限制，尽量放到where条件中，这样才能实现谓词下推，达到优化的目的。
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/DataWareHouse/" rel="tag"># DataWareHouse</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/19/2021-04-19%E5%91%A8%E6%8A%A5/" rel="prev" title="2021-04-19周报">
+      <i class="fa fa-chevron-left"></i> 2021-04-19周报
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="SOHUCS"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Lanchao</p>
+  <div class="site-description" itemprop="description">Lanchao's blog, focusing on big data technology, data warehouse and video game.岚朝的博客,关注大数据技术，数据仓库和电子游戏. </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Lanchao-JNU" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Lanchao-JNU" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:806866316@qq.com" title="E-Mail → mailto:806866316@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/2311360400" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;2311360400" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lanchao</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script>
+  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
+    var appid = 'cyvn79Dgv';
+    var conf = '628c82b1ed1f78bab093e882953514ea';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+    } else {
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+    }
+  });
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1.2,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/mikoto.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script></body>
+</html>

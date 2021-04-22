@@ -20,39 +20,31 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="一:写在前面&amp;#160;&amp;#160;&amp;#160;&amp;#160;最近在研究odps的udf开发，不得不说maxcompute对hive的封装真的够狠的，用户需要关心的东西很少。UDF就不多说了，odps和hive没有什么差别，都是继承udf然后重写evaluate()就ok。本文主要介绍一下udaf的开发。&amp;#160;&amp;#160;&amp;#160;&amp;#160;首先简单说一下udaf是什么吧。udaf是udf">
-<meta property="og:type" content="article">
-<meta property="og:title" content="odps上自定义UDAF-java开发">
-<meta property="og:url" content="http://example.com/2021/03/24/odps%E4%B8%8A%E8%87%AA%E5%AE%9A%E4%B9%89UDAF%E5%BC%80%E5%8F%91/index.html">
+  <meta name="description" content="Lanchao&#39;s blog, focusing on big data technology, data warehouse and video game.岚朝的博客,关注大数据技术，数据仓库和电子游戏.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LanChao-JNU Blog">
+<meta property="og:url" content="http://example.com/page/2/index.html">
 <meta property="og:site_name" content="LanChao-JNU Blog">
-<meta property="og:description" content="一:写在前面&amp;#160;&amp;#160;&amp;#160;&amp;#160;最近在研究odps的udf开发，不得不说maxcompute对hive的封装真的够狠的，用户需要关心的东西很少。UDF就不多说了，odps和hive没有什么差别，都是继承udf然后重写evaluate()就ok。本文主要介绍一下udaf的开发。&amp;#160;&amp;#160;&amp;#160;&amp;#160;首先简单说一下udaf是什么吧。udaf是udf">
+<meta property="og:description" content="Lanchao&#39;s blog, focusing on big data technology, data warehouse and video game.岚朝的博客,关注大数据技术，数据仓库和电子游戏.">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/images/pasted-1.png">
-<meta property="og:image" content="http://example.com/images/pasted-3.png">
-<meta property="og:image" content="http://example.com/images/pasted-4.png">
-<meta property="og:image" content="http://example.com/images/pasted-5.png">
-<meta property="og:image" content="http://example.com/images/pasted-2.png">
-<meta property="article:published_time" content="2021-03-24T11:45:03.000Z">
-<meta property="article:modified_time" content="2021-03-25T08:15:59.980Z">
 <meta property="article:author" content="Lanchao">
-<meta property="article:tag" content="Hive">
+<meta property="article:tag" content="BigData,Game">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/pasted-1.png">
 
-<link rel="canonical" href="http://example.com/2021/03/24/odps%E4%B8%8A%E8%87%AA%E5%AE%9A%E4%B9%89UDAF%E5%BC%80%E5%8F%91/">
+<link rel="canonical" href="http://example.com/page/2/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
-    isPost : true,
+    isHome : true,
+    isPost : false,
     lang   : 'en'
   };
 </script>
 
-  <title>odps上自定义UDAF-java开发 | LanChao-JNU Blog</title>
+  <title>LanChao-JNU Blog</title>
   
 
 
@@ -166,10 +158,9 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content index posts-expand">
             
-
-    
+      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -185,9 +176,10 @@
       <meta itemprop="name" content="LanChao-JNU Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          odps上自定义UDAF-java开发
-        </h1>
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/24/odps%E4%B8%8A%E8%87%AA%E5%AE%9A%E4%B9%89UDAF%E5%BC%80%E5%8F%91/" class="post-title-link" itemprop="url">odps上自定义UDAF-java开发</a>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -226,7 +218,7 @@
     
     
       <a title="changyan" href="/2021/03/24/odps%E4%B8%8A%E8%87%AA%E5%AE%9A%E4%B9%89UDAF%E5%BC%80%E5%8F%91/#SOHUCS" itemprop="discussionUrl">
-        <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2021/03/24/odps上自定义UDAF开发/" itemprop="commentCount"></span>
+        <span id="url::http://example.com/2021/03/24/odps%E4%B8%8A%E8%87%AA%E5%AE%9A%E4%B9%89UDAF%E5%BC%80%E5%8F%91/" class="cy_cmt_count" data-xid="2021/03/24/odps上自定义UDAF开发/" itemprop="commentCount"></span>
       </a>
     
   </span>
@@ -242,7 +234,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>一:写在前面<br><br>&#160;&#160;&#160;&#160;最近在研究odps的udf开发，不得不说maxcompute对hive的封装真的够狠的，用户需要关心的东西很少。UDF就不多说了，odps和hive没有什么差别，都是继承udf然后重写evaluate()就ok。本文主要介绍一下udaf的开发。<br><br>&#160;&#160;&#160;&#160;首先简单说一下udaf是什么吧。udaf是udf的一个子类。UDF(User Defined Function用户自定义函数)顾名思义就是用户自己用java或者python实现的，封装成一个函数可以到数据库中运行的函数。UDF中还包括UDF，UDAF(User Defined Aggregation),UDTF(User-Defined Table-Generating Functions）。<br><br>&#160;&#160;&#160;&#160;1.UDF指单行输入，单行输出的函数，我们常用的concat(),to_char()都是这样的函数。<br><br>&#160;&#160;&#160;&#160;2.UDAF指多行输入，单行输出的函数，一般和group by连用，常用的有sum(),avg()等等。<br><br>&#160;&#160;&#160;&#160;3.UDAF指单行输入，多行输出的函数，比较少用，用的比较多的有explode()<br><br>&#160;&#160;&#160;&#160;在通常的udaf-java开发流程中，需要继承AbstractGenericUDAFResolver，实现步骤十分复杂，而在odps中，我们只需要继承Aggregator，重点实现 merge(), iterate(), terminate() 这三个方法即可。<br><br>&#160;&#160;&#160;&#160;这里我们用一个Mysql里面十分常见，但是Hive中没有的函数group_concat()函数的UDAF实现来说明开发的流程。<br><br>        （注:本文已经默认你安装了MaxCompute-IDEA所需要的东西并连接了自己的odps,具体过程可见<a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/50892.html">https://help.aliyun.com/document_detail/50892.html</a>)<br></p>
+          <p>一:写在前面<br><br>&#160;&#160;&#160;&#160;最近在研究odps的udf开发，不得不说maxcompute对hive的封装真的够狠的，用户需要关心的东西很少。UDF就不多说了，odps和hive没有什么差别，都是继承udf然后重写evaluate()就ok。本文主要介绍一下udaf的开发。<br><br>&#160;&#160;&#160;&#160;首先简单说一下udaf是什么吧。udaf是udf的一个子类。UDF(User Defined Function用户自定义函数)顾名思义就是用户自己用java或者python实现的，封装成一个函数可以到数据库中运行的函数。UDF中还包括UDF，UDAF(User Defined Aggregation),UDTF(User-Defined Table-Generating Functions）。<br><br>&#160;&#160;&#160;&#160;1.UDF指单行输入，单行输出的函数，我们常用的concat(),to_char()都是这样的函数。<br><br>&#160;&#160;&#160;&#160;2.UDAF指多行输入，单行输出的函数，一般和group by连用，常用的有sum(),avg()等等。<br><br>&#160;&#160;&#160;&#160;3.UDAF指单行输入，多行输出的函数，比较少用，用的比较多的有explode()<br><br>&#160;&#160;&#160;&#160;在通常的udaf-java开发流程中，需要继承AbstractGenericUDAFResolver，实现步骤十分复杂，而在odps中，我们只需要继承Aggregator，重点实现 merge(), iterate(), terminate() 这三个方法即可。<br><br>&#160;&#160;&#160;&#160;这里我们用一个Mysql里面十分常见，但是Hive中没有的函数group_concat()函数的UDAF实现来说明开发的流程。<br><br>        （注:本文已经默认你安装了MaxCompute-IDEA所需要的东西并连接了自己的odps,具体过程可见<a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/50892.html">https://help.aliyun.com/document_detail/50892.html</a>)<br></p>
 <p> &#160;&#160;&#160;&#160;二:目的<br><br>&#160;&#160;&#160;&#160;以表A为例子</p>
 <table>
 <thead>
@@ -299,44 +291,30 @@
 <p>&#160;&#160;&#160;&#160;点击右上方的MaxCompute，选择创建UDF，起个名字，把udf注册进去(注意:这里使用的名字就是最后在odps里使用的名)<br><br><img src="/images/pasted-5.png" alt="upload successful"></p>
 <p>&#160;&#160;&#160;&#160;五:<br><br>&#160;&#160;&#160;&#160;函数使用。成功！<br><br> <img src="/images/pasted-2.png" alt="upload successful"></p>
 
+      
     </div>
 
     
     
     
-
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Hive/" rel="tag"># Hive</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item"></div>
-      <div class="post-nav-item">
-    <a href="/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/" rel="next" title="Hadoop-MapReduce流程">
-      Hadoop-MapReduce流程 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
+        <div class="post-eof"></div>
       </footer>
-    
   </article>
   
   
   
 
 
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
+
 
           </div>
           
-    
-  <div class="comments">
-    <div id="SOHUCS"></div>
-  </div>
-  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -509,19 +487,8 @@
 
   
 
-  <script>
-  NexT.utils.loadComments(document.querySelector('#SOHUCS'), () => {
-    var appid = 'cyvn79Dgv';
-    var conf = '628c82b1ed1f78bab093e882953514ea';
-    var width = window.innerWidth || document.documentElement.clientWidth;
-    if (width < 960) {
-      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
-    } else {
-      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
-    }
-  });
-  </script>
-  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  <script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyvn79Dgv"></script>
+
 
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1.2,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/mikoto.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.8},"log":false});</script></body>
 </html>

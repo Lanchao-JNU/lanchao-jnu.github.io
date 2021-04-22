@@ -322,4 +322,65 @@
 <p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.「指环王:护戒使者」看得很爽，下周应该可以去看第二部。<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;本周忘记做题了。。。</p>
 ]]></content>
   </entry>
+  <entry>
+    <title>Hive谓词下推</title>
+    <url>/2021/04/22/Hive%E8%B0%93%E8%AF%8D%E4%B8%8B%E6%8E%A8/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;谓词下推并不是Hive特有的概念，应该说在所有关系型数据库的关系型查询Sql或者NoSql中都有谓词下推的概念。本文主要以Hive Sql为例，提供一些从谓词下推出发，HQL的优化思路。<br><br><br>&#160;&#160;&#160;&#160;<font size=5><strong>定义</strong></font><br><br>&#160;&#160;&#160;&#160;首先要理解什么是谓词下推。谓词下推的定义: <strong>将过滤表达式尽可能移动至靠近数据源的位置，以使真正执行时能直接跳过无关的数据。</strong>该定义来源网络，我个人认为有点不好理解。Talk is cheap,Let’s show the code.<br><br>&#160;&#160;&#160;&#160;比方说以下这段sql:<br></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">join</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id <span class="keyword">where</span> tab1.id<span class="operator">=</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;从直觉上说，这一段Sql的执行计划应该是:<br><br>&#160;&#160;&#160;&#160;1.启动一个Mapper任务对tab1和tab2进行打标。<br><br>&#160;&#160;&#160;&#160;2.在Reducer上进行连接操作。<br><br>&#160;&#160;&#160;&#160;3.用在Reducer中用Filter Operator过滤出tab.id=1的数据作为输出。<br><br><br>&#160;&#160;&#160;&#160;但实际情况并非如此，这里用Odps maxcompute的Hive执行计划做参考。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">job0</span> <span class="string">is</span> <span class="string">root</span> <span class="string">job</span></span><br><span class="line"><span class="attr">In Job job0:</span></span><br><span class="line"><span class="attr">root Tasks:</span> <span class="string">M1</span></span><br><span class="line"><span class="attr">J2_1 depends on:</span> <span class="string">M1</span></span><br><span class="line"><span class="attr">In Task M1:</span></span><br><span class="line">    <span class="attr">Data source:</span> <span class="string">data_platform.tab1</span></span><br><span class="line">    <span class="attr">TS:</span> <span class="string">data_platform.tab2</span></span><br><span class="line">        <span class="attr">FIL:</span> <span class="string">IN(id,1L)</span></span><br><span class="line">            <span class="attr">RS: order:</span> <span class="string">+</span></span><br><span class="line">                <span class="attr">nullDirection:</span> <span class="string">*</span></span><br><span class="line">                <span class="attr">optimizeOrderBy:</span> <span class="literal">False</span></span><br><span class="line">                <span class="attr">valueDestLimit:</span> <span class="number">0</span></span><br><span class="line">                <span class="attr">dist:</span> <span class="string">HASH</span></span><br><span class="line">                <span class="attr">keys:</span></span><br><span class="line">                      <span class="string">id</span></span><br><span class="line">                <span class="attr">values:</span></span><br><span class="line">                      <span class="string">id</span> <span class="string">(bigint)</span></span><br><span class="line">                <span class="attr">partitions:</span></span><br><span class="line">                      <span class="string">id</span></span><br><span class="line"><span class="attr">In Task J2_1:</span></span><br><span class="line">    <span class="attr">SEL:</span> <span class="string">id</span></span><br><span class="line">            <span class="attr">SEL:</span> <span class="string">id</span></span><br><span class="line">                <span class="attr">JOIN:</span></span><br><span class="line">                     <span class="string">Project1</span> <span class="string">INNERJOIN</span> <span class="string">BufferOperator1</span></span><br><span class="line">                     <span class="attr">keys:</span></span><br><span class="line">                         <span class="number">0</span><span class="string">:id</span></span><br><span class="line">                         <span class="number">1</span><span class="string">:id</span></span><br><span class="line">                    <span class="attr">FS: output:</span> <span class="string">Screen</span></span><br><span class="line">                        <span class="attr">schema:</span></span><br><span class="line">                          <span class="string">id</span> <span class="string">(bigint)</span></span><br><span class="line">                          <span class="string">id</span> <span class="string">(bigint)</span> <span class="string">AS</span> <span class="string">id2</span></span><br><span class="line">            <span class="attr">JOIN:</span></span><br><span class="line">                 <span class="string">Project1</span> <span class="string">INNERJOIN</span> <span class="string">BufferOperator1</span></span><br><span class="line">                 <span class="attr">keys:</span></span><br><span class="line">                     <span class="number">0</span><span class="string">:id</span></span><br><span class="line">                     <span class="number">1</span><span class="string">:id</span></span><br><span class="line">                <span class="attr">FS: output:</span> <span class="string">Screen</span></span><br><span class="line">                    <span class="attr">schema:</span></span><br><span class="line">                      <span class="string">id</span> <span class="string">(bigint)</span></span><br><span class="line">                      <span class="string">id</span> <span class="string">(bigint)</span> <span class="string">AS</span> <span class="string">id2</span></span><br><span class="line"><span class="string">OK</span></span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;可以看到，实际情况并非如猜想的一般。odps中给出的执行计划可以这么解读<br><br>&#160;&#160;&#160;&#160;1.在Mapper进行Table Scan的时候启动了Filter Operator，过滤出满足条件的数据，同时进行打标。<br><br>&#160;&#160;&#160;&#160;2.在Reducer上进行连接操作。<br><br>&#160;&#160;&#160;&#160;这就是Hive中的谓词下推：<strong>通过提前执行连接语句中where或者on中的谓词，以达到在mapper端提前过滤数据，减少shuffle阶段网络传输量和磁盘IO量的目的，最终形成了Sql的优化。</strong><br><br>&#160;&#160;&#160;&#160;当然，以上只给出了一个例子。HQL中除了以上的Inner Join以外，还有Left Join,Right Join,Full Join等等，同时谓词也包括where谓词和on谓词。下面将通过官方文档查看Hive中是分别是怎么处理谓词下推的。<br><br><br>&#160;&#160;&#160;&#160;<font size=5><strong>官方文档解释</strong></font><br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-21.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">Hive官方文档</font> 
+</center>
+
+
+
+<table>
+<thead>
+<tr>
+<th>定义</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主表</td>
+<td>在outer join中需要返回所有数据的表叫做主表，比如left join中的左表</td>
+</tr>
+<tr>
+<td>次表</td>
+<td>在outer join中没有匹配到需要用null填充的表，比如left join中的右表</td>
+</tr>
+<tr>
+<td>连接谓语</td>
+<td>写在on后面 where之前的逻辑表达式 比如on t1.id=1</td>
+</tr>
+<tr>
+<td>过滤谓语</td>
+<td>写在where之后的逻辑表达式 比如where t1.id=1</td>
+</tr>
+</tbody></table>
+<p>&#160;&#160;&#160;&#160;在大多数情况下，Hive中的谓词下推是自动的，该优化主要发生在编译过程中的生成逻辑执行计划(连接谓语优化)和优化逻辑执行计划(过滤谓语优化)中。但是Hive官方文档中也有点明，在以下两种情况下，Hive不会自动进行谓词下推:<br><br>&#160;&#160;&#160;&#160;1.对主表的连接谓词无法下推。<br><br>&#160;&#160;&#160;&#160;During Join predicates cannot be pushed past Preserved Row tables.<br><br>&#160;&#160;&#160;&#160;2.对次表的过滤谓词无法下推。<br>After Join predicates cannot be pushed past Null Supplying tables.</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-22.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">Hive Sql编译过程</font> 
+</center>
+&#160;&#160;&#160;&#160;我们同样通过一个例子看看什么时候不会进行谓词下推：
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 </span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> tab2 </span><br><span class="line"><span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="keyword">and</span> tab1.id<span class="operator">!=</span><span class="number">1</span> <span class="keyword">and</span> tab2.id<span class="operator">!=</span><span class="number">1</span> </span><br><span class="line"><span class="keyword">where</span> tab1.id<span class="operator">!=</span><span class="number">2</span> <span class="keyword">and</span> tab2.id<span class="operator">!=</span><span class="number">2</span></span><br></pre></td></tr></table></figure>
+我们看到tab1.id!=1这个谓词，符合主表/连接谓词这两个条件，应此不会进行下推。同时tab2.id!=2这个谓词，符合次表/过滤谓词这两个条件，所以也不会进行谓词下推。<br>
+&#160;&#160;&#160;&#160;当然，我们也必须注意到以上两种情况是在不开启CBO情况下发生的，开启CBO的话以我在网路上的观察，可以对第二种情况进行优化，做到谓词下推。<br><br>
+&#160;&#160;&#160;&#160;<font size=5>**优化思路**</font><br>
+&#160;&#160;&#160;&#160;了解了Hive中谓词下推的处理方式以后，我们来稍微想一想有什么优化上的思路。我首先想到的是，和CBO一样对第二种情况进行优化，连接之前先通过一个子查询执行后面的where条件，想必能起到谓词下推的效果。除此之外，第一种情况是不是在部分情况也可以实现谓词下推，一个直观的印象就是:不要对主表进行除了连接词意外的连接谓词限制，尽量放到where条件中，这样才能实现谓词下推，达到优化的目的。]]></content>
+      <categories>
+        <category>BigData</category>
+      </categories>
+      <tags>
+        <tag>DataWareHouse</tag>
+      </tags>
+  </entry>
 </search>
