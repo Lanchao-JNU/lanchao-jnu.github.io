@@ -164,6 +164,83 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/25/2021-04-25/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lanchao">
+      <meta itemprop="description" content="Lanchao's blog, focusing on big data technology, data warehouse and video game.岚朝的博客,关注大数据技术，数据仓库和电子游戏. ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LanChao-JNU Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/25/2021-04-25/" class="post-title-link" itemprop="url">2021-04-25周报</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-04-25 10:10:00 / Modified: 10:36:44" itemprop="dateCreated datePublished" datetime="2021-04-25T10:10:00+08:00">2021-04-25</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan: </span>
+    
+    
+      <a title="changyan" href="/2021/04/25/2021-04-25/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://example.com/2021/04/25/2021-04-25/" class="cy_cmt_count" data-xid="2021/04/25/2021-04-25/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>&#160;&#160;&#160;&#160;调休真的烦的批爆，习惯了双休突然又回来太难受了。周一提了离职，没想到leader和我同一天离职。然后就是需求需求需求，搞不懂为什么偏偏在快离职的时候有这么多需求，还是做完吧不要给其他人留坑。周五去团建太尬了也很无聊就应该直接不去。然后房子又是停电又是漏水的烦得很。突然有点想谈恋爱了上海好无聊555<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「<font color=black><a target="_blank" rel="noopener" href="https://www.mdeditor.tw/dl/1p9aM">吴恩达：不要建立AI先行的企业，而要从任务导向开始 | 专访</a>」 “嘿，大家请以人工智能为先” ，团队就会把重点放在技术上，这也许对一个研究实验室来说挺好的。但做生意时，我一般是以客户或任务为导向，几乎没有以技术为导向过。<br></font><br><br>&#160;&#160;&#160;&#160;2.阅读「<font color=black><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_23120963/article/details/104654185">HIVE学习三：partition和bucket及Join</a>」提炼出一种Join优化的新思路:Becket Join。<br><br>&#160;&#160;&#160;&#160;分桶类似于Reducer阶段做的Partition工作，用户自行指定桶数，在HDFS上分桶的体现是文件的形式(分区是文件夹)<br><br> &#160;&#160;&#160;&#160;当两个表的连接字段都进行了分桶，并且分桶数是互相的整数倍数的时候（说明分桶的方式是相似的），同时每个桶的大小都小于一个阈值，Hive会启动Bucket Join。在这个过程中，每个Mapper上只需要下载自己这个Bucket所需要的对应Bucket的数据到内存中就可以进行Hash Map Join,并不用启动reducer。但是要注意，Bucket Join的条件严苛，并且有额外的内存开销，并不总是能带来优化。(后续会更新一篇博客细讲)<br><br>&#160;&#160;&#160;&#160;3.阅读「<font color=black><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/78266517">从一个sql引发的hive谓词下推的全面复盘及源码分析(上)</a>」超级好的文章。<br><br>&#160;&#160;&#160;&#160;4.成功用python发送kafka消息并用flink读取。</p>
+<p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「最终幻想XV 皇家版」最后一章了，还有剧情补充dlc王者之剑，不过感觉dlc有点无聊，考虑跳过。<br></p>
+<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.「指环王:双塔奇兵」草，第二部更爽了，什么时候上第三部啊急死了<br><br>&#160;&#160;&#160;&#160;2.  剧本「蜇蜂之死」量很大，玩起来蛮累的。<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;算法题没有新题，复习了几道经典题目。<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hive:求每个用户的最大连续登陆天数<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hive:求直播间最大同时在线人数<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hive:求时间段内开播的直播间人数<br></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/22/Hive%E8%B0%93%E8%AF%8D%E4%B8%8B%E6%8E%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -187,10 +264,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-04-22 12:47:00 / Modified: 13:59:38" itemprop="dateCreated datePublished" datetime="2021-04-22T12:47:00+08:00">2021-04-22</time>
+              <time title="Created: 2021-04-22 12:47:00" itemprop="dateCreated datePublished" datetime="2021-04-22T12:47:00+08:00">2021-04-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-04-25 10:38:05" itemprop="dateModified" datetime="2021-04-25T10:38:05+08:00">2021-04-25</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -320,9 +403,24 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-04-19 10:18:56 / Modified: 10:43:55" itemprop="dateCreated datePublished" datetime="2021-04-19T10:18:56+08:00">2021-04-19</time>
+              <time title="Created: 2021-04-19 10:18:00" itemprop="dateCreated datePublished" datetime="2021-04-19T10:18:00+08:00">2021-04-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-04-25 10:37:14" itemprop="dateModified" datetime="2021-04-25T10:37:14+08:00">2021-04-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%91%A8%E6%8A%A5/" itemprop="url" rel="index"><span itemprop="name">周报</span></a>
+                </span>
             </span>
 
           
@@ -406,15 +504,24 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2021-04-12 10:09:22" itemprop="dateCreated datePublished" datetime="2021-04-12T10:09:22+08:00">2021-04-12</time>
+              <time title="Created: 2021-04-12 10:09:00" itemprop="dateCreated datePublished" datetime="2021-04-12T10:09:00+08:00">2021-04-12</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-04-19 10:28:09" itemprop="dateModified" datetime="2021-04-19T10:28:09+08:00">2021-04-19</time>
+                <time title="Modified: 2021-04-25 10:37:31" itemprop="dateModified" datetime="2021-04-25T10:37:31+08:00">2021-04-25</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%91%A8%E6%8A%A5/" itemprop="url" rel="index"><span itemprop="name">周报</span></a>
+                </span>
+            </span>
 
           
   
@@ -1120,91 +1227,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Lanchao">
-      <meta itemprop="description" content="Lanchao's blog, focusing on big data technology, data warehouse and video game.岚朝的博客,关注大数据技术，数据仓库和电子游戏. ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LanChao-JNU Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/" class="post-title-link" itemprop="url">Hadoop-MapReduce流程</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2021-03-26 12:45:03 / Modified: 16:54:37" itemprop="dateCreated datePublished" datetime="2021-03-26T12:45:03+08:00">2021-03-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index"><span itemprop="name">BigData</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan: </span>
-    
-    
-      <a title="changyan" href="/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://example.com/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/" class="cy_cmt_count" data-xid="2021/03/26/Hadoop-MapReduce流程/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>&#160;&#160;&#160;&#160;本文主要放一下之前学习mapreduce的笔记。也给自己创造一个再次阅读，巩固的机会。首先声明：本人看的Hadoop源码不多，内容主要摘自各博客，然后自己总结精简得出<br><br>￼<br><img src="/images/pasted-6.png" alt="upload successful"><br>&#160;&#160;&#160;&#160;MapReduce包括Mapper（Mapper类)阶段和Reducer(Reducer类)阶段，其实说白了就是两个实现类，其中Map阶段和Reduce阶段都包含部分Shuffle阶段工作，因此也有人把mapreduce流程说成map-&gt;shuffle-&gt;reduce。</p>
-<p><font size=5><strong>Map阶段</strong></font><br>&#160;&#160;&#160;&#160;1.输入分片 input split: 一个大的文件会根据block块切分成多个分片(这里生成多少个分片可以是用户自定义的，只需要通过hive参数设定每个block的大小即可)。每个输入分片会让一个map进程来处理。<br>&#160;&#160;&#160;&#160;2.Map任务:<br>&#160;&#160;&#160;&#160; i. 初始化: 创建context，map.class实例，设置输入输出，创建mapper的上下文Map 任务把分片传递给 TaskTracker 里面的 InputFormat类的 createRecordReader() 方法以便获取分片的 RecordReader 对象,由RecordReader读取分片数据并转成键值对形式。<br>&#160;&#160;&#160;&#160;ii. 执行:  执行 Mapper class.的run()方法，这个方法可以被重写，对每个分片里的数据执行一样的方法。(比如说 给每个key生成一个value=1)<br>3.shuffle(Map端):<br>&#160;&#160;&#160;&#160;i.溢写:map会使用Mapper.Context.write()将map函数的输出溢写到内存中的环形缓冲区，同时调用Partitioner类对数据分区，每一个分区对应一个reducer。当缓冲区即将充满(80%)，溢写会被执行(并行，缓冲区可以继续写入，当溢写未完成而缓冲区已满，map会停止写入内存)具体过程<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.创建一个溢写记录SpillRecord 和一个FSOutputStream 文件输出流（本地文件系统）<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.内存内排序缓冲中的块：输出的数据会使用快排算法按照partitionIdx, key排序<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.分区序列化写到磁盘,序列化(快排)之前可进行combiner(可选)，方便排序<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;d.merge合并溢写文件,如果合并后文件较大，可以再进行一次combiner<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;e.再进行一次Partitioner对数据分区 (为什么要两次呢,因为这个时候可能进行了两次combiner,应该分配到每个reducer上的数据出现变化)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii. combiner合并阶段(可选,有两次触发时机):简单地合并key值<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.减少传到reducer的数据量（即通过减少key-value对减少网络传输)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.减轻reducer的负担<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.缺点 job没有依赖，有磁盘io开销<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iii.Partitioner(补充): <br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.Hadoop Mapreduce默认的Partitioner是Hash Partitioner,对key计算hash值并分区<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.TotalOrderPartitioner 按照数据大小分区 常用于全局排序 按照大小将数据分成多个区间，后一个区间的数据一定大于前一个区间<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c. Partitioner可以被重写，克服低效分区，解决数据倾斜和全局排序问题<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iv. 排序原因:<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.方便reducer找到自己分区的数据<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; b.减轻reducer中排序负担<br><br><font size=5><strong>Reduce阶段</strong></font><br>&#160;&#160;&#160;&#160;1.shuffle(Reduce端):<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;i.copy: Reduce端并行的从多个map下载该reduce对应的partition部分数据（通过HTTP)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii.merge(内存到磁盘): Reduce将map结果下载到本地时，需要把多个mapper输入流合并成一个,一直在进行，直到从map下载数据完毕。<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iii.split: Reduce对下载下来的map数据，会先缓存在内存中,当内存达到一定用量时写入硬盘(这里也可以进行combiner)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iv.merge(磁盘到磁盘)：map数据下载过程中，一个后台线程把这些文件合并为更大的，有序的文件，也就是进行全局排序，为最后的最终合并减少工作量(多轮)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;v. 最终merge(方式不确定): map数据下载完毕后，所有数据被合并成一个整体有序的文件作为Reduce的输入。有可能是都来自于硬盘，有可能都来自于内存，也有可能两边都有<br>&#160;&#160;&#160;&#160;2.Reduce任务:<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;i.自己实现逻辑 Map阶段的map方法类似 通常做聚合操作<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii.OutputCollector.collect() 方法把 reduce 任务的输出结果写到 HDFS</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1274,7 +1296,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
