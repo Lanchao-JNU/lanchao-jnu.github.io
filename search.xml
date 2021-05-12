@@ -402,6 +402,80 @@
 <p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「最终幻想XV 皇家版」最后一章了，还有剧情补充dlc王者之剑，不过感觉dlc有点无聊，考虑跳过。<br></p>
 <p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.「指环王:双塔奇兵」草，第二部更爽了，什么时候上第三部啊急死了<br><br>&#160;&#160;&#160;&#160;2.  剧本「蜇蜂之死」量很大，玩起来蛮累的。<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;算法题没有新题，复习了几道经典题目。<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hive:求每个用户的最大连续登陆天数<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hive:求直播间最大同时在线人数<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hive:求时间段内开播的直播间人数<br></p>
 ]]></content>
+      <categories>
+        <category>周报</category>
+      </categories>
+      <tags>
+        <tag>Logs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据仓库中事实表及部分维度表分类</title>
+    <url>/2021/05/01/2021-05-01%E5%91%A8%E6%8A%A5/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;数据仓库中总有些特定的事实表和维度表是平时不会去特地提起，但是在实践中离不开的，在《数据仓库工具箱中》,作者把事实表分成了三类，把维度表分成了无数类别(毕竟维度表是数仓的灵魂，与业务场景密切相关)。本文会简单提一下这三类事实表以及几类定义比较冷门的维度表。<br><br><br>&#160;&#160;&#160;&#160;<font size=5><strong>事实表</strong></font><br><br>&#160;&#160;&#160;&#160;1.事务事实表:每条记录一条记录，日期维度是事物发生的周期。<br><br>&#160;&#160;&#160;&#160;一个例子:一张业务系统后台提供的交易表，每一条记录都是一次交易，用trade_time记录交易时间。<br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-23.png width = "55%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">交易事实表</font> 
+</center><br>
+&#160;&#160;&#160;&#160;2.周期快照事实:每个时间段记录一次，日期维度是记录时间段的中止。<br>
+&#160;&#160;&#160;&#160;一个例子:比分说有一张记录销售人员绩效的表，每隔1个小时会计算一次过去一个小时内某销售人员的销售额，则可以把记录时间统计时间作为改事实表的日期维度。<br>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-24.png width = "55%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">销售事实表</font> 
+</center>
+
+<p>&#160;&#160;&#160;&#160;3.累积快照事实表:记录不确定周期的数据，有多个日期维度，首次插入时需要用代理键处理，在未来更新。<br><br>&#160;&#160;&#160;&#160;一个例子:业务方除了提供一张交易表以外，同时还提供了订单完成表。可以把这两张表整合在一次以记录每一笔订单的整个周期<br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-25.png width = "55%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">订单事实表</font> 
+</center>
+
+<p>&#160;&#160;&#160;&#160;<font size=5><strong>维度表</strong></font><br></p>
+<p>&#160;&#160;&#160;&#160;1.微型维度表:提取快速变化的维度，用度量值范围处理的维度表。<br><br>&#160;&#160;&#160;&#160;一个例子:一张用户维度表，其中的”收入”字段变化非常快，为了避免经常更新，用”收入范围”来代替这个维度。<br><br>&#160;&#160;&#160;&#160;2.支架表:把一些常用并且很大的维度做成支架表(比如说日期，地区，时间支架表)。支架表可以连接到维度表，也可以连接到事实表。这里部分支持了范式。也就是说在星型模型中部分使用了雪花模型。<br><br>&#160;&#160;&#160;&#160;一个例子:很多维度表和事实表都有用到日期，没有必要在所有维度表或者事实表中把日期相关的全部维度信息全部展开，不如在一个日期维度表中维度日期信息，这个日期维度表就是桥接表。<br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-27.png width = "55%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">日期支架表使用</font> 
+</center>
+
+<p>&#160;&#160;&#160;&#160;3.桥接表:当维度中出现多属性值时，可以通过桥接表存储多属性信息。<br><br>&#160;&#160;&#160;&#160;一个例子:一个直播事实表的主播信息可能存储一个主播的数组，可以把这个主播组合成一个id,再通过这个桥接表关联到具体的网红和网红信息<br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-28.png width = "85%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">主播组合桥接表</font> 
+</center>
+
+]]></content>
+      <categories>
+        <category>BigData</category>
+      </categories>
+      <tags>
+        <tag>DataWareHouse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2021-05-04周报</title>
+    <url>/2021/05/04/2021-05-04%E5%91%A8%E6%8A%A5/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;过了个五一假期，周报晚了…大概一天的样子。倒不如说这周也没什么内容可以放在周报的。回江门过了五一，很多时候我喜欢回江门的原因就是在家里什么都干不了，像时间停滞了一样，永远在吃饭睡觉玩手机循环。买了最新的macbook pro，积蓄也停住了。<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「<font color=black><a href="https://www.cnblogs.com/estellez/p/10147993.html">深入理解HDFS架构及原理</a>」 这部分主要看HDFS架构和读写原理。HDFS用的是master/slaver架构。又NameNode下达操作命令，DataNode处理存储和具体的读写操作。</font><br><br>&#160;&#160;&#160;&#160;2.阅读「<font color=black><a href="https://www.cnblogs.com/luengmingbiao/p/11333618.html">MapReduce On Yarn</a>」主要是了解一下Hadoop中Yarn是怎么调度MapReduce任务的。<br><br>  <center><br>    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-26.png width = "75%" alt=""/><br>    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">MapReduce On Yarn</font> </p>
+</center>
+
+<p>&#160;&#160;&#160;&#160;3.阅读「<font color=black><a href="https://www.cnblogs.com/bigdatalearnshare/p/13909000.html">Spark和MapReduce对比</a>」<br></p>
+<p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「最终幻想XV 皇家版」好傻逼，王者之剑dlc无法切回本体了。我怀疑要坏档。<br></p>
+<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.「无敌少侠」很爽的美漫。很看好。<br><br>&#160;&#160;&#160;&#160;2.「莫失莫忘」黑石一雄虽然算是日裔英国人，但这本书真的浓浓日本味…打算其他书也买来看一下。<br><br>&#160;&#160;&#160;&#160;3.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;做了好几道每日一题 and 牛客题，但是机场网很烂，就不登陆看了。</p>
+]]></content>
+      <categories>
+        <category>周报</category>
+      </categories>
       <tags>
         <tag>Logs</tag>
       </tags>
