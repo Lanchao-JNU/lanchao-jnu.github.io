@@ -1,6 +1,347 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>2021-04-06周报</title>
+    <url>/2021/04/06/2021-04-06%E5%91%A8%E6%8A%A5/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;这周清明假期，所以周报晚了一天。这周需求有点多，所以阅读时间有点变少，更多的是在coding，刷题和需求评审上。然后假期也花了点时间调整一下被房东搞崩了的心态。跟金姐焊接吃了个饭聊了下，确实想在回去读书前休息一阵，做点自己想做的事情，计划做个游戏商品相关的大数据项目，还有想去澳门的酒店玩一下，真的特别便宜。<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「数据仓库工具箱」「订单管理」章节。<br><br>&#160;&#160;&#160;&#160;2.读了Clickhouse官方文档中的几种JOIN方式的差别。<br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-18.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">Clickhouse的几种JOIN方式</font> 
+</center>
+这一块的重点集中在ANY JOIN,ASOF JOIN和GLOBAL JOIN上，ANY JOIN实现了对笛卡尔积的消除，ASOF JOIN实现不等值连接，GLOBAL JOIN体现了clickhouse的分布式思想，实际使用中建议用global join 代替join。<br>
+&#160;&#160;&#160;&#160;3.ODPS-UDF JAVA开发，subArray函数实现。
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">subArrayUDF</span> <span class="keyword">extends</span> <span class="title">UDF</span> </span>&#123;</span><br><span class="line">    <span class="comment">// TODO define parameters and return type, e.g:  public String evaluate(String a, String b)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">evaluate</span><span class="params">(List&lt;String&gt; arraylist, String left, String right)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> length = arraylist.size();</span><br><span class="line">        <span class="keyword">if</span> (length==<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">int</span> i = Integer.parseInt(left);</span><br><span class="line">        <span class="keyword">int</span> j = Integer.parseInt(right);</span><br><span class="line">        <span class="keyword">if</span> (j&gt;length)&#123;</span><br><span class="line">            j=length;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> arraylist.subList(i,j);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「MONSTER HUNTER RISE」令人失望，以后怪物猎人系列的作品应该不会再买。<br><br>&#160;&#160;&#160;&#160;2.「双人成行」，今年为止的最佳游戏，有预感在会在tga上拿到最佳提名(但是能不能获奖还得看今年其他作品的表现)，最佳家庭游戏应该没什么问题。跟一个微博认识的女网友一起玩的，体验很好，小惊喜不断。预计下个周末通关，到时候会写一篇详细测评。<br><br>&#160;&#160;&#160;&#160;3.「年轮」(剧本)，蛮不错的推理本，成功还原的时候一个年轮的样子在我心里浮现，有点击中我。不过拿的本有点边缘，情感体验一般。<br></p>
+<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「<font color=blue><a href="https://www.mihunye.com/science/51575.html">低代码开发，老树开新芽</a></font>」。还蛮同意低代码是未来的，预计5年内会被大范围使用。不过仅仅局限在初创/小成本项目，并且主要集中在前端。项目一大遇到的问题复杂程度是低代码在短时间内难以解决的。<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#103 二叉树的锯齿形层序遍历<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#104 二叉树的最大深度<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 32 - II. 从上到下打印二叉树 II<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 32 - III. 从上到下打印二叉树 III<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 33. 二叉搜索树的后序遍历序列<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 33. 二叉搜索树的后序遍历序列<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 35. 复杂链表的复制<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#206. 反转链表<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;剑指 Offer 39. 数组中出现次数超过一半的数字</p>
+]]></content>
+      <categories>
+        <category>周报</category>
+      </categories>
+      <tags>
+        <tag>Logs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2021-04-12周报</title>
+    <url>/2021/04/12/2021-04-12%E5%91%A8%E6%8A%A5/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;有亿点点无聊的一周，需求比较紧密，去一家小公司面试被几道sql题难住了，Hql还是有蛮大进步空间的，然后网络的知识有点记不清，最近找时间复习一下。吃了23度不太冷椰子鸡，还可以吧，但是还是最想吃一绪和八库。周末和网友玩双人成行，已经差不多快通关了，泡了一下午书店，还玩了「最终幻想XV」，比预期中好多了。对了买了西湖音乐节的票，好久没去音乐节，期待！<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「<font color=blue><a href="https://my.oschina.net/dataclub/blog/4689656">如何使用阿里的OneData方法论</a>顺便复习了KIMBALL的企业数据仓库总线模型。</font>」<br><br>&#160;&#160;&#160;&#160;2.按照教程在IDEA上搭建Flink，并实现了一个简单的wordcount。<br><br>&#160;&#160;&#160;&#160;3.使用python爬取了steam上的部分游戏信息。<br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-19.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">steam游戏信息</font> 
+</center>
+目前能获取的信息还比较有限，发售日期和系统也需要迭代一下。现分享下现行代码，后续会更新优化版。
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">num = <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_text</span>(<span class="params">url</span>):</span> </span><br><span class="line">    <span class="keyword">try</span>: </span><br><span class="line">        headers = &#123; <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) &#x27;</span> <span class="string">&#x27;Chrome/85.0.4183.102 Safari/537.36&#x27;</span>, <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN &#x27;</span> &#125; </span><br><span class="line">        r = requests.get(url, headers=headers)</span><br><span class="line">        r.raise_for_status() </span><br><span class="line">        r.encoding = r.apparent_encoding </span><br><span class="line">        <span class="keyword">return</span> r.text</span><br><span class="line">    <span class="keyword">except</span>: </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;爬取网站失败！&quot;</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">game_info, jump_link, game_evaluation, text,Game_release_time,Game_os</span>):</span> </span><br><span class="line">    soup = BeautifulSoup(text, <span class="string">&quot;html.parser&quot;</span>) <span class="comment"># </span></span><br><span class="line">    <span class="comment">#游戏评价 </span></span><br><span class="line">    w = soup.find_all(class_=<span class="string">&quot;col search_reviewscore responsive_secondrow&quot;</span>) </span><br><span class="line">    <span class="keyword">for</span> u <span class="keyword">in</span> w: </span><br><span class="line">        <span class="keyword">if</span> u.span <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>: </span><br><span class="line">            game_evaluation.append( u.span[<span class="string">&quot;data-tooltip-html&quot;</span>].split(<span class="string">&quot;&lt;br&gt;&quot;</span>)[<span class="number">0</span>] + <span class="string">&quot;,&quot;</span> + u.span[<span class="string">&quot;data-tooltip-html&quot;</span>].split(<span class="string">&quot;&lt;br&gt;&quot;</span>)[-<span class="number">1</span>]) </span><br><span class="line">            </span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            game_evaluation.append(<span class="string">&quot;暂无评价！&quot;</span>) </span><br><span class="line">            </span><br><span class="line">    <span class="comment">#支持os</span></span><br><span class="line">    o = soup.find_all(class_=<span class="string">&quot;col search_name ellipsis&quot;</span>) </span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> o:</span><br><span class="line">        tmp=[]</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">1</span>==<span class="number">1</span>):</span><br><span class="line">            tmp=[]</span><br><span class="line">            tmp = re.findall(<span class="string">&quot;platform_img...&quot;</span>,<span class="built_in">str</span>(item.p))</span><br><span class="line">            <span class="built_in">print</span>(tmp)</span><br><span class="line"><span class="comment">#         except:</span></span><br><span class="line"><span class="comment">#             tmp.append(&#x27;unknown&#x27;)</span></span><br><span class="line">            </span><br><span class="line">        Game_os.append(tmp)</span><br><span class="line">  </span><br><span class="line">            </span><br><span class="line">    <span class="comment"># 游戏详情页面链接 </span></span><br><span class="line">    link_text = soup.find_all(<span class="string">&quot;div&quot;</span>, <span class="built_in">id</span>=<span class="string">&quot;search_resultsRows&quot;</span>) </span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> link_text:</span><br><span class="line">        b = k.find_all(<span class="string">&#x27;a&#x27;</span>) </span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> b: jump_link.append(j[<span class="string">&#x27;href&#x27;</span>]) </span><br><span class="line"></span><br><span class="line">    <span class="comment">#发售时间</span></span><br><span class="line">    release_text = soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&quot;col search_released responsive_secondrow&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> time <span class="keyword">in</span> release_text:</span><br><span class="line">        <span class="keyword">try</span>: </span><br><span class="line">            Game_release_time.append(time.string.strip());</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            Game_release_time.append(<span class="string">&#x27;unknown&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 名字和价格 </span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">global</span> num</span><br><span class="line">    name_text = soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&quot;responsive_search_name_combined&quot;</span>) </span><br><span class="line">    <span class="keyword">for</span> z <span class="keyword">in</span> name_text: </span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 每个游戏的价格 </span></span><br><span class="line">        name = z.find(class_=<span class="string">&quot;title&quot;</span>).string.strip() </span><br><span class="line">        <span class="comment"># 判断折扣是否为None，提取价格 </span></span><br><span class="line">        <span class="keyword">if</span> z.find(class_=<span class="string">&quot;col search_discount responsive_secondrow&quot;</span>).string <span class="keyword">is</span> <span class="literal">None</span>: </span><br><span class="line">            price = z.find(class_=<span class="string">&quot;col search_price discounted responsive_secondrow&quot;</span>).text.strip().split(<span class="string">&quot;₩&quot;</span>) </span><br><span class="line"></span><br><span class="line">            game_info.append([num+<span class="number">1</span> , name, price[<span class="number">2</span>].strip(), game_evaluation[num], jump_link[num],Game_release_time[num],Game_os[num]]) </span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            price = z.find(class_=<span class="string">&quot;col search_price responsive_secondrow&quot;</span>).string.strip().split(<span class="string">&quot;₩&quot;</span>) </span><br><span class="line">            game_info.append([num+<span class="number">1</span> , name, price[<span class="number">1</span>], game_evaluation[num], jump_link[num],Game_release_time[num],Game_os[num]]) </span><br><span class="line">            </span><br><span class="line">        num = num + <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_data</span>(<span class="params">game_info</span>):</span> </span><br><span class="line">    save_path = <span class="string">&quot;Steam.csv&quot;</span> </span><br><span class="line">    df = pd.DataFrame(game_info, columns=[<span class="string">&#x27;排行榜&#x27;</span>, <span class="string">&#x27;游戏名字&#x27;</span>, <span class="string">&#x27;目前游戏价格₩&#x27;</span>, <span class="string">&#x27;游戏评价&#x27;</span>, <span class="string">&#x27;游戏页面链接&#x27;</span>,<span class="string">&#x27;游戏发售日期&#x27;</span>,<span class="string">&#x27;游戏支持系统&#x27;</span>]) </span><br><span class="line">    df.to_csv(save_path, index=<span class="number">0</span>) </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;文件保存成功！&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>: </span><br><span class="line">    Game_info = [] </span><br><span class="line">    <span class="comment"># 游戏全部信息 </span></span><br><span class="line">    Turn_link = [] </span><br><span class="line">    <span class="comment"># 翻页链接 </span></span><br><span class="line">    Jump_link = [] </span><br><span class="line">    <span class="comment"># 游戏详情页面链接 </span></span><br><span class="line">    Game_evaluation = [] </span><br><span class="line">    <span class="comment"># 游戏好评率和评价 </span></span><br><span class="line">    Game_release_time = []</span><br><span class="line">    <span class="comment"># 游戏发售日期</span></span><br><span class="line">    Game_os = []</span><br><span class="line">    <span class="comment"># 游戏支持系统</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">11</span>): </span><br><span class="line">        Turn_link.append(<span class="string">&quot;https://store.steampowered.com/search/?filter=globaltopsellers&amp;page=1&amp;os=win&quot;</span> + <span class="built_in">str</span>(<span class="string">&quot;&amp;page=&quot;</span> + <span class="built_in">str</span>(i))) </span><br><span class="line">        run(Game_info, Jump_link, Game_evaluation, get_text(Turn_link[i-<span class="number">1</span>]),Game_release_time,Game_os) </span><br><span class="line">    save_data(Game_info)</span><br></pre></td></tr></table></figure>
+<p>目前的计划是每个周期爬游戏信息写到csv文件里，然后用flink去读取流数据并进行统计，做一个接口形式输出(或者输出到数据库里，再用springboot连接数据库去查询，可是有点麻烦)</p>
+<p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「双人成行」永远滴神，惊喜继续，这周卡关比较少感觉体验又上了一个台阶，游戏中后期制作人的分镜水平发挥更好，打起来就是非常流畅。预计下周通关。<br><br>&#160;&#160;&#160;&#160;2.「最终幻想XV 皇家版」，好像是16年的时候被狂喷的烂作。ps5会免体验了一下意外的不错，jrpg味道很浓，画面表现好于ff7re。叙事有点不流程，但是战斗系统和bgm真的很棒，在路上开车听「solidarity」的时候真的蛮有感觉。<br></p>
+<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.重读「海边的卡夫卡」。实在是太喜欢村上的「物语」味了，不管是奇妙的想象力还是各种隐喻，都特别吸引我，村上对暴力和system的「刺」也是我非常热衷的，如果说「奇鸟行状录」的刺是刺向战争，那么「海边的卡夫卡」是刺向父权，少年卡夫卡的弑父是必然的，他继承了父亲的诅咒，也打破了诅咒。（当然，我同意这里的父亲也是隐喻）<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    #剑指 Offer 40 最小的k个数<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 42 连续子数组的最大和<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 47 礼物的最大价值<br></p>
+]]></content>
+      <categories>
+        <category>周报</category>
+      </categories>
+      <tags>
+        <tag>Logs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2021-04-19周报</title>
+    <url>/2021/04/19/2021-04-19%E5%91%A8%E6%8A%A5/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;这周需求也太多了，完全被排满了没有时间学东西，拿了几个午休的时间勉强把爬虫-&gt;flink-&gt;mysql-&gt;springboot+mybatis的路走通，计划爬虫-&gt;flink这一条路改成用kafka。周末把「双人成行」通了，ff15推进到第十二章，还看了「剃须。然后捡到女高中生」。去电影院看「指环王:护戒使者」跟jjm金姐焊接吃了顿烧肉（还蛮难吃）<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「<font color=black><a href="https://ci.apache.org/projects/flink/flink-docs-stable/dev/datastream_api.html">Flink DataStream API Programming Guide</a>」用于操作Flink数据流</font><br><br>&#160;&#160;&#160;&#160;2.阅读「<font color=black><a href="https://geek-docs.com/sql/sql-tutorials/how-are-sql-statements-executed.html">SQL 语句是如何执行的</a>」复习。<br><br>&#160;&#160;&#160;&#160;3.阅读「<font color=black><a href="https://mp.weixin.qq.com/s/x3ZPLxsYm-dcbecD8A27AQ">谷歌力推新语言 Logica，解决 SQL 重大缺陷！</a>」不看好。<br><br>&#160;&#160;&#160;&#160;4.实现springboot+mybatis查询每年发售游戏量的后端接口。</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-20.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">每年发售游戏数</font> 
+</center>
+
+
+<p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「双人成行」通关，很棒的游戏，9.5/10。全程非常享受，通关之后还去之前没有逛够的冰雪关卡玩了半天。<br><br>&#160;&#160;&#160;&#160;2.「最终幻想XV 皇家版」推进到12章。在第十章的时候遇到bug主线任务无法继续，只能读一个多小时前的档重来…不过游戏体验目前还是不错，战斗系统很耐玩，人物刻画得也不差，bgm也很屌。<br></p>
+<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.「指环王:护戒使者」看得很爽，下周应该可以去看第二部。<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;本周忘记做题了。。。</p>
+]]></content>
+      <categories>
+        <category>周报</category>
+      </categories>
+      <tags>
+        <tag>Logs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2021-03-29 周报</title>
+    <url>/2021/03/29/2021-03-29-%E5%91%A8%E6%8A%A5/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;这周租的房间城管拆掉，无奈回家了一趟，目前居住酒店，所以可以写的内容也会比较少。<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「数据仓库工具箱」「仓库」章节，深入了解缓慢变化维的问题背景和解决方式，企业数据仓库总线架构。<br><br>&#160;&#160;&#160;&#160;2.了解MPP的OLAP系统Doris，脱胎于百度的Palo,在2018年捐献给Apache基金会。doris使用场景与Clickhouse相似(处理高质量的结构化数据)，但是特性和原理都有所不同。<br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-16.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">主流OLAP引擎对比1</font> 
+</center>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-17.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">主流OLAP引擎对比2</font> 
+</center>
+
+<p>&#160;&#160;&#160;&#160;可以看到Clickhouse和Doris都能支撑OLAP需要的大部分场景，但是Clickhouse的并发量一直是个问题。同时Doris支持Mysql访问协议，跟clickhouse的非标协议接口相比，上手起来会更加舒服。但是也需要注意，Doris在2018年开始开源，目前社区非常不活跃，遇到问题可能难以寻求帮助。搭建上我感觉差不多麻烦吧，卧龙凤雏。<br><br>&#160;&#160;&#160;&#160;顺便也讲讲原理差别，除了OLAP常见的列存储，向量化执行外，Doris还有多数据模型(预聚合，K-V)的特点，为不同查询场景定制。而Clickhouse的编码压缩，多索引比较牛逼。<br><br><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.本周购买了「MONSTER HUNTER RISE」，之前其实玩过「MONSTER HUNTER WORLD」比较失望，只玩了差不多一小时就没动过了，所以这次买的ns卡带，还没有发货。<br><br>&#160;&#160;&#160;&#160;2.非常想玩双人成行，Josef Fares的游戏「双子传说」「逃出生天」都非常有意思，目前也算是我觉得个人风格最吸引人的游戏制作人，嘴挺臭但是确实有两把手的。可是这游戏需要两人玩，然后拥有PS4/PS5的人还比较少，慢慢等吧。<br></p>
+<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.这周终于把博客建起来了，用的是Hexo+Next，使用体验还行,准备把以前沉淀的一些文章也搬过来，后续要坚持一下。<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 31 栈的压入、弹出序列<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 32 - I 从上到下打印二叉树</p>
+]]></content>
+      <categories>
+        <category>周报</category>
+      </categories>
+      <tags>
+        <tag>Logs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2021-04-25周报</title>
+    <url>/2021/04/25/2021-04-25/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;调休真的烦的批爆，习惯了双休突然又回来太难受了。周一提了离职，没想到leader和我同一天离职。然后就是需求需求需求，搞不懂为什么偏偏在快离职的时候有这么多需求，还是做完吧不要给其他人留坑。周五去团建太尬了也很无聊就应该直接不去。然后房子又是停电又是漏水的烦得很。突然有点想谈恋爱了上海好无聊555<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「<font color=black><a href="https://www.mdeditor.tw/dl/1p9aM">吴恩达：不要建立AI先行的企业，而要从任务导向开始 | 专访</a>」 “嘿，大家请以人工智能为先” ，团队就会把重点放在技术上，这也许对一个研究实验室来说挺好的。但做生意时，我一般是以客户或任务为导向，几乎没有以技术为导向过。</font><br><br>&#160;&#160;&#160;&#160;2.阅读「<font color=black><a href="https://blog.csdn.net/qq_23120963/article/details/104654185">HIVE学习三：partition和bucket及Join</a>」提炼出一种Join优化的新思路:Becket Join。<br><br>&#160;&#160;&#160;&#160;分桶类似于Reducer阶段做的Partition工作，用户自行指定桶数，在HDFS上分桶的体现是文件的形式(分区是文件夹)<br><br> &#160;&#160;&#160;&#160;当两个表的连接字段都进行了分桶，并且分桶数是互相的整数倍数的时候（说明分桶的方式是相似的），同时每个桶的大小都小于一个阈值，Hive会启动Bucket Join。在这个过程中，每个Mapper上只需要下载自己这个Bucket所需要的对应Bucket的数据到内存中就可以进行Hash Map Join,并不用启动reducer。但是要注意，Bucket Join的条件严苛，并且有额外的内存开销，并不总是能带来优化。(后续会更新一篇博客细讲)<br><br>&#160;&#160;&#160;&#160;3.阅读「<font color=black><a href="https://zhuanlan.zhihu.com/p/78266517">从一个sql引发的hive谓词下推的全面复盘及源码分析(上)</a>」超级好的文章。<br><br>&#160;&#160;&#160;&#160;4.成功用python发送kafka消息并用flink读取。</p>
+<p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「最终幻想XV 皇家版」最后一章了，还有剧情补充dlc王者之剑，不过感觉dlc有点无聊，考虑跳过。<br></p>
+<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.「指环王:双塔奇兵」草，第二部更爽了，什么时候上第三部啊急死了<br><br>&#160;&#160;&#160;&#160;2.  剧本「蜇蜂之死」量很大，玩起来蛮累的。<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;算法题没有新题，复习了几道经典题目。<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hive:求每个用户的最大连续登陆天数<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hive:求直播间最大同时在线人数<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hive:求时间段内开播的直播间人数<br></p>
+]]></content>
+      <categories>
+        <category>周报</category>
+      </categories>
+      <tags>
+        <tag>Logs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据仓库中事实表及部分维度表分类</title>
+    <url>/2021/05/01/2021-05-01%E5%91%A8%E6%8A%A5/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;数据仓库中总有些特定的事实表和维度表是平时不会去特地提起，但是在实践中离不开的，在《数据仓库工具箱中》,作者把事实表分成了三类，把维度表分成了无数类别(毕竟维度表是数仓的灵魂，与业务场景密切相关)。本文会简单提一下这三类事实表以及几类定义比较冷门的维度表。<br><br><br>&#160;&#160;&#160;&#160;<font size=5><strong>事实表</strong></font><br><br>&#160;&#160;&#160;&#160;1.事务事实表:每条记录一条记录，日期维度是事物发生的周期。<br><br>&#160;&#160;&#160;&#160;一个例子:一张业务系统后台提供的交易表，每一条记录都是一次交易，用trade_time记录交易时间。<br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-23.png width = "55%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">交易事实表</font> 
+</center><br>
+&#160;&#160;&#160;&#160;2.周期快照事实:每个时间段记录一次，日期维度是记录时间段的中止。<br>
+&#160;&#160;&#160;&#160;一个例子:比分说有一张记录销售人员绩效的表，每隔1个小时会计算一次过去一个小时内某销售人员的销售额，则可以把记录时间统计时间作为改事实表的日期维度。<br>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-24.png width = "55%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">销售事实表</font> 
+</center>
+
+<p>&#160;&#160;&#160;&#160;3.累积快照事实表:记录不确定周期的数据，有多个日期维度，首次插入时需要用代理键处理，在未来更新。<br><br>&#160;&#160;&#160;&#160;一个例子:业务方除了提供一张交易表以外，同时还提供了订单完成表。可以把这两张表整合在一次以记录每一笔订单的整个周期<br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-25.png width = "55%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">订单事实表</font> 
+</center>
+
+<p>&#160;&#160;&#160;&#160;<font size=5><strong>维度表</strong></font><br></p>
+<p>&#160;&#160;&#160;&#160;1.微型维度表:提取快速变化的维度，用度量值范围处理的维度表。<br><br>&#160;&#160;&#160;&#160;一个例子:一张用户维度表，其中的”收入”字段变化非常快，为了避免经常更新，用”收入范围”来代替这个维度。<br><br>&#160;&#160;&#160;&#160;2.支架表:把一些常用并且很大的维度做成支架表(比如说日期，地区，时间支架表)。支架表可以连接到维度表，也可以连接到事实表。这里部分支持了范式。也就是说在星型模型中部分使用了雪花模型。<br><br>&#160;&#160;&#160;&#160;一个例子:很多维度表和事实表都有用到日期，没有必要在所有维度表或者事实表中把日期相关的全部维度信息全部展开，不如在一个日期维度表中维度日期信息，这个日期维度表就是桥接表。<br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-27.png width = "55%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">日期支架表使用</font> 
+</center>
+
+<p>&#160;&#160;&#160;&#160;3.桥接表:当维度中出现多属性值时，可以通过桥接表存储多属性信息。<br><br>&#160;&#160;&#160;&#160;一个例子:一个直播事实表的主播信息可能存储一个主播的数组，可以把这个主播组合成一个id,再通过这个桥接表关联到具体的网红和网红信息<br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-28.png width = "85%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">主播组合桥接表</font> 
+</center>
+
+]]></content>
+      <categories>
+        <category>BigData</category>
+      </categories>
+      <tags>
+        <tag>DataWareHouse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hive谓词下推</title>
+    <url>/2021/04/22/Hive%E8%B0%93%E8%AF%8D%E4%B8%8B%E6%8E%A8/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;谓词下推并不是Hive特有的概念，应该说在所有关系型数据库的关系型查询Sql或者NoSql中都有谓词下推的概念。本文主要以Hive Sql为例，提供一些从谓词下推出发，HQL的优化思路。<br><br><br>&#160;&#160;&#160;&#160;<font size=5><strong>定义</strong></font><br><br>&#160;&#160;&#160;&#160;首先要理解什么是谓词下推。谓词下推的定义: <strong>将过滤表达式尽可能移动至靠近数据源的位置，以使真正执行时能直接跳过无关的数据。</strong>该定义来源网络，我个人认为有点不好理解。Talk is cheap,Let’s show the code.<br><br>&#160;&#160;&#160;&#160;比方说以下这段sql:<br></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">join</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id <span class="keyword">where</span> tab1.id<span class="operator">=</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;从直觉上说，这一段Sql的执行计划应该是:<br><br>&#160;&#160;&#160;&#160;1.启动一个Mapper任务对tab1和tab2进行打标。<br><br>&#160;&#160;&#160;&#160;2.在Reducer上进行连接操作。<br><br>&#160;&#160;&#160;&#160;3.用在Reducer中用Filter Operator过滤出tab.id=1的数据作为输出。<br><br><br>&#160;&#160;&#160;&#160;但实际情况并非如此，这里用Odps maxcompute的Hive执行计划做参考。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">job0</span> <span class="string">is</span> <span class="string">root</span> <span class="string">job</span></span><br><span class="line"><span class="attr">In Job job0:</span></span><br><span class="line"><span class="attr">root Tasks:</span> <span class="string">M1</span></span><br><span class="line"><span class="attr">J2_1 depends on:</span> <span class="string">M1</span></span><br><span class="line"><span class="attr">In Task M1:</span></span><br><span class="line">    <span class="attr">Data source:</span> <span class="string">data_platform.tab1</span></span><br><span class="line">    <span class="attr">TS:</span> <span class="string">data_platform.tab2</span></span><br><span class="line">        <span class="attr">FIL:</span> <span class="string">IN(id,1L)</span></span><br><span class="line">            <span class="attr">RS: order:</span> <span class="string">+</span></span><br><span class="line">                <span class="attr">nullDirection:</span> <span class="string">*</span></span><br><span class="line">                <span class="attr">optimizeOrderBy:</span> <span class="literal">False</span></span><br><span class="line">                <span class="attr">valueDestLimit:</span> <span class="number">0</span></span><br><span class="line">                <span class="attr">dist:</span> <span class="string">HASH</span></span><br><span class="line">                <span class="attr">keys:</span></span><br><span class="line">                      <span class="string">id</span></span><br><span class="line">                <span class="attr">values:</span></span><br><span class="line">                      <span class="string">id</span> <span class="string">(bigint)</span></span><br><span class="line">                <span class="attr">partitions:</span></span><br><span class="line">                      <span class="string">id</span></span><br><span class="line"><span class="attr">In Task J2_1:</span></span><br><span class="line">    <span class="attr">SEL:</span> <span class="string">id</span></span><br><span class="line">            <span class="attr">SEL:</span> <span class="string">id</span></span><br><span class="line">                <span class="attr">JOIN:</span></span><br><span class="line">                     <span class="string">Project1</span> <span class="string">INNERJOIN</span> <span class="string">BufferOperator1</span></span><br><span class="line">                     <span class="attr">keys:</span></span><br><span class="line">                         <span class="number">0</span><span class="string">:id</span></span><br><span class="line">                         <span class="number">1</span><span class="string">:id</span></span><br><span class="line">                    <span class="attr">FS: output:</span> <span class="string">Screen</span></span><br><span class="line">                        <span class="attr">schema:</span></span><br><span class="line">                          <span class="string">id</span> <span class="string">(bigint)</span></span><br><span class="line">                          <span class="string">id</span> <span class="string">(bigint)</span> <span class="string">AS</span> <span class="string">id2</span></span><br><span class="line">            <span class="attr">JOIN:</span></span><br><span class="line">                 <span class="string">Project1</span> <span class="string">INNERJOIN</span> <span class="string">BufferOperator1</span></span><br><span class="line">                 <span class="attr">keys:</span></span><br><span class="line">                     <span class="number">0</span><span class="string">:id</span></span><br><span class="line">                     <span class="number">1</span><span class="string">:id</span></span><br><span class="line">                <span class="attr">FS: output:</span> <span class="string">Screen</span></span><br><span class="line">                    <span class="attr">schema:</span></span><br><span class="line">                      <span class="string">id</span> <span class="string">(bigint)</span></span><br><span class="line">                      <span class="string">id</span> <span class="string">(bigint)</span> <span class="string">AS</span> <span class="string">id2</span></span><br><span class="line"><span class="string">OK</span></span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;可以看到，实际情况并非如猜想的一般。odps中给出的执行计划可以这么解读<br><br>&#160;&#160;&#160;&#160;1.在Mapper进行Table Scan的时候启动了Filter Operator，过滤出满足条件的数据，同时进行打标。<br><br>&#160;&#160;&#160;&#160;2.在Reducer上进行连接操作。<br><br>&#160;&#160;&#160;&#160;这就是Hive中的谓词下推：<strong>通过提前执行连接语句中where或者on中的谓词，以达到在mapper端提前过滤数据，减少shuffle阶段网络传输量和磁盘IO量的目的，最终形成了Sql的优化。</strong><br><br>&#160;&#160;&#160;&#160;当然，以上只给出了一个例子。HQL中除了以上的Inner Join以外，还有Left Join,Right Join,Full Join等等，同时谓词也包括where谓词和on谓词。下面将通过官方文档查看Hive中是分别是怎么处理谓词下推的。<br><br><br>&#160;&#160;&#160;&#160;<font size=5><strong>官方文档解释</strong></font><br></p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-21.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">Hive官方文档</font> 
+</center>
+
+
+
+<table>
+<thead>
+<tr>
+<th>定义</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主表</td>
+<td>在outer join中需要返回所有数据的表叫做主表，比如left join中的左表</td>
+</tr>
+<tr>
+<td>次表</td>
+<td>在outer join中没有匹配到需要用null填充的表，比如left join中的右表</td>
+</tr>
+<tr>
+<td>连接谓语</td>
+<td>写在on后面 where之前的逻辑表达式 比如on t1.id=1</td>
+</tr>
+<tr>
+<td>过滤谓语</td>
+<td>写在where之后的逻辑表达式 比如where t1.id=1</td>
+</tr>
+</tbody></table>
+<p>&#160;&#160;&#160;&#160;在大多数情况下，Hive中的谓词下推是自动的，该优化主要发生在编译过程中的生成逻辑执行计划(连接谓语优化)和优化逻辑执行计划(过滤谓语优化)中。但是Hive官方文档中也有点明，在以下两种情况下，Hive不会自动进行谓词下推:<br><br>&#160;&#160;&#160;&#160;1.对主表的连接谓词无法下推。<br><br>&#160;&#160;&#160;&#160;During Join predicates cannot be pushed past Preserved Row tables.<br><br>&#160;&#160;&#160;&#160;2.对次表的过滤谓词无法下推。<br>After Join predicates cannot be pushed past Null Supplying tables.</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-22.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">Hive Sql编译过程</font> 
+</center>
+&#160;&#160;&#160;&#160;我们同样通过一个例子看看什么时候不会进行谓词下推：
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 </span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> tab2 </span><br><span class="line"><span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="keyword">and</span> tab1.id<span class="operator">!=</span><span class="number">1</span> <span class="keyword">and</span> tab2.id<span class="operator">!=</span><span class="number">1</span> </span><br><span class="line"><span class="keyword">where</span> tab1.id<span class="operator">!=</span><span class="number">2</span> <span class="keyword">and</span> tab2.id<span class="operator">!=</span><span class="number">2</span></span><br></pre></td></tr></table></figure>
+我们看到tab1.id!=1这个谓词，符合主表/连接谓词这两个条件，应此不会进行下推。同时tab2.id!=2这个谓词，符合次表/过滤谓词这两个条件，所以也不会进行谓词下推。<br>
+&#160;&#160;&#160;&#160;当然，我们也必须注意到以上两种情况是在不开启CBO情况下发生的，开启CBO的话以我在网路上的观察，可以对第二种情况进行优化，做到谓词下推。<br><br>
+&#160;&#160;&#160;&#160;<font size=5>**优化思路**</font><br>
+&#160;&#160;&#160;&#160;了解了Hive中谓词下推的处理方式以后，我们来稍微想一想有什么优化上的思路。我首先想到的是，和CBO一样对第二种情况进行优化，连接之前先通过一个子查询执行后面的where条件，想必能起到谓词下推的效果。除此之外，第一种情况是不是在部分情况也可以实现谓词下推，一个直观的印象就是:不要对主表进行除了连接词意外的连接谓词限制，尽量放到where条件中，这样才能实现谓词下推，达到优化的目的。]]></content>
+      <categories>
+        <category>BigData</category>
+      </categories>
+      <tags>
+        <tag>DataWareHouse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ClickHouse中的几种JOIN方式</title>
+    <url>/2021/04/01/ClickHouse%E4%B8%AD%E7%9A%84%E5%87%A0%E7%A7%8DJOIN%E6%96%B9%E5%BC%8F/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;ClickHouse中的SQL很多时候跟MySQL的访问协议是不兼容的，个人在使用的时候感觉大概有20%的SQL语法有区别。今天主要讲讲ClickHouse支持的所有JOIN方式，其中有跟MySQL一样的，也有一些ClickHouse独家支持的。<br><br>&#160;&#160;&#160;&#160;<font size=5><strong>Join方式汇总</strong></font><br><br>&#160;&#160;与MySQL一致: INNER JOIN, LEFT OUTER JOIN, RIGHT OUTER JOIN, FULL OUTER JOIN,CROSS JOIN<br><br>&#160;&#160;&#160;&#160;与HIVE一致: LEFT SEMI JOIN, RIGHT SEMI JOIN<br><br>&#160;&#160;&#160;&#160;ClickHouse独家支持: LEFT ANY JOIN / RIGHT ANY JOIN / ANY JOIN, LEFT ASOF JOIN / ASOF JOIN, GLOBAL JOIN<br><br>&#160;&#160;&#160;&#160;<font size=5><strong>Join方式详解</strong></font><br><br>&#160;&#160;&#160;&#160;1.<strong>INNER JOIN</strong>: 只返回左右表中key都匹配的行。同MySQL一样。<br><br>&#160;&#160;&#160;&#160;2.<strong>LEFT OUTER JOIN</strong>: 除了匹配的行之外，还返回左表中的非匹配行，同MySQL一样。<br><br>&#160;&#160;&#160;&#160;3.<strong>RIGHT OUTER JOIN</strong>: 除了匹配的行之外，还返回右表中的非匹配行，同MySQL一样。<br><br>&#160;&#160;&#160;&#160;4.<strong>FULL OUTER JOIN</strong>: 除了匹配的行之外，还会返回两个表中的非匹配行。同MySQL一样。<br><br>&#160;&#160;&#160;&#160;5.<strong>CROSS JOIN</strong>: 产生整个表的笛卡尔积，不需要指定join key。同MySQL一样。<br><br>&#160;&#160;&#160;&#160;6.<strong>LEFT SEMI JOIN</strong>: 返回左表中所有能和右表的join key匹配的行，不产生笛卡尔积(相当于 in 右表子查询 )。同Hive一样。<br></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">LEFT</span> SEMI <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">where</span> tab1.id <span class="keyword">in</span> (<span class="keyword">select</span> id <span class="keyword">from</span> tab2)</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;7.<strong>RIGHT SEMI JOIN</strong>: 返回右表中所有能和左表的join key匹配的行，不产生笛卡尔积(相当于 in 左表子查询 )。同Hive一样。<br></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">RIGHT</span> SEMI <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab2 <span class="keyword">where</span> tab2.id <span class="keyword">in</span> (<span class="keyword">select</span> id <span class="keyword">from</span> tab1)</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;8.<strong>LEFT SEMI JOIN</strong>: 返回右表中所有能和左表的join key匹配的行，不产生笛卡尔积(相当于 in 左表子查询 )。同Hive一样。<br></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">RIGHT</span> SEMI <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab2 <span class="keyword">where</span> tab2.id <span class="keyword">in</span> (<span class="keyword">select</span> id <span class="keyword">from</span> tab1)</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;9.<strong>LEFT ANY JOIN / RIGHT ANY JOIN / ANY JOIN</strong>: 连接两表，出现笛卡尔积的时候最多只返回2条。Clickhouse特性。<br></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">ANY</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于HIVE</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> </span><br><span class="line">(</span><br><span class="line">	<span class="keyword">select</span> <span class="operator">*</span>，</span><br><span class="line">    <span class="built_in">row_number</span>()<span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> tab1.id) <span class="keyword">as</span> rn </span><br><span class="line">    <span class="keyword">from</span> tab1 </span><br><span class="line">    <span class="keyword">JOIN</span> tab2 </span><br><span class="line">    <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line">)<span class="keyword">where</span> rn<span class="operator">&lt;=</span><span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;10.<strong>LEFT ASOF JOIN / ASOF JOIN</strong>: 连接两表，接受不等值连接。Clickhouse特性。<br></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">ANY</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">&lt;=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于HIVE</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">ANY</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">&lt;=</span>tab2.id</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;11.<strong>GLOBAL JOIN</strong>: 分布式连接。Clickhouse特性。<br><br>&#160;&#160;&#160;&#160;讲GLOBAL JOIN的时候必须讲讲GLOBAL JOIN和普通JOIN的执行区别。<br><br>&#160;&#160;&#160;&#160;当使用正常 JOIN，将查询发送到远程服务器。 为了创建正确的表，在每个子查询上运行子查询，并使用此表执行联接。换句话说，在每个服务器上单独形成右表。子查询将开始在每个远程服务器上运行。由于子查询使用分布式表，所以每个远程服务器上的子查询将会对每个远程服务器都感到不满，如果您有一个100个服务器集群，执行整个查询将需要10000个基本请求，这通常被认为是不可接受的举个例子。下面用SQL的形式讲解。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>一个普通的<span class="keyword">join</span>，分布式查询发起。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>发送到每个远程服务器上，每个远程服务器生成右表，分布式查询替换成远程服务器查询。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1_local <span class="keyword">JOIN</span> tab2_local <span class="keyword">on</span> tab1_local.id<span class="operator">=</span>tab2_local.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>因为每个远程服务器中的可能没有所有数据，所以每个远程服务器中生成的右表都不完整，这个时候该服务器需要向除自己外的所有远程服务器请求右表中的其余数据，才能完整地连接本服务器上的所有数据(这里觉得不好理解的话，可以想一下map<span class="operator">-</span>reduce中的common <span class="keyword">join</span>，为什么必须启动reduce来完成),因此这个时候就产生了远程服务器数<span class="operator">^</span><span class="number">2</span>的请求数。</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;而使用GLOBAL JOIN时，首先请求者服务器运行查询并创建一个临时表（右表）。 此临时表将传递到每个远程服务器，并使用传输的临时数据对其运行连接。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>一个<span class="keyword">global</span> <span class="keyword">join</span>，分布式查询发起。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">global</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>请求服务器先生成一个完整的右表临时表。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab </span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>该右表这里命名为tmp_tab,然后发送到所有的远程服务器上。然后每个远程服务器运行。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">JOIN</span> tmp_tab <span class="keyword">on</span> tab1.id<span class="operator">=</span>tmp_tab.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>这个时候每个远程服务器中的左表都能完整地连接右表，然后再进行后续的合并。(这里觉得不好理解的话，可以想一下map<span class="operator">-</span>reduce中的hash <span class="keyword">join</span>是怎么不启动reduce完成<span class="keyword">join</span>的。)</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;建议在Clickhouse中不要使用普通的join，直接替换成GLOBAL JOIN即可。</p>
+]]></content>
+      <categories>
+        <category>BigData</category>
+      </categories>
+      <tags>
+        <tag>ClickHouse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2021-05-04周报</title>
+    <url>/2021/05/04/2021-05-04%E5%91%A8%E6%8A%A5/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;过了个五一假期，周报晚了…大概一天的样子。倒不如说这周也没什么内容可以放在周报的。回江门过了五一，很多时候我喜欢回江门的原因就是在家里什么都干不了，像时间停滞了一样，永远在吃饭睡觉玩手机循环。买了最新的macbook pro，积蓄也停住了。<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「<font color=black><a href="https://www.cnblogs.com/estellez/p/10147993.html">深入理解HDFS架构及原理</a>」 这部分主要看HDFS架构和读写原理。HDFS用的是master/slaver架构。又NameNode下达操作命令，DataNode处理存储和具体的读写操作。</font><br><br>&#160;&#160;&#160;&#160;2.阅读「<font color=black><a href="https://www.cnblogs.com/luengmingbiao/p/11333618.html">MapReduce On Yarn</a>」主要是了解一下Hadoop中Yarn是怎么调度MapReduce任务的。<br><br>  <center><br>    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-26.png width = "75%" alt=""/><br>    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">MapReduce On Yarn</font> </p>
+</center>
+
+<p>&#160;&#160;&#160;&#160;3.阅读「<font color=black><a href="https://www.cnblogs.com/bigdatalearnshare/p/13909000.html">Spark和MapReduce对比</a>」<br></p>
+<p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「最终幻想XV 皇家版」好傻逼，王者之剑dlc无法切回本体了。我怀疑要坏档。<br></p>
+<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.「无敌少侠」很爽的美漫。很看好。<br><br>&#160;&#160;&#160;&#160;2.「莫失莫忘」黑石一雄虽然算是日裔英国人，但这本书真的浓浓日本味…打算其他书也买来看一下。<br><br>&#160;&#160;&#160;&#160;3.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;做了好几道每日一题 and 牛客题，但是机场网很烂，就不登陆看了。</p>
+]]></content>
+      <categories>
+        <category>周报</category>
+      </categories>
+      <tags>
+        <tag>Logs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OneData与企业数据仓库总线架构的异同</title>
+    <url>/2021/04/09/OneData%E4%B8%8E%E4%BC%81%E4%B8%9A%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E6%80%BB%E7%BA%BF%E6%9E%B6%E6%9E%84%E7%9A%84%E5%BC%82%E5%90%8C/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;OneData是阿里巴巴内部进行数据整合及管理的方法体系和工具。阿里巴巴的大数据工程师在这一体系下，构建统一、规范、可共享的全域数据体系，避免数据的冗余和重复建设，规避数据烟囱和不一致性，充分发挥阿里巴巴在大数据海量、多样性方面的独特优势。其中，OneData还分为了OneModel,OneID和OneService。OneData的核心思想在于“统一”：统一口径规范，统一数据资产管理，统一接口服务化。<br><br>&#160;&#160;&#160;&#160;本文所提的「企业数据仓库总线架构」，指的是「数据仓库工具箱」的「库存」篇中的企业数据仓库总线架构。阅读过程中发现其核心思想与OneData是一致的。企业数据仓库总线架构的关键目标是消除烟筒式开发，避免数据孤岛，建立一致性维度同时强调统一的数据治理。强调的也是“统一”的思想。<br><br>&#160;&#160;&#160;&#160;那么OneData和企业数据仓库总线架构除了在构建思想上相似外还有哪些异同呢?</p>
+<p>&#160;&#160;&#160;&#160;<font size=5><strong>相同点</strong></font><br><br>&#160;&#160;&#160;&#160;1.思想相同，在与企业数据的统一。<br><br>&#160;&#160;&#160;&#160;2.目标相同，都在规避数据烟筒和不一致性，减少重复开发和冗余。<br><br>&#160;&#160;&#160;&#160;2.行动相似，都要求对数据定义，标示，领域值达成一致，确保大家用同一种语言交谈。<br></p>
+<p>&#160;&#160;&#160;&#160;<font size=5><strong>不同点</strong></font><br><br>&#160;&#160;&#160;&#160;1.出发点不同。企业数据仓库总线架构的出发点是数据仓库，只关心数仓建设方面的事情。OneData出发点是数据中台，指导的是除了数据仓库外，上层的算法模型，服务输出等数据中台职能。<br><br>&#160;&#160;&#160;&#160;1.范围不同。OneData包含了企业数据仓库总线架构，同时把这种方法引伸到了其他方面。<br></p>
+<p>&#160;&#160;&#160;&#160;<font size=5><strong>OneData实施流程</strong></font><br><br>&#160;&#160;&#160;&#160;1.建模。规范化模型分层、数据流向和主题划分，从而降低研发成本，增强指标复用性，并提高业务的支撑能力。<br><br>&#160;&#160;&#160;&#160;2.主题划分。聚焦业务，对业务进行拆分后面向分析输出。<br><br>&#160;&#160;&#160;&#160;3.规范。表命名规范，字段命名规范，指标定义规范，维度表事实表划分和建设规范。<br><br>&#160;&#160;&#160;&#160;4.统一输出。统一模型输出，接口输出，用统一的方式对数据进行资产管理。<br></p>
+<p>&#160;&#160;&#160;&#160;<font size=5><strong>企业数据仓库总线架构实施流程</strong></font><br><br>&#160;&#160;&#160;&#160;1.绘制企业数据仓库总线矩阵。通过统一的矩阵来识别业务过程，用以支持一致性维度的建设和提炼一致性维度和关键业务过程的关系。<br><br>&#160;&#160;&#160;&#160;2.一致性维度建设(公共维度)。<br><br>&#160;&#160;&#160;&#160;3.强调数据治理和管理，针对数据定义，标示，领域值达成一致。<br><br>&#160;&#160;&#160;&#160;4.建立一致性事实定义。<br></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hadoop-MapReduce流程</title>
+    <url>/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;本文主要放一下之前学习mapreduce的笔记。也给自己创造一个再次阅读，巩固的机会。首先声明：本人看的Hadoop源码不多，内容主要摘自各博客，然后自己总结精简得出<br><br>￼<br><img src="/images/pasted-6.png" alt="upload successful"><br>&#160;&#160;&#160;&#160;MapReduce包括Mapper（Mapper类)阶段和Reducer(Reducer类)阶段，其实说白了就是两个实现类，其中Map阶段和Reduce阶段都包含部分Shuffle阶段工作，因此也有人把mapreduce流程说成map-&gt;shuffle-&gt;reduce。</p>
+<p><font size=5><strong>Map阶段</strong></font><br>&#160;&#160;&#160;&#160;1.输入分片 input split: 一个大的文件会根据block块切分成多个分片(这里生成多少个分片可以是用户自定义的，只需要通过hive参数设定每个block的大小即可)。每个输入分片会让一个map进程来处理。<br>&#160;&#160;&#160;&#160;2.Map任务:<br>&#160;&#160;&#160;&#160; i. 初始化: 创建context，map.class实例，设置输入输出，创建mapper的上下文Map 任务把分片传递给 TaskTracker 里面的 InputFormat类的 createRecordReader() 方法以便获取分片的 RecordReader 对象,由RecordReader读取分片数据并转成键值对形式。<br>&#160;&#160;&#160;&#160;ii. 执行:  执行 Mapper class.的run()方法，这个方法可以被重写，对每个分片里的数据执行一样的方法。(比如说 给每个key生成一个value=1)<br>3.shuffle(Map端):<br>&#160;&#160;&#160;&#160;i.溢写:map会使用Mapper.Context.write()将map函数的输出溢写到内存中的环形缓冲区，同时调用Partitioner类对数据分区，每一个分区对应一个reducer。当缓冲区即将充满(80%)，溢写会被执行(并行，缓冲区可以继续写入，当溢写未完成而缓冲区已满，map会停止写入内存)具体过程<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.创建一个溢写记录SpillRecord 和一个FSOutputStream 文件输出流（本地文件系统）<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.内存内排序缓冲中的块：输出的数据会使用快排算法按照partitionIdx, key排序<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.分区序列化写到磁盘,序列化(快排)之前可进行combiner(可选)，方便排序<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;d.merge合并溢写文件,如果合并后文件较大，可以再进行一次combiner<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;e.再进行一次Partitioner对数据分区 (为什么要两次呢,因为这个时候可能进行了两次combiner,应该分配到每个reducer上的数据出现变化)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii. combiner合并阶段(可选,有两次触发时机):简单地合并key值<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.减少传到reducer的数据量（即通过减少key-value对减少网络传输)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.减轻reducer的负担<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.缺点 job没有依赖，有磁盘io开销<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iii.Partitioner(补充): <br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.Hadoop Mapreduce默认的Partitioner是Hash Partitioner,对key计算hash值并分区<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.TotalOrderPartitioner 按照数据大小分区 常用于全局排序 按照大小将数据分成多个区间，后一个区间的数据一定大于前一个区间<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c. Partitioner可以被重写，克服低效分区，解决数据倾斜和全局排序问题<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iv. 排序原因:<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.方便reducer找到自己分区的数据<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; b.减轻reducer中排序负担<br><br><font size=5><strong>Reduce阶段</strong></font><br>&#160;&#160;&#160;&#160;1.shuffle(Reduce端):<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;i.copy: Reduce端并行的从多个map下载该reduce对应的partition部分数据（通过HTTP)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii.merge(内存到磁盘): Reduce将map结果下载到本地时，需要把多个mapper输入流合并成一个,一直在进行，直到从map下载数据完毕。<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iii.split: Reduce对下载下来的map数据，会先缓存在内存中,当内存达到一定用量时写入硬盘(这里也可以进行combiner)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iv.merge(磁盘到磁盘)：map数据下载过程中，一个后台线程把这些文件合并为更大的，有序的文件，也就是进行全局排序，为最后的最终合并减少工作量(多轮)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;v. 最终merge(方式不确定): map数据下载完毕后，所有数据被合并成一个整体有序的文件作为Reduce的输入。有可能是都来自于硬盘，有可能都来自于内存，也有可能两边都有<br>&#160;&#160;&#160;&#160;2.Reduce任务:<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;i.自己实现逻辑 Map阶段的map方法类似 通常做聚合操作<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii.OutputCollector.collect() 方法把 reduce 任务的输出结果写到 HDFS</p>
+]]></content>
+      <categories>
+        <category>BigData</category>
+      </categories>
+      <tags>
+        <tag>Hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>最终幻想7重置版--写在通关后的第329天(涉及剧透)</title>
+    <url>/2021/03/26/%E6%9C%80%E7%BB%88%E5%B9%BB%E6%83%B37%E9%87%8D%E7%BD%AE%E7%89%88-%E5%86%99%E5%9C%A8%E9%80%9A%E5%85%B3%E5%90%8E%E7%9A%84%E7%AC%AC329%E5%A4%A9/</url>
+    <content><![CDATA[<p>&#160;&#160;&#160;&#160;2020年在我的游戏史中注定是浓墨重彩的一年。初期疫情影响，后期进入职场，让我有大把时间体验电子游戏，这一年玩到的佳作也特别多:女神异闻录5，异度神剑2，如龙7，勇者斗恶龙11S等等等等，但是丝毫不影响最终幻想7重置版的出彩。</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-12.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">诞生之前就已是传说</font> 
+</center>
+&#160;&#160;&#160;&#160;老实说，我完全跟最终幻想7老玩家这个群体沾不上边，没有办法想象我认识的人中会有系列玩家。和最终幻想7最早的交集是2016年上大学买了游戏本在游民星空的游戏库里搜寻盗版单机游戏的时候，发现明明最终幻想已经出到十几了，这个七代还是在好评榜前列，但是当时搜了一下发现这游戏甚至是上个世纪开发的东西，就完全提不起兴趣。<br>
+&#160;&#160;&#160;&#160;接下来，已经到了2020年，我稍微玩了点单机大作，也稍微会关注游戏资讯的时候。这两年间，重制版大作层出不穷，我记得很清楚，当时在涩谷过马路的时候，一抬头就可以看见生化危机2重制版的巨幅海报。同年还有魔兽争霸3重制版，生化危机3重制版等等重制版大作。所以对我来说「最终幻想7重制版-第一章」只不过是另一款跟其他情怀大作没有什么区别的重制游戏罢了，再加上这个「第一章」的副标题，在我这里刻上了像生化危机3般又短情怀又不够的标签。
+<br>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-8.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">生化危机2重制版海报</font> 
+</center>
+&#160;&#160;&#160;&#160;然后是游戏发售当天，以a9vg为首的游戏媒体转载了游戏的宣传片，宣传片中蒂法，爱丽丝的建模确实非常惊艳，战斗系统的演示也不差，才让我有一点点对这个游戏改观。最后击中我的是一张情怀浓浓的图片，图片里九头身高清克劳德牵着像素小人克劳德，旁白"Let's save the world again"。那晚上我转发了这条微博后立马打开psn购入了这款游戏，然后就是50+个小时，20天的unknown journey。
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-13.png width = "45%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">Let's save the world again</font> 
+</center>
+&#160;&#160;&#160;&#160;跟大行其道的主流3A比，「最终幻想7重制版-第一章」并不算一款快节奏的游戏，即便有接近欧美厂商的画面技术和全球宣发造势，它在内核上还是有相当深刻JRPG的影子：节奏缓慢，人物美型，追求数值而策略而不是操作，甚至很多支线小任务的设计也存在着和JRPG一致的弊端。<br>
+&#160;&#160;&#160;&#160;在剧情上，我虽然是新玩家，但是购入游戏等待下载的时候，我已经在知乎/贴吧/游戏媒体等地大致了解了原作剧情:包括神罗公司的背景，爱丽丝之死，克劳德的情况，甚至连CC里面扎克斯的故事和后传圣子降临有了解。坦白说最终幻想的主线剧情，讨论星球和生命的议题，牺牲和平等的议题，在1997年可能非常新颖，但是经过20多年影视作品也好，其他游戏也好，已经把同样的议题翻来覆去讨论了太多遍。如果只说第一章的话，其实就是一个简单的环保组织反抗过度开采星球能源神罗公司的故事，其中米德加的游戏背景，上层和下层的生活情况和贫富差别很像「铳梦」，最近也在电影「阿丽塔：战斗天使」里呈现了。因此，本身「最终幻想7重制版-第一章」的剧情，应该是不太值得期待的。但是野村哲也这个鬼才，可以说是重新定义了重制。既然老玩家都知道剧情，原来的剧情可能由于时代原因难以吸引新玩家，那就把重制版做成戏说最终幻想7。游戏主线剧情不变，加入了元素「菲拉」暗示角色命运的改变，每次角色即将做出和原作剧情不符合的行为的时候，「菲拉」就会跳出来阻止并触发战斗，把角色的行为纠正回原作。其实在游戏中，从结果看「菲拉」的加入对原作的剧情没有改动，但是当菲拉被打败后，却引入了新的可能性：角色的命运即将改写，1997年的最终幻想7已经无法阻止他们了。
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-14.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">命运修正者:菲拉</font> 
+</center>
+&#160;&#160;&#160;&#160;为什么野村哲也会想到用命运改变的形式来重制剧情？我认为最大的原因是，最终幻想7中爱丽丝的死亡和最终幻想7核心危机中扎克斯的死亡，可能是系列玩家心中最大的遗憾，在这上面做文章，最容易俘获老玩家的心。<br>
+&#160;&#160;&#160;&#160;先讲讲爱丽丝之死，在1997年，3D游戏的先驱Square Enix第一次将大型3D游戏投入市场的时候，游戏大体还是青少年的消费品，剧情停留在魔法与剑，骑士与公主的故事，主要用文字刻画。在这些少年少女眼里，爱丽丝在游戏前半段是伙伴，是团队里唯一的奶妈，是注定和主角团一起迎接胜利的角色。同时，游戏前半段也花费了大幅的篇幅去刻画爱丽丝的性格，从教堂相遇到Forgotten City，一步步让玩家喜欢上这个像素3D小人。在游戏中间，用萨菲罗斯一把从天而降的大剑在玩家面前刺死爱丽丝，同时Aerith's Theme响起，玩家与萨菲罗斯战斗后播放克劳德水葬爱丽丝cg，而后一张碟结束。玩家起身到电视机前去换碟，给了悲伤驻足的时间。有趣的是，爱丽丝之死是真正的死亡，没有复活，JRPG的玩家应该都知道奶妈的重要性，爱丽丝一离队对游戏后半程的体验肯定是有影响的，制作者选择让爱丽丝担任这个角色，也是在游戏后半段一遇到血量困难的情况，会想起来“如果爱丽丝在就好了”。从结果上看，爱丽丝之死的设计无疑是成功的，全球无数玩家都在谣传复活爱丽丝的方法，我本人也在网路上看到诸如把碟换回来换回去就能复活爱丽丝的谣言。那么，当角色的命运改变，是不是就给了爱丽丝之死新的可能性？当年在全球玩家口中的谣言，会不会变成真的？我想只有野村哲也和北范佳濑知道了。
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src=/images/pasted-15.png width = "75%" alt=""/>
+    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">爱丽丝之死</font> 
+</center>]]></content>
+      <categories>
+        <category>Game</category>
+      </categories>
+      <tags>
+        <tag>final fantasy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>odps上自定义UDAF-java开发</title>
     <url>/2021/03/24/odps%E4%B8%8A%E8%87%AA%E5%AE%9A%E4%B9%89UDAF%E5%BC%80%E5%8F%91/</url>
     <content><![CDATA[<p>一:写在前面<br><br>&#160;&#160;&#160;&#160;最近在研究odps的udf开发，不得不说maxcompute对hive的封装真的够狠的，用户需要关心的东西很少。UDF就不多说了，odps和hive没有什么差别，都是继承udf然后重写evaluate()就ok。本文主要介绍一下udaf的开发。<br><br>&#160;&#160;&#160;&#160;首先简单说一下udaf是什么吧。udaf是udf的一个子类。UDF(User Defined Function用户自定义函数)顾名思义就是用户自己用java或者python实现的，封装成一个函数可以到数据库中运行的函数。UDF中还包括UDF，UDAF(User Defined Aggregation),UDTF(User-Defined Table-Generating Functions）。<br><br>&#160;&#160;&#160;&#160;1.UDF指单行输入，单行输出的函数，我们常用的concat(),to_char()都是这样的函数。<br><br>&#160;&#160;&#160;&#160;2.UDAF指多行输入，单行输出的函数，一般和group by连用，常用的有sum(),avg()等等。<br><br>&#160;&#160;&#160;&#160;3.UDAF指单行输入，多行输出的函数，比较少用，用的比较多的有explode()<br><br>&#160;&#160;&#160;&#160;在通常的udaf-java开发流程中，需要继承AbstractGenericUDAFResolver，实现步骤十分复杂，而在odps中，我们只需要继承Aggregator，重点实现 merge(), iterate(), terminate() 这三个方法即可。<br><br>&#160;&#160;&#160;&#160;这里我们用一个Mysql里面十分常见，但是Hive中没有的函数group_concat()函数的UDAF实现来说明开发的流程。<br><br>        （注:本文已经默认你安装了MaxCompute-IDEA所需要的东西并连接了自己的odps,具体过程可见<a href="https://help.aliyun.com/document_detail/50892.html">https://help.aliyun.com/document_detail/50892.html</a>)<br></p>
@@ -49,7 +390,7 @@
 </tbody></table>
 <p>&#160;&#160;&#160;&#160;三.具体实现:<br><br>&#160;&#160;&#160;&#160;根据mapreduce的工作原理，我们可以画一张流程图。把iterate想象成map()函数，merge想象成combine(),terminate想象成reduce()函数。</p>
 <p><img src="/images/pasted-1.png" alt="upload successful"></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">代码如下</span><br><span class="line">package com.yupaopao.udaf;</span><br><span class="line"></span><br><span class="line">import com.aliyun.odps.io.Text;</span><br><span class="line">import com.aliyun.odps.io.Writable;</span><br><span class="line">import com.aliyun.odps.udf.UDFException;</span><br><span class="line">import com.aliyun.odps.udf.Aggregator;</span><br><span class="line">import com.aliyun.odps.udf.annotation.Resolve;</span><br><span class="line">import java.io.DataInput;</span><br><span class="line">import java.io.DataOutput;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 定义输入输出类型</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Resolve(&#123;&quot;String-&gt;String&quot;&#125;)</span><br><span class="line">public class GroupConcat extends Aggregator &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 继承Writable接口 自定义buffer进行序列化</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private static class GroupConcatBuffer implements Writable &#123;</span><br><span class="line">        private String str &#x3D; &quot;&quot;;</span><br><span class="line">        @Override</span><br><span class="line">        public void write(DataOutput out) throws IOException &#123;</span><br><span class="line">            out.writeChars(str);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;**</span><br><span class="line">         * Writable的readFields方法， 由于partial的writable对象是重用的，</span><br><span class="line">         * 同一个对象的readFields方法会被调用多次。该方法每次调用的时候重置整个对象，如果对象中包含Collection，则需要清空。</span><br><span class="line">         *&#x2F;</span><br><span class="line">        @Override</span><br><span class="line">        public void readFields(DataInput in) throws IOException &#123;</span><br><span class="line">            str &#x3D; in.readLine();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 声明最终结果变量</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private Text ret &#x3D; new Text();</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 创建初始返回结果的值</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Writable newBuffer() &#123;</span><br><span class="line">        return new GroupConcat.GroupConcatBuffer();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * @param buffer 为一个阶段的汇总数据(在不同map()中汇总出来的group by数据)</span><br><span class="line">     * @param args 表示一行数据 其中args[0]表示传入的第一列(一般仅传入一列)</span><br><span class="line">     * 每次新增一条数据 就把传入的列放入目前已有的累积字符串中。</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public void iterate(Writable buffer, Writable[] args) throws UDFException &#123;</span><br><span class="line">        Text arg &#x3D; (Text) args[0];</span><br><span class="line">        GroupConcat.GroupConcatBuffer buf &#x3D; (GroupConcat.GroupConcatBuffer) buffer;</span><br><span class="line">        if (arg !&#x3D; null) &#123;</span><br><span class="line">            buf.str&#x3D;buf.str+arg+&quot;,&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * @param buffer  聚合buffer</span><br><span class="line">     * @param partial 其他分片聚合结果</span><br><span class="line">     * 在这个方法中，对不同map()的结果进行汇总</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public void merge(Writable buffer, Writable partial) throws UDFException &#123;</span><br><span class="line">        GroupConcat.GroupConcatBuffer buf &#x3D; (GroupConcat.GroupConcatBuffer) buffer;</span><br><span class="line">        GroupConcat.GroupConcatBuffer p &#x3D; (GroupConcat.GroupConcatBuffer) partial;</span><br><span class="line">        buf.str &#x3D; buf.str+ p.str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 设置最终结果，同时把留在最后面的逗号去掉。</span><br><span class="line">     * @param buffer</span><br><span class="line">     * @return Object UDAF的最终结果</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Writable terminate(Writable buffer) throws UDFException &#123;</span><br><span class="line">        GroupConcatBuffer buf &#x3D; (GroupConcatBuffer) buffer;</span><br><span class="line">        if (buf.str&#x3D;&#x3D;&quot;&quot;)&#123;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            String result &#x3D; buf.str.substring(0, buf.str.length()-1);</span><br><span class="line">            ret.set(result);</span><br><span class="line">        &#125;</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">代码如下</span><br><span class="line"><span class="keyword">package</span> com.yupaopao.udaf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.aliyun.odps.io.Text;</span><br><span class="line"><span class="keyword">import</span> com.aliyun.odps.io.Writable;</span><br><span class="line"><span class="keyword">import</span> com.aliyun.odps.udf.UDFException;</span><br><span class="line"><span class="keyword">import</span> com.aliyun.odps.udf.Aggregator;</span><br><span class="line"><span class="keyword">import</span> com.aliyun.odps.udf.annotation.Resolve;</span><br><span class="line"><span class="keyword">import</span> java.io.DataInput;</span><br><span class="line"><span class="keyword">import</span> java.io.DataOutput;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 定义输入输出类型</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Resolve(&#123;&quot;String-&gt;String&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GroupConcat</span> <span class="keyword">extends</span> <span class="title">Aggregator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 继承Writable接口 自定义buffer进行序列化</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">GroupConcatBuffer</span> <span class="keyword">implements</span> <span class="title">Writable</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String str = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(DataOutput out)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">            out.writeChars(str);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Writable的readFields方法， 由于partial的writable对象是重用的，</span></span><br><span class="line"><span class="comment">         * 同一个对象的readFields方法会被调用多次。该方法每次调用的时候重置整个对象，如果对象中包含Collection，则需要清空。</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readFields</span><span class="params">(DataInput in)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">            str = in.readLine();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 声明最终结果变量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Text ret = <span class="keyword">new</span> Text();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建初始返回结果的值</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Writable <span class="title">newBuffer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> GroupConcat.GroupConcatBuffer();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> buffer 为一个阶段的汇总数据(在不同map()中汇总出来的group by数据)</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> args 表示一行数据 其中args[0]表示传入的第一列(一般仅传入一列)</span></span><br><span class="line"><span class="comment">     * 每次新增一条数据 就把传入的列放入目前已有的累积字符串中。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">iterate</span><span class="params">(Writable buffer, Writable[] args)</span> <span class="keyword">throws</span> UDFException </span>&#123;</span><br><span class="line">        Text arg = (Text) args[<span class="number">0</span>];</span><br><span class="line">        GroupConcat.GroupConcatBuffer buf = (GroupConcat.GroupConcatBuffer) buffer;</span><br><span class="line">        <span class="keyword">if</span> (arg != <span class="keyword">null</span>) &#123;</span><br><span class="line">            buf.str=buf.str+arg+<span class="string">&quot;,&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> buffer  聚合buffer</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> partial 其他分片聚合结果</span></span><br><span class="line"><span class="comment">     * 在这个方法中，对不同map()的结果进行汇总</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(Writable buffer, Writable partial)</span> <span class="keyword">throws</span> UDFException </span>&#123;</span><br><span class="line">        GroupConcat.GroupConcatBuffer buf = (GroupConcat.GroupConcatBuffer) buffer;</span><br><span class="line">        GroupConcat.GroupConcatBuffer p = (GroupConcat.GroupConcatBuffer) partial;</span><br><span class="line">        buf.str = buf.str+ p.str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置最终结果，同时把留在最后面的逗号去掉。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> buffer</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Object UDAF的最终结果</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Writable <span class="title">terminate</span><span class="params">(Writable buffer)</span> <span class="keyword">throws</span> UDFException </span>&#123;</span><br><span class="line">        GroupConcatBuffer buf = (GroupConcatBuffer) buffer;</span><br><span class="line">        <span class="keyword">if</span> (buf.str==<span class="string">&quot;&quot;</span>)&#123;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            String result = buf.str.substring(<span class="number">0</span>, buf.str.length()-<span class="number">1</span>);</span><br><span class="line">            ret.set(result);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
@@ -140,347 +481,6 @@
       </tags>
   </entry>
   <entry>
-    <title>最终幻想7重置版--写在通关后的第329天(涉及剧透)</title>
-    <url>/2021/03/26/%E6%9C%80%E7%BB%88%E5%B9%BB%E6%83%B37%E9%87%8D%E7%BD%AE%E7%89%88-%E5%86%99%E5%9C%A8%E9%80%9A%E5%85%B3%E5%90%8E%E7%9A%84%E7%AC%AC329%E5%A4%A9/</url>
-    <content><![CDATA[<p>&#160;&#160;&#160;&#160;2020年在我的游戏史中注定是浓墨重彩的一年。初期疫情影响，后期进入职场，让我有大把时间体验电子游戏，这一年玩到的佳作也特别多:女神异闻录5，异度神剑2，如龙7，勇者斗恶龙11S等等等等，但是丝毫不影响最终幻想7重置版的出彩。</p>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-12.png width = "75%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">诞生之前就已是传说</font> 
-</center>
-&#160;&#160;&#160;&#160;老实说，我完全跟最终幻想7老玩家这个群体沾不上边，没有办法想象我认识的人中会有系列玩家。和最终幻想7最早的交集是2016年上大学买了游戏本在游民星空的游戏库里搜寻盗版单机游戏的时候，发现明明最终幻想已经出到十几了，这个七代还是在好评榜前列，但是当时搜了一下发现这游戏甚至是上个世纪开发的东西，就完全提不起兴趣。<br>
-&#160;&#160;&#160;&#160;接下来，已经到了2020年，我稍微玩了点单机大作，也稍微会关注游戏资讯的时候。这两年间，重制版大作层出不穷，我记得很清楚，当时在涩谷过马路的时候，一抬头就可以看见生化危机2重制版的巨幅海报。同年还有魔兽争霸3重制版，生化危机3重制版等等重制版大作。所以对我来说「最终幻想7重制版-第一章」只不过是另一款跟其他情怀大作没有什么区别的重制游戏罢了，再加上这个「第一章」的副标题，在我这里刻上了像生化危机3般又短情怀又不够的标签。
-<br>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-8.png width = "75%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">生化危机2重制版海报</font> 
-</center>
-&#160;&#160;&#160;&#160;然后是游戏发售当天，以a9vg为首的游戏媒体转载了游戏的宣传片，宣传片中蒂法，爱丽丝的建模确实非常惊艳，战斗系统的演示也不差，才让我有一点点对这个游戏改观。最后击中我的是一张情怀浓浓的图片，图片里九头身高清克劳德牵着像素小人克劳德，旁白"Let's save the world again"。那晚上我转发了这条微博后立马打开psn购入了这款游戏，然后就是50+个小时，20天的unknown journey。
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-13.png width = "45%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">Let's save the world again</font> 
-</center>
-&#160;&#160;&#160;&#160;跟大行其道的主流3A比，「最终幻想7重制版-第一章」并不算一款快节奏的游戏，即便有接近欧美厂商的画面技术和全球宣发造势，它在内核上还是有相当深刻JRPG的影子：节奏缓慢，人物美型，追求数值而策略而不是操作，甚至很多支线小任务的设计也存在着和JRPG一致的弊端。<br>
-&#160;&#160;&#160;&#160;在剧情上，我虽然是新玩家，但是购入游戏等待下载的时候，我已经在知乎/贴吧/游戏媒体等地大致了解了原作剧情:包括神罗公司的背景，爱丽丝之死，克劳德的情况，甚至连CC里面扎克斯的故事和后传圣子降临有了解。坦白说最终幻想的主线剧情，讨论星球和生命的议题，牺牲和平等的议题，在1997年可能非常新颖，但是经过20多年影视作品也好，其他游戏也好，已经把同样的议题翻来覆去讨论了太多遍。如果只说第一章的话，其实就是一个简单的环保组织反抗过度开采星球能源神罗公司的故事，其中米德加的游戏背景，上层和下层的生活情况和贫富差别很像「铳梦」，最近也在电影「阿丽塔：战斗天使」里呈现了。因此，本身「最终幻想7重制版-第一章」的剧情，应该是不太值得期待的。但是野村哲也这个鬼才，可以说是重新定义了重制。既然老玩家都知道剧情，原来的剧情可能由于时代原因难以吸引新玩家，那就把重制版做成戏说最终幻想7。游戏主线剧情不变，加入了元素「菲拉」暗示角色命运的改变，每次角色即将做出和原作剧情不符合的行为的时候，「菲拉」就会跳出来阻止并触发战斗，把角色的行为纠正回原作。其实在游戏中，从结果看「菲拉」的加入对原作的剧情没有改动，但是当菲拉被打败后，却引入了新的可能性：角色的命运即将改写，1997年的最终幻想7已经无法阻止他们了。
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-14.png width = "75%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">命运修正者:菲拉</font> 
-</center>
-&#160;&#160;&#160;&#160;为什么野村哲也会想到用命运改变的形式来重制剧情？我认为最大的原因是，最终幻想7中爱丽丝的死亡和最终幻想7核心危机中扎克斯的死亡，可能是系列玩家心中最大的遗憾，在这上面做文章，最容易俘获老玩家的心。<br>
-&#160;&#160;&#160;&#160;先讲讲爱丽丝之死，在1997年，3D游戏的先驱Square Enix第一次将大型3D游戏投入市场的时候，游戏大体还是青少年的消费品，剧情停留在魔法与剑，骑士与公主的故事，主要用文字刻画。在这些少年少女眼里，爱丽丝在游戏前半段是伙伴，是团队里唯一的奶妈，是注定和主角团一起迎接胜利的角色。同时，游戏前半段也花费了大幅的篇幅去刻画爱丽丝的性格，从教堂相遇到Forgotten City，一步步让玩家喜欢上这个像素3D小人。在游戏中间，用萨菲罗斯一把从天而降的大剑在玩家面前刺死爱丽丝，同时Aerith's Theme响起，玩家与萨菲罗斯战斗后播放克劳德水葬爱丽丝cg，而后一张碟结束。玩家起身到电视机前去换碟，给了悲伤驻足的时间。有趣的是，爱丽丝之死是真正的死亡，没有复活，JRPG的玩家应该都知道奶妈的重要性，爱丽丝一离队对游戏后半程的体验肯定是有影响的，制作者选择让爱丽丝担任这个角色，也是在游戏后半段一遇到血量困难的情况，会想起来“如果爱丽丝在就好了”。从结果上看，爱丽丝之死的设计无疑是成功的，全球无数玩家都在谣传复活爱丽丝的方法，我本人也在网路上看到诸如把碟换回来换回去就能复活爱丽丝的谣言。那么，当角色的命运改变，是不是就给了爱丽丝之死新的可能性？当年在全球玩家口中的谣言，会不会变成真的？我想只有野村哲也和北范佳濑知道了。
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-15.png width = "75%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">爱丽丝之死</font> 
-</center>]]></content>
-      <categories>
-        <category>Game</category>
-      </categories>
-      <tags>
-        <tag>final fantasy</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hadoop-MapReduce流程</title>
-    <url>/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/</url>
-    <content><![CDATA[<p>&#160;&#160;&#160;&#160;本文主要放一下之前学习mapreduce的笔记。也给自己创造一个再次阅读，巩固的机会。首先声明：本人看的Hadoop源码不多，内容主要摘自各博客，然后自己总结精简得出<br><br>￼<br><img src="/images/pasted-6.png" alt="upload successful"><br>&#160;&#160;&#160;&#160;MapReduce包括Mapper（Mapper类)阶段和Reducer(Reducer类)阶段，其实说白了就是两个实现类，其中Map阶段和Reduce阶段都包含部分Shuffle阶段工作，因此也有人把mapreduce流程说成map-&gt;shuffle-&gt;reduce。</p>
-<p><font size=5><strong>Map阶段</strong></font><br>&#160;&#160;&#160;&#160;1.输入分片 input split: 一个大的文件会根据block块切分成多个分片(这里生成多少个分片可以是用户自定义的，只需要通过hive参数设定每个block的大小即可)。每个输入分片会让一个map进程来处理。<br>&#160;&#160;&#160;&#160;2.Map任务:<br>&#160;&#160;&#160;&#160; i. 初始化: 创建context，map.class实例，设置输入输出，创建mapper的上下文Map 任务把分片传递给 TaskTracker 里面的 InputFormat类的 createRecordReader() 方法以便获取分片的 RecordReader 对象,由RecordReader读取分片数据并转成键值对形式。<br>&#160;&#160;&#160;&#160;ii. 执行:  执行 Mapper class.的run()方法，这个方法可以被重写，对每个分片里的数据执行一样的方法。(比如说 给每个key生成一个value=1)<br>3.shuffle(Map端):<br>&#160;&#160;&#160;&#160;i.溢写:map会使用Mapper.Context.write()将map函数的输出溢写到内存中的环形缓冲区，同时调用Partitioner类对数据分区，每一个分区对应一个reducer。当缓冲区即将充满(80%)，溢写会被执行(并行，缓冲区可以继续写入，当溢写未完成而缓冲区已满，map会停止写入内存)具体过程<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.创建一个溢写记录SpillRecord 和一个FSOutputStream 文件输出流（本地文件系统）<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.内存内排序缓冲中的块：输出的数据会使用快排算法按照partitionIdx, key排序<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.分区序列化写到磁盘,序列化(快排)之前可进行combiner(可选)，方便排序<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;d.merge合并溢写文件,如果合并后文件较大，可以再进行一次combiner<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;e.再进行一次Partitioner对数据分区 (为什么要两次呢,因为这个时候可能进行了两次combiner,应该分配到每个reducer上的数据出现变化)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii. combiner合并阶段(可选,有两次触发时机):简单地合并key值<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.减少传到reducer的数据量（即通过减少key-value对减少网络传输)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.减轻reducer的负担<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.缺点 job没有依赖，有磁盘io开销<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iii.Partitioner(补充): <br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.Hadoop Mapreduce默认的Partitioner是Hash Partitioner,对key计算hash值并分区<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.TotalOrderPartitioner 按照数据大小分区 常用于全局排序 按照大小将数据分成多个区间，后一个区间的数据一定大于前一个区间<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c. Partitioner可以被重写，克服低效分区，解决数据倾斜和全局排序问题<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iv. 排序原因:<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.方便reducer找到自己分区的数据<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; b.减轻reducer中排序负担<br><br><font size=5><strong>Reduce阶段</strong></font><br>&#160;&#160;&#160;&#160;1.shuffle(Reduce端):<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;i.copy: Reduce端并行的从多个map下载该reduce对应的partition部分数据（通过HTTP)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii.merge(内存到磁盘): Reduce将map结果下载到本地时，需要把多个mapper输入流合并成一个,一直在进行，直到从map下载数据完毕。<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iii.split: Reduce对下载下来的map数据，会先缓存在内存中,当内存达到一定用量时写入硬盘(这里也可以进行combiner)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iv.merge(磁盘到磁盘)：map数据下载过程中，一个后台线程把这些文件合并为更大的，有序的文件，也就是进行全局排序，为最后的最终合并减少工作量(多轮)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;v. 最终merge(方式不确定): map数据下载完毕后，所有数据被合并成一个整体有序的文件作为Reduce的输入。有可能是都来自于硬盘，有可能都来自于内存，也有可能两边都有<br>&#160;&#160;&#160;&#160;2.Reduce任务:<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;i.自己实现逻辑 Map阶段的map方法类似 通常做聚合操作<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii.OutputCollector.collect() 方法把 reduce 任务的输出结果写到 HDFS</p>
-]]></content>
-      <categories>
-        <category>BigData</category>
-      </categories>
-      <tags>
-        <tag>Hadoop</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2021-03-29 周报</title>
-    <url>/2021/03/29/2021-03-29-%E5%91%A8%E6%8A%A5/</url>
-    <content><![CDATA[<p>&#160;&#160;&#160;&#160;这周租的房间城管拆掉，无奈回家了一趟，目前居住酒店，所以可以写的内容也会比较少。<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「数据仓库工具箱」「仓库」章节，深入了解缓慢变化维的问题背景和解决方式，企业数据仓库总线架构。<br><br>&#160;&#160;&#160;&#160;2.了解MPP的OLAP系统Doris，脱胎于百度的Palo,在2018年捐献给Apache基金会。doris使用场景与Clickhouse相似(处理高质量的结构化数据)，但是特性和原理都有所不同。<br></p>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-16.png width = "75%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">主流OLAP引擎对比1</font> 
-</center>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-17.png width = "75%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">主流OLAP引擎对比2</font> 
-</center>
-
-<p>&#160;&#160;&#160;&#160;可以看到Clickhouse和Doris都能支撑OLAP需要的大部分场景，但是Clickhouse的并发量一直是个问题。同时Doris支持Mysql访问协议，跟clickhouse的非标协议接口相比，上手起来会更加舒服。但是也需要注意，Doris在2018年开始开源，目前社区非常不活跃，遇到问题可能难以寻求帮助。搭建上我感觉差不多麻烦吧，卧龙凤雏。<br><br>&#160;&#160;&#160;&#160;顺便也讲讲原理差别，除了OLAP常见的列存储，向量化执行外，Doris还有多数据模型(预聚合，K-V)的特点，为不同查询场景定制。而Clickhouse的编码压缩，多索引比较牛逼。<br><br><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.本周购买了「MONSTER HUNTER RISE」，之前其实玩过「MONSTER HUNTER WORLD」比较失望，只玩了差不多一小时就没动过了，所以这次买的ns卡带，还没有发货。<br><br>&#160;&#160;&#160;&#160;2.非常想玩双人成行，Josef Fares的游戏「双子传说」「逃出生天」都非常有意思，目前也算是我觉得个人风格最吸引人的游戏制作人，嘴挺臭但是确实有两把手的。可是这游戏需要两人玩，然后拥有PS4/PS5的人还比较少，慢慢等吧。<br></p>
-<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.这周终于把博客建起来了，用的是Hexo+Next，使用体验还行,准备把以前沉淀的一些文章也搬过来，后续要坚持一下。<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 31 栈的压入、弹出序列<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 32 - I 从上到下打印二叉树</p>
-]]></content>
-      <categories>
-        <category>周报</category>
-      </categories>
-      <tags>
-        <tag>Logs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ClickHouse中的几种JOIN方式</title>
-    <url>/2021/04/01/ClickHouse%E4%B8%AD%E7%9A%84%E5%87%A0%E7%A7%8DJOIN%E6%96%B9%E5%BC%8F/</url>
-    <content><![CDATA[<p>&#160;&#160;&#160;&#160;ClickHouse中的SQL很多时候跟MySQL的访问协议是不兼容的，个人在使用的时候感觉大概有20%的SQL语法有区别。今天主要讲讲ClickHouse支持的所有JOIN方式，其中有跟MySQL一样的，也有一些ClickHouse独家支持的。<br><br>&#160;&#160;&#160;&#160;<font size=5><strong>Join方式汇总</strong></font><br><br>&#160;&#160;与MySQL一致: INNER JOIN, LEFT OUTER JOIN, RIGHT OUTER JOIN, FULL OUTER JOIN,CROSS JOIN<br><br>&#160;&#160;&#160;&#160;与HIVE一致: LEFT SEMI JOIN, RIGHT SEMI JOIN<br><br>&#160;&#160;&#160;&#160;ClickHouse独家支持: LEFT ANY JOIN / RIGHT ANY JOIN / ANY JOIN, LEFT ASOF JOIN / ASOF JOIN, GLOBAL JOIN<br><br>&#160;&#160;&#160;&#160;<font size=5><strong>Join方式详解</strong></font><br><br>&#160;&#160;&#160;&#160;1.<strong>INNER JOIN</strong>: 只返回左右表中key都匹配的行。同MySQL一样。<br><br>&#160;&#160;&#160;&#160;2.<strong>LEFT OUTER JOIN</strong>: 除了匹配的行之外，还返回左表中的非匹配行，同MySQL一样。<br><br>&#160;&#160;&#160;&#160;3.<strong>RIGHT OUTER JOIN</strong>: 除了匹配的行之外，还返回右表中的非匹配行，同MySQL一样。<br><br>&#160;&#160;&#160;&#160;4.<strong>FULL OUTER JOIN</strong>: 除了匹配的行之外，还会返回两个表中的非匹配行。同MySQL一样。<br><br>&#160;&#160;&#160;&#160;5.<strong>CROSS JOIN</strong>: 产生整个表的笛卡尔积，不需要指定join key。同MySQL一样。<br><br>&#160;&#160;&#160;&#160;6.<strong>LEFT SEMI JOIN</strong>: 返回左表中所有能和右表的join key匹配的行，不产生笛卡尔积(相当于 in 右表子查询 )。同Hive一样。<br></p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">LEFT</span> SEMI <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">where</span> tab1.id <span class="keyword">in</span> (<span class="keyword">select</span> id <span class="keyword">from</span> tab2)</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;7.<strong>RIGHT SEMI JOIN</strong>: 返回右表中所有能和左表的join key匹配的行，不产生笛卡尔积(相当于 in 左表子查询 )。同Hive一样。<br></p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">RIGHT</span> SEMI <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab2 <span class="keyword">where</span> tab2.id <span class="keyword">in</span> (<span class="keyword">select</span> id <span class="keyword">from</span> tab1)</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;8.<strong>LEFT SEMI JOIN</strong>: 返回右表中所有能和左表的join key匹配的行，不产生笛卡尔积(相当于 in 左表子查询 )。同Hive一样。<br></p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">RIGHT</span> SEMI <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab2 <span class="keyword">where</span> tab2.id <span class="keyword">in</span> (<span class="keyword">select</span> id <span class="keyword">from</span> tab1)</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;9.<strong>LEFT ANY JOIN / RIGHT ANY JOIN / ANY JOIN</strong>: 连接两表，出现笛卡尔积的时候最多只返回2条。Clickhouse特性。<br></p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">ANY</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于HIVE</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> </span><br><span class="line">(</span><br><span class="line">	<span class="keyword">select</span> <span class="operator">*</span>，</span><br><span class="line">    <span class="built_in">row_number</span>()<span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> tab1.id) <span class="keyword">as</span> rn </span><br><span class="line">    <span class="keyword">from</span> tab1 </span><br><span class="line">    <span class="keyword">JOIN</span> tab2 </span><br><span class="line">    <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line">)<span class="keyword">where</span> rn<span class="operator">&lt;=</span><span class="number">2</span>;</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;10.<strong>LEFT ASOF JOIN / ASOF JOIN</strong>: 连接两表，接受不等值连接。Clickhouse特性。<br></p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">ANY</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">&lt;=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于HIVE</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">ANY</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">&lt;=</span>tab2.id</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;11.<strong>GLOBAL JOIN</strong>: 分布式连接。Clickhouse特性。<br><br>&#160;&#160;&#160;&#160;讲GLOBAL JOIN的时候必须讲讲GLOBAL JOIN和普通JOIN的执行区别。<br><br>&#160;&#160;&#160;&#160;当使用正常 JOIN，将查询发送到远程服务器。 为了创建正确的表，在每个子查询上运行子查询，并使用此表执行联接。换句话说，在每个服务器上单独形成右表。子查询将开始在每个远程服务器上运行。由于子查询使用分布式表，所以每个远程服务器上的子查询将会对每个远程服务器都感到不满，如果您有一个100个服务器集群，执行整个查询将需要10000个基本请求，这通常被认为是不可接受的举个例子。下面用SQL的形式讲解。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>一个普通的<span class="keyword">join</span>，分布式查询发起。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>发送到每个远程服务器上，每个远程服务器生成右表，分布式查询替换成远程服务器查询。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1_local <span class="keyword">JOIN</span> tab2_local <span class="keyword">on</span> tab1_local.id<span class="operator">=</span>tab2_local.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>因为每个远程服务器中的可能没有所有数据，所以每个远程服务器中生成的右表都不完整，这个时候该服务器需要向除自己外的所有远程服务器请求右表中的其余数据，才能完整地连接本服务器上的所有数据(这里觉得不好理解的话，可以想一下map<span class="operator">-</span>reduce中的common <span class="keyword">join</span>，为什么必须启动reduce来完成),因此这个时候就产生了远程服务器数<span class="operator">^</span><span class="number">2</span>的请求数。</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;而使用GLOBAL JOIN时，首先请求者服务器运行查询并创建一个临时表（右表）。 此临时表将传递到每个远程服务器，并使用传输的临时数据对其运行连接。</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>一个<span class="keyword">global</span> <span class="keyword">join</span>，分布式查询发起。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">global</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>请求服务器先生成一个完整的右表临时表。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab </span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>该右表这里命名为tmp_tab,然后发送到所有的远程服务器上。然后每个远程服务器运行。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">JOIN</span> tmp_tab <span class="keyword">on</span> tab1.id<span class="operator">=</span>tmp_tab.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>这个时候每个远程服务器中的左表都能完整地连接右表，然后再进行后续的合并。(这里觉得不好理解的话，可以想一下map<span class="operator">-</span>reduce中的hash <span class="keyword">join</span>是怎么不启动reduce完成<span class="keyword">join</span>的。)</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;建议在Clickhouse中不要使用普通的join，直接替换成GLOBAL JOIN即可。</p>
-]]></content>
-      <categories>
-        <category>BigData</category>
-      </categories>
-      <tags>
-        <tag>ClickHouse</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2021-04-06周报</title>
-    <url>/2021/04/06/2021-04-06%E5%91%A8%E6%8A%A5/</url>
-    <content><![CDATA[<p>&#160;&#160;&#160;&#160;这周清明假期，所以周报晚了一天。这周需求有点多，所以阅读时间有点变少，更多的是在coding，刷题和需求评审上。然后假期也花了点时间调整一下被房东搞崩了的心态。跟金姐焊接吃了个饭聊了下，确实想在回去读书前休息一阵，做点自己想做的事情，计划做个游戏商品相关的大数据项目，还有想去澳门的酒店玩一下，真的特别便宜。<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「数据仓库工具箱」「订单管理」章节。<br><br>&#160;&#160;&#160;&#160;2.读了Clickhouse官方文档中的几种JOIN方式的差别。<br></p>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-18.png width = "75%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">Clickhouse的几种JOIN方式</font> 
-</center>
-这一块的重点集中在ANY JOIN,ASOF JOIN和GLOBAL JOIN上，ANY JOIN实现了对笛卡尔积的消除，ASOF JOIN实现不等值连接，GLOBAL JOIN体现了clickhouse的分布式思想，实际使用中建议用global join 代替join。<br>
-&#160;&#160;&#160;&#160;3.ODPS-UDF JAVA开发，subArray函数实现。
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">subArrayUDF</span> <span class="keyword">extends</span> <span class="title">UDF</span> </span>&#123;</span><br><span class="line">    <span class="comment">// TODO define parameters and return type, e.g:  public String evaluate(String a, String b)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">evaluate</span><span class="params">(List&lt;String&gt; arraylist, String left, String right)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> length = arraylist.size();</span><br><span class="line">        <span class="keyword">if</span> (length==<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">int</span> i = Integer.parseInt(left);</span><br><span class="line">        <span class="keyword">int</span> j = Integer.parseInt(right);</span><br><span class="line">        <span class="keyword">if</span> (j&gt;length)&#123;</span><br><span class="line">            j=length;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> arraylist.subList(i,j);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「MONSTER HUNTER RISE」令人失望，以后怪物猎人系列的作品应该不会再买。<br><br>&#160;&#160;&#160;&#160;2.「双人成行」，今年为止的最佳游戏，有预感在会在tga上拿到最佳提名(但是能不能获奖还得看今年其他作品的表现)，最佳家庭游戏应该没什么问题。跟一个微博认识的女网友一起玩的，体验很好，小惊喜不断。预计下个周末通关，到时候会写一篇详细测评。<br><br>&#160;&#160;&#160;&#160;3.「年轮」(剧本)，蛮不错的推理本，成功还原的时候一个年轮的样子在我心里浮现，有点击中我。不过拿的本有点边缘，情感体验一般。<br></p>
-<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「<font color=blue><a href="https://www.mihunye.com/science/51575.html">低代码开发，老树开新芽</a></font>」。还蛮同意低代码是未来的，预计5年内会被大范围使用。不过仅仅局限在初创/小成本项目，并且主要集中在前端。项目一大遇到的问题复杂程度是低代码在短时间内难以解决的。<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#103 二叉树的锯齿形层序遍历<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#104 二叉树的最大深度<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 32 - II. 从上到下打印二叉树 II<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 32 - III. 从上到下打印二叉树 III<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 33. 二叉搜索树的后序遍历序列<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 33. 二叉搜索树的后序遍历序列<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 35. 复杂链表的复制<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#206. 反转链表<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;剑指 Offer 39. 数组中出现次数超过一半的数字</p>
-]]></content>
-      <categories>
-        <category>周报</category>
-      </categories>
-      <tags>
-        <tag>Logs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>OneData与企业数据仓库总线架构的异同</title>
-    <url>/2021/04/09/OneData%E4%B8%8E%E4%BC%81%E4%B8%9A%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E6%80%BB%E7%BA%BF%E6%9E%B6%E6%9E%84%E7%9A%84%E5%BC%82%E5%90%8C/</url>
-    <content><![CDATA[<p>&#160;&#160;&#160;&#160;OneData是阿里巴巴内部进行数据整合及管理的方法体系和工具。阿里巴巴的大数据工程师在这一体系下，构建统一、规范、可共享的全域数据体系，避免数据的冗余和重复建设，规避数据烟囱和不一致性，充分发挥阿里巴巴在大数据海量、多样性方面的独特优势。其中，OneData还分为了OneModel,OneID和OneService。OneData的核心思想在于“统一”：统一口径规范，统一数据资产管理，统一接口服务化。<br><br>&#160;&#160;&#160;&#160;本文所提的「企业数据仓库总线架构」，指的是「数据仓库工具箱」的「库存」篇中的企业数据仓库总线架构。阅读过程中发现其核心思想与OneData是一致的。企业数据仓库总线架构的关键目标是消除烟筒式开发，避免数据孤岛，建立一致性维度同时强调统一的数据治理。强调的也是“统一”的思想。<br><br>&#160;&#160;&#160;&#160;那么OneData和企业数据仓库总线架构除了在构建思想上相似外还有哪些异同呢?</p>
-<p>&#160;&#160;&#160;&#160;<font size=5><strong>相同点</strong></font><br><br>&#160;&#160;&#160;&#160;1.思想相同，在与企业数据的统一。<br><br>&#160;&#160;&#160;&#160;2.目标相同，都在规避数据烟筒和不一致性，减少重复开发和冗余。<br><br>&#160;&#160;&#160;&#160;2.行动相似，都要求对数据定义，标示，领域值达成一致，确保大家用同一种语言交谈。<br></p>
-<p>&#160;&#160;&#160;&#160;<font size=5><strong>不同点</strong></font><br><br>&#160;&#160;&#160;&#160;1.出发点不同。企业数据仓库总线架构的出发点是数据仓库，只关心数仓建设方面的事情。OneData出发点是数据中台，指导的是除了数据仓库外，上层的算法模型，服务输出等数据中台职能。<br><br>&#160;&#160;&#160;&#160;1.范围不同。OneData包含了企业数据仓库总线架构，同时把这种方法引伸到了其他方面。<br></p>
-<p>&#160;&#160;&#160;&#160;<font size=5><strong>OneData实施流程</strong></font><br><br>&#160;&#160;&#160;&#160;1.建模。规范化模型分层、数据流向和主题划分，从而降低研发成本，增强指标复用性，并提高业务的支撑能力。<br><br>&#160;&#160;&#160;&#160;2.主题划分。聚焦业务，对业务进行拆分后面向分析输出。<br><br>&#160;&#160;&#160;&#160;3.规范。表命名规范，字段命名规范，指标定义规范，维度表事实表划分和建设规范。<br><br>&#160;&#160;&#160;&#160;4.统一输出。统一模型输出，接口输出，用统一的方式对数据进行资产管理。<br></p>
-<p>&#160;&#160;&#160;&#160;<font size=5><strong>企业数据仓库总线架构实施流程</strong></font><br><br>&#160;&#160;&#160;&#160;1.绘制企业数据仓库总线矩阵。通过统一的矩阵来识别业务过程，用以支持一致性维度的建设和提炼一致性维度和关键业务过程的关系。<br><br>&#160;&#160;&#160;&#160;2.一致性维度建设(公共维度)。<br><br>&#160;&#160;&#160;&#160;3.强调数据治理和管理，针对数据定义，标示，领域值达成一致。<br><br>&#160;&#160;&#160;&#160;4.建立一致性事实定义。<br></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>2021-04-12周报</title>
-    <url>/2021/04/12/2021-04-12%E5%91%A8%E6%8A%A5/</url>
-    <content><![CDATA[<p>&#160;&#160;&#160;&#160;有亿点点无聊的一周，需求比较紧密，去一家小公司面试被几道sql题难住了，Hql还是有蛮大进步空间的，然后网络的知识有点记不清，最近找时间复习一下。吃了23度不太冷椰子鸡，还可以吧，但是还是最想吃一绪和八库。周末和网友玩双人成行，已经差不多快通关了，泡了一下午书店，还玩了「最终幻想XV」，比预期中好多了。对了买了西湖音乐节的票，好久没去音乐节，期待！<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「<font color=blue><a href="https://my.oschina.net/dataclub/blog/4689656">如何使用阿里的OneData方法论</a>顺便复习了KIMBALL的企业数据仓库总线模型。</font>」<br><br>&#160;&#160;&#160;&#160;2.按照教程在IDEA上搭建Flink，并实现了一个简单的wordcount。<br><br>&#160;&#160;&#160;&#160;3.使用python爬取了steam上的部分游戏信息。<br></p>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-19.png width = "75%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">steam游戏信息</font> 
-</center>
-目前能获取的信息还比较有限，发售日期和系统也需要迭代一下。现分享下现行代码，后续会更新优化版。
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">num = <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_text</span>(<span class="params">url</span>):</span> </span><br><span class="line">    <span class="keyword">try</span>: </span><br><span class="line">        headers = &#123; <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) &#x27;</span> <span class="string">&#x27;Chrome/85.0.4183.102 Safari/537.36&#x27;</span>, <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN &#x27;</span> &#125; </span><br><span class="line">        r = requests.get(url, headers=headers)</span><br><span class="line">        r.raise_for_status() </span><br><span class="line">        r.encoding = r.apparent_encoding </span><br><span class="line">        <span class="keyword">return</span> r.text</span><br><span class="line">    <span class="keyword">except</span>: </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;爬取网站失败！&quot;</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">game_info, jump_link, game_evaluation, text,Game_release_time,Game_os</span>):</span> </span><br><span class="line">    soup = BeautifulSoup(text, <span class="string">&quot;html.parser&quot;</span>) <span class="comment"># </span></span><br><span class="line">    <span class="comment">#游戏评价 </span></span><br><span class="line">    w = soup.find_all(class_=<span class="string">&quot;col search_reviewscore responsive_secondrow&quot;</span>) </span><br><span class="line">    <span class="keyword">for</span> u <span class="keyword">in</span> w: </span><br><span class="line">        <span class="keyword">if</span> u.span <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>: </span><br><span class="line">            game_evaluation.append( u.span[<span class="string">&quot;data-tooltip-html&quot;</span>].split(<span class="string">&quot;&lt;br&gt;&quot;</span>)[<span class="number">0</span>] + <span class="string">&quot;,&quot;</span> + u.span[<span class="string">&quot;data-tooltip-html&quot;</span>].split(<span class="string">&quot;&lt;br&gt;&quot;</span>)[-<span class="number">1</span>]) </span><br><span class="line">            </span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            game_evaluation.append(<span class="string">&quot;暂无评价！&quot;</span>) </span><br><span class="line">            </span><br><span class="line">    <span class="comment">#支持os</span></span><br><span class="line">    o = soup.find_all(class_=<span class="string">&quot;col search_name ellipsis&quot;</span>) </span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> o:</span><br><span class="line">        tmp=[]</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">1</span>==<span class="number">1</span>):</span><br><span class="line">            tmp=[]</span><br><span class="line">            tmp = re.findall(<span class="string">&quot;platform_img...&quot;</span>,<span class="built_in">str</span>(item.p))</span><br><span class="line">            <span class="built_in">print</span>(tmp)</span><br><span class="line"><span class="comment">#         except:</span></span><br><span class="line"><span class="comment">#             tmp.append(&#x27;unknown&#x27;)</span></span><br><span class="line">            </span><br><span class="line">        Game_os.append(tmp)</span><br><span class="line">  </span><br><span class="line">            </span><br><span class="line">    <span class="comment"># 游戏详情页面链接 </span></span><br><span class="line">    link_text = soup.find_all(<span class="string">&quot;div&quot;</span>, <span class="built_in">id</span>=<span class="string">&quot;search_resultsRows&quot;</span>) </span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> link_text:</span><br><span class="line">        b = k.find_all(<span class="string">&#x27;a&#x27;</span>) </span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> b: jump_link.append(j[<span class="string">&#x27;href&#x27;</span>]) </span><br><span class="line"></span><br><span class="line">    <span class="comment">#发售时间</span></span><br><span class="line">    release_text = soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&quot;col search_released responsive_secondrow&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> time <span class="keyword">in</span> release_text:</span><br><span class="line">        <span class="keyword">try</span>: </span><br><span class="line">            Game_release_time.append(time.string.strip());</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            Game_release_time.append(<span class="string">&#x27;unknown&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 名字和价格 </span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">global</span> num</span><br><span class="line">    name_text = soup.find_all(<span class="string">&#x27;div&#x27;</span>, class_=<span class="string">&quot;responsive_search_name_combined&quot;</span>) </span><br><span class="line">    <span class="keyword">for</span> z <span class="keyword">in</span> name_text: </span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 每个游戏的价格 </span></span><br><span class="line">        name = z.find(class_=<span class="string">&quot;title&quot;</span>).string.strip() </span><br><span class="line">        <span class="comment"># 判断折扣是否为None，提取价格 </span></span><br><span class="line">        <span class="keyword">if</span> z.find(class_=<span class="string">&quot;col search_discount responsive_secondrow&quot;</span>).string <span class="keyword">is</span> <span class="literal">None</span>: </span><br><span class="line">            price = z.find(class_=<span class="string">&quot;col search_price discounted responsive_secondrow&quot;</span>).text.strip().split(<span class="string">&quot;₩&quot;</span>) </span><br><span class="line"></span><br><span class="line">            game_info.append([num+<span class="number">1</span> , name, price[<span class="number">2</span>].strip(), game_evaluation[num], jump_link[num],Game_release_time[num],Game_os[num]]) </span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            price = z.find(class_=<span class="string">&quot;col search_price responsive_secondrow&quot;</span>).string.strip().split(<span class="string">&quot;₩&quot;</span>) </span><br><span class="line">            game_info.append([num+<span class="number">1</span> , name, price[<span class="number">1</span>], game_evaluation[num], jump_link[num],Game_release_time[num],Game_os[num]]) </span><br><span class="line">            </span><br><span class="line">        num = num + <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_data</span>(<span class="params">game_info</span>):</span> </span><br><span class="line">    save_path = <span class="string">&quot;Steam.csv&quot;</span> </span><br><span class="line">    df = pd.DataFrame(game_info, columns=[<span class="string">&#x27;排行榜&#x27;</span>, <span class="string">&#x27;游戏名字&#x27;</span>, <span class="string">&#x27;目前游戏价格₩&#x27;</span>, <span class="string">&#x27;游戏评价&#x27;</span>, <span class="string">&#x27;游戏页面链接&#x27;</span>,<span class="string">&#x27;游戏发售日期&#x27;</span>,<span class="string">&#x27;游戏支持系统&#x27;</span>]) </span><br><span class="line">    df.to_csv(save_path, index=<span class="number">0</span>) </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;文件保存成功！&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>: </span><br><span class="line">    Game_info = [] </span><br><span class="line">    <span class="comment"># 游戏全部信息 </span></span><br><span class="line">    Turn_link = [] </span><br><span class="line">    <span class="comment"># 翻页链接 </span></span><br><span class="line">    Jump_link = [] </span><br><span class="line">    <span class="comment"># 游戏详情页面链接 </span></span><br><span class="line">    Game_evaluation = [] </span><br><span class="line">    <span class="comment"># 游戏好评率和评价 </span></span><br><span class="line">    Game_release_time = []</span><br><span class="line">    <span class="comment"># 游戏发售日期</span></span><br><span class="line">    Game_os = []</span><br><span class="line">    <span class="comment"># 游戏支持系统</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">11</span>): </span><br><span class="line">        Turn_link.append(<span class="string">&quot;https://store.steampowered.com/search/?filter=globaltopsellers&amp;page=1&amp;os=win&quot;</span> + <span class="built_in">str</span>(<span class="string">&quot;&amp;page=&quot;</span> + <span class="built_in">str</span>(i))) </span><br><span class="line">        run(Game_info, Jump_link, Game_evaluation, get_text(Turn_link[i-<span class="number">1</span>]),Game_release_time,Game_os) </span><br><span class="line">    save_data(Game_info)</span><br></pre></td></tr></table></figure>
-<p>目前的计划是每个周期爬游戏信息写到csv文件里，然后用flink去读取流数据并进行统计，做一个接口形式输出(或者输出到数据库里，再用springboot连接数据库去查询，可是有点麻烦)</p>
-<p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「双人成行」永远滴神，惊喜继续，这周卡关比较少感觉体验又上了一个台阶，游戏中后期制作人的分镜水平发挥更好，打起来就是非常流畅。预计下周通关。<br><br>&#160;&#160;&#160;&#160;2.「最终幻想XV 皇家版」，好像是16年的时候被狂喷的烂作。ps5会免体验了一下意外的不错，jrpg味道很浓，画面表现好于ff7re。叙事有点不流程，但是战斗系统和bgm真的很棒，在路上开车听「solidarity」的时候真的蛮有感觉。<br></p>
-<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.重读「海边的卡夫卡」。实在是太喜欢村上的「物语」味了，不管是奇妙的想象力还是各种隐喻，都特别吸引我，村上对暴力和system的「刺」也是我非常热衷的，如果说「奇鸟行状录」的刺是刺向战争，那么「海边的卡夫卡」是刺向父权，少年卡夫卡的弑父是必然的，他继承了父亲的诅咒，也打破了诅咒。（当然，我同意这里的父亲也是隐喻）<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    #剑指 Offer 40 最小的k个数<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 42 连续子数组的最大和<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;#剑指 Offer 47 礼物的最大价值<br></p>
-]]></content>
-      <categories>
-        <category>周报</category>
-      </categories>
-      <tags>
-        <tag>Logs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2021-04-19周报</title>
-    <url>/2021/04/19/2021-04-19%E5%91%A8%E6%8A%A5/</url>
-    <content><![CDATA[<p>&#160;&#160;&#160;&#160;这周需求也太多了，完全被排满了没有时间学东西，拿了几个午休的时间勉强把爬虫-&gt;flink-&gt;mysql-&gt;springboot+mybatis的路走通，计划爬虫-&gt;flink这一条路改成用kafka。周末把「双人成行」通了，ff15推进到第十二章，还看了「剃须。然后捡到女高中生」。去电影院看「指环王:护戒使者」跟jjm金姐焊接吃了顿烧肉（还蛮难吃）<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「<font color=black><a href="https://ci.apache.org/projects/flink/flink-docs-stable/dev/datastream_api.html">Flink DataStream API Programming Guide</a>」用于操作Flink数据流</font><br><br>&#160;&#160;&#160;&#160;2.阅读「<font color=black><a href="https://geek-docs.com/sql/sql-tutorials/how-are-sql-statements-executed.html">SQL 语句是如何执行的</a>」复习。<br><br>&#160;&#160;&#160;&#160;3.阅读「<font color=black><a href="https://mp.weixin.qq.com/s/x3ZPLxsYm-dcbecD8A27AQ">谷歌力推新语言 Logica，解决 SQL 重大缺陷！</a>」不看好。<br><br>&#160;&#160;&#160;&#160;4.实现springboot+mybatis查询每年发售游戏量的后端接口。</p>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-20.png width = "75%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">每年发售游戏数</font> 
-</center>
-
-
-<p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「双人成行」通关，很棒的游戏，9.5/10。全程非常享受，通关之后还去之前没有逛够的冰雪关卡玩了半天。<br><br>&#160;&#160;&#160;&#160;2.「最终幻想XV 皇家版」推进到12章。在第十章的时候遇到bug主线任务无法继续，只能读一个多小时前的档重来…不过游戏体验目前还是不错，战斗系统很耐玩，人物刻画得也不差，bgm也很屌。<br></p>
-<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.「指环王:护戒使者」看得很爽，下周应该可以去看第二部。<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;本周忘记做题了。。。</p>
-]]></content>
-      <categories>
-        <category>周报</category>
-      </categories>
-      <tags>
-        <tag>Logs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hive谓词下推</title>
-    <url>/2021/04/22/Hive%E8%B0%93%E8%AF%8D%E4%B8%8B%E6%8E%A8/</url>
-    <content><![CDATA[<p>&#160;&#160;&#160;&#160;谓词下推并不是Hive特有的概念，应该说在所有关系型数据库的关系型查询Sql或者NoSql中都有谓词下推的概念。本文主要以Hive Sql为例，提供一些从谓词下推出发，HQL的优化思路。<br><br><br>&#160;&#160;&#160;&#160;<font size=5><strong>定义</strong></font><br><br>&#160;&#160;&#160;&#160;首先要理解什么是谓词下推。谓词下推的定义: <strong>将过滤表达式尽可能移动至靠近数据源的位置，以使真正执行时能直接跳过无关的数据。</strong>该定义来源网络，我个人认为有点不好理解。Talk is cheap,Let’s show the code.<br><br>&#160;&#160;&#160;&#160;比方说以下这段sql:<br></p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">join</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id <span class="keyword">where</span> tab1.id<span class="operator">=</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;从直觉上说，这一段Sql的执行计划应该是:<br><br>&#160;&#160;&#160;&#160;1.启动一个Mapper任务对tab1和tab2进行打标。<br><br>&#160;&#160;&#160;&#160;2.在Reducer上进行连接操作。<br><br>&#160;&#160;&#160;&#160;3.用在Reducer中用Filter Operator过滤出tab.id=1的数据作为输出。<br><br><br>&#160;&#160;&#160;&#160;但实际情况并非如此，这里用Odps maxcompute的Hive执行计划做参考。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">job0</span> <span class="string">is</span> <span class="string">root</span> <span class="string">job</span></span><br><span class="line"><span class="attr">In Job job0:</span></span><br><span class="line"><span class="attr">root Tasks:</span> <span class="string">M1</span></span><br><span class="line"><span class="attr">J2_1 depends on:</span> <span class="string">M1</span></span><br><span class="line"><span class="attr">In Task M1:</span></span><br><span class="line">    <span class="attr">Data source:</span> <span class="string">data_platform.tab1</span></span><br><span class="line">    <span class="attr">TS:</span> <span class="string">data_platform.tab2</span></span><br><span class="line">        <span class="attr">FIL:</span> <span class="string">IN(id,1L)</span></span><br><span class="line">            <span class="attr">RS: order:</span> <span class="string">+</span></span><br><span class="line">                <span class="attr">nullDirection:</span> <span class="string">*</span></span><br><span class="line">                <span class="attr">optimizeOrderBy:</span> <span class="literal">False</span></span><br><span class="line">                <span class="attr">valueDestLimit:</span> <span class="number">0</span></span><br><span class="line">                <span class="attr">dist:</span> <span class="string">HASH</span></span><br><span class="line">                <span class="attr">keys:</span></span><br><span class="line">                      <span class="string">id</span></span><br><span class="line">                <span class="attr">values:</span></span><br><span class="line">                      <span class="string">id</span> <span class="string">(bigint)</span></span><br><span class="line">                <span class="attr">partitions:</span></span><br><span class="line">                      <span class="string">id</span></span><br><span class="line"><span class="attr">In Task J2_1:</span></span><br><span class="line">    <span class="attr">SEL:</span> <span class="string">id</span></span><br><span class="line">            <span class="attr">SEL:</span> <span class="string">id</span></span><br><span class="line">                <span class="attr">JOIN:</span></span><br><span class="line">                     <span class="string">Project1</span> <span class="string">INNERJOIN</span> <span class="string">BufferOperator1</span></span><br><span class="line">                     <span class="attr">keys:</span></span><br><span class="line">                         <span class="number">0</span><span class="string">:id</span></span><br><span class="line">                         <span class="number">1</span><span class="string">:id</span></span><br><span class="line">                    <span class="attr">FS: output:</span> <span class="string">Screen</span></span><br><span class="line">                        <span class="attr">schema:</span></span><br><span class="line">                          <span class="string">id</span> <span class="string">(bigint)</span></span><br><span class="line">                          <span class="string">id</span> <span class="string">(bigint)</span> <span class="string">AS</span> <span class="string">id2</span></span><br><span class="line">            <span class="attr">JOIN:</span></span><br><span class="line">                 <span class="string">Project1</span> <span class="string">INNERJOIN</span> <span class="string">BufferOperator1</span></span><br><span class="line">                 <span class="attr">keys:</span></span><br><span class="line">                     <span class="number">0</span><span class="string">:id</span></span><br><span class="line">                     <span class="number">1</span><span class="string">:id</span></span><br><span class="line">                <span class="attr">FS: output:</span> <span class="string">Screen</span></span><br><span class="line">                    <span class="attr">schema:</span></span><br><span class="line">                      <span class="string">id</span> <span class="string">(bigint)</span></span><br><span class="line">                      <span class="string">id</span> <span class="string">(bigint)</span> <span class="string">AS</span> <span class="string">id2</span></span><br><span class="line"><span class="string">OK</span></span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;可以看到，实际情况并非如猜想的一般。odps中给出的执行计划可以这么解读<br><br>&#160;&#160;&#160;&#160;1.在Mapper进行Table Scan的时候启动了Filter Operator，过滤出满足条件的数据，同时进行打标。<br><br>&#160;&#160;&#160;&#160;2.在Reducer上进行连接操作。<br><br>&#160;&#160;&#160;&#160;这就是Hive中的谓词下推：<strong>通过提前执行连接语句中where或者on中的谓词，以达到在mapper端提前过滤数据，减少shuffle阶段网络传输量和磁盘IO量的目的，最终形成了Sql的优化。</strong><br><br>&#160;&#160;&#160;&#160;当然，以上只给出了一个例子。HQL中除了以上的Inner Join以外，还有Left Join,Right Join,Full Join等等，同时谓词也包括where谓词和on谓词。下面将通过官方文档查看Hive中是分别是怎么处理谓词下推的。<br><br><br>&#160;&#160;&#160;&#160;<font size=5><strong>官方文档解释</strong></font><br></p>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-21.png width = "75%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">Hive官方文档</font> 
-</center>
-
-
-
-<table>
-<thead>
-<tr>
-<th>定义</th>
-<th>解释</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>主表</td>
-<td>在outer join中需要返回所有数据的表叫做主表，比如left join中的左表</td>
-</tr>
-<tr>
-<td>次表</td>
-<td>在outer join中没有匹配到需要用null填充的表，比如left join中的右表</td>
-</tr>
-<tr>
-<td>连接谓语</td>
-<td>写在on后面 where之前的逻辑表达式 比如on t1.id=1</td>
-</tr>
-<tr>
-<td>过滤谓语</td>
-<td>写在where之后的逻辑表达式 比如where t1.id=1</td>
-</tr>
-</tbody></table>
-<p>&#160;&#160;&#160;&#160;在大多数情况下，Hive中的谓词下推是自动的，该优化主要发生在编译过程中的生成逻辑执行计划(连接谓语优化)和优化逻辑执行计划(过滤谓语优化)中。但是Hive官方文档中也有点明，在以下两种情况下，Hive不会自动进行谓词下推:<br><br>&#160;&#160;&#160;&#160;1.对主表的连接谓词无法下推。<br><br>&#160;&#160;&#160;&#160;During Join predicates cannot be pushed past Preserved Row tables.<br><br>&#160;&#160;&#160;&#160;2.对次表的过滤谓词无法下推。<br>After Join predicates cannot be pushed past Null Supplying tables.</p>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-22.png width = "75%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">Hive Sql编译过程</font> 
-</center>
-&#160;&#160;&#160;&#160;我们同样通过一个例子看看什么时候不会进行谓词下推：
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 </span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> tab2 </span><br><span class="line"><span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="keyword">and</span> tab1.id<span class="operator">!=</span><span class="number">1</span> <span class="keyword">and</span> tab2.id<span class="operator">!=</span><span class="number">1</span> </span><br><span class="line"><span class="keyword">where</span> tab1.id<span class="operator">!=</span><span class="number">2</span> <span class="keyword">and</span> tab2.id<span class="operator">!=</span><span class="number">2</span></span><br></pre></td></tr></table></figure>
-我们看到tab1.id!=1这个谓词，符合主表/连接谓词这两个条件，应此不会进行下推。同时tab2.id!=2这个谓词，符合次表/过滤谓词这两个条件，所以也不会进行谓词下推。<br>
-&#160;&#160;&#160;&#160;当然，我们也必须注意到以上两种情况是在不开启CBO情况下发生的，开启CBO的话以我在网路上的观察，可以对第二种情况进行优化，做到谓词下推。<br><br>
-&#160;&#160;&#160;&#160;<font size=5>**优化思路**</font><br>
-&#160;&#160;&#160;&#160;了解了Hive中谓词下推的处理方式以后，我们来稍微想一想有什么优化上的思路。我首先想到的是，和CBO一样对第二种情况进行优化，连接之前先通过一个子查询执行后面的where条件，想必能起到谓词下推的效果。除此之外，第一种情况是不是在部分情况也可以实现谓词下推，一个直观的印象就是:不要对主表进行除了连接词意外的连接谓词限制，尽量放到where条件中，这样才能实现谓词下推，达到优化的目的。]]></content>
-      <categories>
-        <category>BigData</category>
-      </categories>
-      <tags>
-        <tag>DataWareHouse</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2021-04-25周报</title>
-    <url>/2021/04/25/2021-04-25/</url>
-    <content><![CDATA[<p>&#160;&#160;&#160;&#160;调休真的烦的批爆，习惯了双休突然又回来太难受了。周一提了离职，没想到leader和我同一天离职。然后就是需求需求需求，搞不懂为什么偏偏在快离职的时候有这么多需求，还是做完吧不要给其他人留坑。周五去团建太尬了也很无聊就应该直接不去。然后房子又是停电又是漏水的烦得很。突然有点想谈恋爱了上海好无聊555<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「<font color=black><a href="https://www.mdeditor.tw/dl/1p9aM">吴恩达：不要建立AI先行的企业，而要从任务导向开始 | 专访</a>」 “嘿，大家请以人工智能为先” ，团队就会把重点放在技术上，这也许对一个研究实验室来说挺好的。但做生意时，我一般是以客户或任务为导向，几乎没有以技术为导向过。</font><br><br>&#160;&#160;&#160;&#160;2.阅读「<font color=black><a href="https://blog.csdn.net/qq_23120963/article/details/104654185">HIVE学习三：partition和bucket及Join</a>」提炼出一种Join优化的新思路:Becket Join。<br><br>&#160;&#160;&#160;&#160;分桶类似于Reducer阶段做的Partition工作，用户自行指定桶数，在HDFS上分桶的体现是文件的形式(分区是文件夹)<br><br> &#160;&#160;&#160;&#160;当两个表的连接字段都进行了分桶，并且分桶数是互相的整数倍数的时候（说明分桶的方式是相似的），同时每个桶的大小都小于一个阈值，Hive会启动Bucket Join。在这个过程中，每个Mapper上只需要下载自己这个Bucket所需要的对应Bucket的数据到内存中就可以进行Hash Map Join,并不用启动reducer。但是要注意，Bucket Join的条件严苛，并且有额外的内存开销，并不总是能带来优化。(后续会更新一篇博客细讲)<br><br>&#160;&#160;&#160;&#160;3.阅读「<font color=black><a href="https://zhuanlan.zhihu.com/p/78266517">从一个sql引发的hive谓词下推的全面复盘及源码分析(上)</a>」超级好的文章。<br><br>&#160;&#160;&#160;&#160;4.成功用python发送kafka消息并用flink读取。</p>
-<p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「最终幻想XV 皇家版」最后一章了，还有剧情补充dlc王者之剑，不过感觉dlc有点无聊，考虑跳过。<br></p>
-<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.「指环王:双塔奇兵」草，第二部更爽了，什么时候上第三部啊急死了<br><br>&#160;&#160;&#160;&#160;2.  剧本「蜇蜂之死」量很大，玩起来蛮累的。<br><br>&#160;&#160;&#160;&#160;2.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;算法题没有新题，复习了几道经典题目。<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hive:求每个用户的最大连续登陆天数<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hive:求直播间最大同时在线人数<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Hive:求时间段内开播的直播间人数<br></p>
-]]></content>
-      <categories>
-        <category>周报</category>
-      </categories>
-      <tags>
-        <tag>Logs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>数据仓库中事实表及部分维度表分类</title>
-    <url>/2021/05/01/2021-05-01%E5%91%A8%E6%8A%A5/</url>
-    <content><![CDATA[<p>&#160;&#160;&#160;&#160;数据仓库中总有些特定的事实表和维度表是平时不会去特地提起，但是在实践中离不开的，在《数据仓库工具箱中》,作者把事实表分成了三类，把维度表分成了无数类别(毕竟维度表是数仓的灵魂，与业务场景密切相关)。本文会简单提一下这三类事实表以及几类定义比较冷门的维度表。<br><br><br>&#160;&#160;&#160;&#160;<font size=5><strong>事实表</strong></font><br><br>&#160;&#160;&#160;&#160;1.事务事实表:每条记录一条记录，日期维度是事物发生的周期。<br><br>&#160;&#160;&#160;&#160;一个例子:一张业务系统后台提供的交易表，每一条记录都是一次交易，用trade_time记录交易时间。<br></p>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-23.png width = "55%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">交易事实表</font> 
-</center><br>
-&#160;&#160;&#160;&#160;2.周期快照事实:每个时间段记录一次，日期维度是记录时间段的中止。<br>
-&#160;&#160;&#160;&#160;一个例子:比分说有一张记录销售人员绩效的表，每隔1个小时会计算一次过去一个小时内某销售人员的销售额，则可以把记录时间统计时间作为改事实表的日期维度。<br>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-24.png width = "55%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">销售事实表</font> 
-</center>
-
-<p>&#160;&#160;&#160;&#160;3.累积快照事实表:记录不确定周期的数据，有多个日期维度，首次插入时需要用代理键处理，在未来更新。<br><br>&#160;&#160;&#160;&#160;一个例子:业务方除了提供一张交易表以外，同时还提供了订单完成表。可以把这两张表整合在一次以记录每一笔订单的整个周期<br></p>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-25.png width = "55%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">订单事实表</font> 
-</center>
-
-<p>&#160;&#160;&#160;&#160;<font size=5><strong>维度表</strong></font><br></p>
-<p>&#160;&#160;&#160;&#160;1.微型维度表:提取快速变化的维度，用度量值范围处理的维度表。<br><br>&#160;&#160;&#160;&#160;一个例子:一张用户维度表，其中的”收入”字段变化非常快，为了避免经常更新，用”收入范围”来代替这个维度。<br><br>&#160;&#160;&#160;&#160;2.支架表:把一些常用并且很大的维度做成支架表(比如说日期，地区，时间支架表)。支架表可以连接到维度表，也可以连接到事实表。这里部分支持了范式。也就是说在星型模型中部分使用了雪花模型。<br><br>&#160;&#160;&#160;&#160;一个例子:很多维度表和事实表都有用到日期，没有必要在所有维度表或者事实表中把日期相关的全部维度信息全部展开，不如在一个日期维度表中维度日期信息，这个日期维度表就是桥接表。<br></p>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-27.png width = "55%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">日期支架表使用</font> 
-</center>
-
-<p>&#160;&#160;&#160;&#160;3.桥接表:当维度中出现多属性值时，可以通过桥接表存储多属性信息。<br><br>&#160;&#160;&#160;&#160;一个例子:一个直播事实表的主播信息可能存储一个主播的数组，可以把这个主播组合成一个id,再通过这个桥接表关联到具体的网红和网红信息<br></p>
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-28.png width = "85%" alt=""/>
-    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">主播组合桥接表</font> 
-</center>
-
-]]></content>
-      <categories>
-        <category>BigData</category>
-      </categories>
-      <tags>
-        <tag>DataWareHouse</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2021-05-04周报</title>
-    <url>/2021/05/04/2021-05-04%E5%91%A8%E6%8A%A5/</url>
-    <content><![CDATA[<p>&#160;&#160;&#160;&#160;过了个五一假期，周报晚了…大概一天的样子。倒不如说这周也没什么内容可以放在周报的。回江门过了五一，很多时候我喜欢回江门的原因就是在家里什么都干不了，像时间停滞了一样，永远在吃饭睡觉玩手机循环。买了最新的macbook pro，积蓄也停住了。<br><br><font size=5><strong>Big Data</strong></font><br><br>&#160;&#160;&#160;&#160;1.阅读「<font color=black><a href="https://www.cnblogs.com/estellez/p/10147993.html">深入理解HDFS架构及原理</a>」 这部分主要看HDFS架构和读写原理。HDFS用的是master/slaver架构。又NameNode下达操作命令，DataNode处理存储和具体的读写操作。</font><br><br>&#160;&#160;&#160;&#160;2.阅读「<font color=black><a href="https://www.cnblogs.com/luengmingbiao/p/11333618.html">MapReduce On Yarn</a>」主要是了解一下Hadoop中Yarn是怎么调度MapReduce任务的。<br><br>  <center><br>    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src=/images/pasted-26.png width = "75%" alt=""/><br>    <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">MapReduce On Yarn</font> </p>
-</center>
-
-<p>&#160;&#160;&#160;&#160;3.阅读「<font color=black><a href="https://www.cnblogs.com/bigdatalearnshare/p/13909000.html">Spark和MapReduce对比</a>」<br></p>
-<p><font size=5><strong>Game</strong></font><br><br>&#160;&#160;&#160;&#160;1.「最终幻想XV 皇家版」好傻逼，王者之剑dlc无法切回本体了。我怀疑要坏档。<br></p>
-<p><font size=5><strong>Others</strong></font><br><br>&#160;&#160;&#160;&#160;1.「无敌少侠」很爽的美漫。很看好。<br><br>&#160;&#160;&#160;&#160;2.「莫失莫忘」黑石一雄虽然算是日裔英国人，但这本书真的浓浓日本味…打算其他书也买来看一下。<br><br>&#160;&#160;&#160;&#160;3.做题进度:<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;做了好几道每日一题 and 牛客题，但是机场网很烂，就不登陆看了。</p>
-]]></content>
-      <categories>
-        <category>周报</category>
-      </categories>
-      <tags>
-        <tag>Logs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>阿里十一面血泪经</title>
     <url>/2021/07/21/%E9%98%BF%E9%87%8C%E5%8D%81%E4%B8%80%E9%9D%A2%E8%A1%80%E6%B3%AA%E7%BB%8F/</url>
     <content><![CDATA[<p>&#160;&#160;&#160;&#160;这个文章从我开始编辑到前两两天收到offer为止，已经编辑了两个月了，说是十一面，其实分成了两轮。第一轮面了六面由于工作经验不足最终被hr一票否决，然后换了个同部门的岗位面了五面后才成功拿到offer。<br><br><br>&#160;&#160;&#160;&#160;首先，先介绍一下本人的bg。211本科毕业，在上海某互联网小厂做了一年数仓，辞职准备读墨尔本大学硕士课程。拿到这个岗位的面试真的挺不可思议的。一开始是Boss直聘上有个阿里本地生活的高级开发问我对这个岗位有没有兴趣，由于我一直是做数仓的，JAVA开发基本上处于一知半解的状态，所以很老实地回答自己主要做数仓开发，但是他说没关系可以试试，所以就发了简历。<br><br><br>&#160;&#160;&#160;&#160;<font size=5><strong>简历面(时长15分钟)</strong></font><br><br>&#160;&#160;&#160;&#160;发了简历大概一个星期以后吧，某天早上突然收到了钉钉电话（由于当时刚离职一天，还在床上睡觉，接到电话整个人都是懵的）。本来以为只是简单了解一下情况，约面试时间什么的，没想到对方在简单自我介绍后就直接开始问题目。<br><br>&#160;&#160;&#160;&#160;<strong>题目一:用Hql实现以下查询</strong>:<br><br>&#160;&#160;&#160;&#160;成绩表:table，字端:id-&gt;自增键,uid-&gt;用户ID,date-&gt;交易日期,amount-&gt;交易金额<br><br>&#160;&#160;&#160;&#160;求连续三天交易额增长超过120%的用户    </p>
@@ -542,7 +542,7 @@
 <td></td>
 </tr>
 </tbody></table>
-<p>&#160;&#160;&#160;&#160;<font size=5><strong>一面(时长60分钟)</strong></font><br><br>&#160;&#160;&#160;&#160;突击电话差不多过了四五天吧，又有个杭州的电话打过来，说他们是本地生活的，想约个面试。我一看邮件才发现这个岗位【数据平台JAVA开发专家】，想着我既不是JAVA开发也不是专家，怎么给我安排这个呢？还打电话回去确认了一下是不是弄错了，对方信号不好我也没听清说了什么，结论就是没弄错。最后决定反正不吃亏面面看吧。结果就是被血虐。<br><br>&#160;&#160;&#160;&#160;一面很直接，上来就先做题，发了个做题网站的邮件，里面4道题目。要求尽量在20mins内做完。不过题目都偏简单，也没有算法题。<br><br>&#160;&#160;&#160;&#160;<strong>题目一:JAVA实现单词倒序输出</strong>:<br><br>&#160;&#160;&#160;&#160;例子:输入一个”hello world java”字符串，输出”java world hello”字符串。<br><br>&#160;&#160;&#160;&#160;<strong>题目二:用Hql实现以下查询</strong>:<br><br>&#160;&#160;&#160;&#160;成绩表:table，字端:id-&gt;自增键,class-&gt;交班级,student-&gt;学生id,score-&gt;分数<br><br>&#160;&#160;&#160;&#160;求每个班级排名前10的学生信息。<br></p>
+<p>&#160;&#160;&#160;&#160;<font size=5><strong>一面(时长60分钟)</strong></font><br><br>&#160;&#160;&#160;&#160;突击电话差不多过了四五天吧，又有个杭州的电话打过来，说他们是本地生活的，想约个面试。我一看邮件才发现这个岗位【数据平台JAVA开发专家】，想着我既不是JAVA开发也不是专家，怎么给我安排这个呢？还打电话回去确认了一下是不是弄错了，对方信号不好我也没听清说了什么，结论就是没弄错。最后决定反正不吃亏面面看吧。结果就是被血虐。<br><br>&#160;&#160;&#160;&#160;一面很直接，上来就先做题，发了个做题网站的邮件，里面4道题目。要求尽量在20mins内做完。不过题目都偏简单，也没有算法题。<br><br>&#160;&#160;&#160;&#160;<strong>题目一:JAVA实现单词倒序输出</strong>:<br><br>&#160;&#160;&#160;&#160;例子:输入一个”hello world java”字符串，输出”java world hello”字符串。<br><br>&#160;&#160;&#160;&#160;<strong>题目二:用Hql实现以下查询</strong>:<br><br>&#160;&#160;&#160;&#160;成绩表:table，字端:id-&gt;自增键,class-&gt;交班级,student-&gt;学生id,score-&gt;分数<br><br>&#160;&#160;&#160;&#160;求每个班级排名前10的学生信息。</p>
 <table>
 <thead>
 <tr>

@@ -413,6 +413,97 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lanchao">
+      <meta itemprop="description" content="Lanchao's blog, focusing on big data technology, data warehouse and video game.岚朝的博客,关注大数据技术，数据仓库和电子游戏. ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LanChao-JNU Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/" class="post-title-link" itemprop="url">Hadoop-MapReduce流程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-03-26 12:45:03" itemprop="dateCreated datePublished" datetime="2021-03-26T12:45:03+08:00">2021-03-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-29 11:16:15" itemprop="dateModified" datetime="2021-03-29T11:16:15+08:00">2021-03-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index"><span itemprop="name">BigData</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan: </span>
+    
+    
+      <a title="changyan" href="/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://example.com/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/" class="cy_cmt_count" data-xid="2021/03/26/Hadoop-MapReduce流程/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>&#160;&#160;&#160;&#160;本文主要放一下之前学习mapreduce的笔记。也给自己创造一个再次阅读，巩固的机会。首先声明：本人看的Hadoop源码不多，内容主要摘自各博客，然后自己总结精简得出<br><br>￼<br><img src="/images/pasted-6.png" alt="upload successful"><br>&#160;&#160;&#160;&#160;MapReduce包括Mapper（Mapper类)阶段和Reducer(Reducer类)阶段，其实说白了就是两个实现类，其中Map阶段和Reduce阶段都包含部分Shuffle阶段工作，因此也有人把mapreduce流程说成map-&gt;shuffle-&gt;reduce。</p>
+<p><font size=5><strong>Map阶段</strong></font><br>&#160;&#160;&#160;&#160;1.输入分片 input split: 一个大的文件会根据block块切分成多个分片(这里生成多少个分片可以是用户自定义的，只需要通过hive参数设定每个block的大小即可)。每个输入分片会让一个map进程来处理。<br>&#160;&#160;&#160;&#160;2.Map任务:<br>&#160;&#160;&#160;&#160; i. 初始化: 创建context，map.class实例，设置输入输出，创建mapper的上下文Map 任务把分片传递给 TaskTracker 里面的 InputFormat类的 createRecordReader() 方法以便获取分片的 RecordReader 对象,由RecordReader读取分片数据并转成键值对形式。<br>&#160;&#160;&#160;&#160;ii. 执行:  执行 Mapper class.的run()方法，这个方法可以被重写，对每个分片里的数据执行一样的方法。(比如说 给每个key生成一个value=1)<br>3.shuffle(Map端):<br>&#160;&#160;&#160;&#160;i.溢写:map会使用Mapper.Context.write()将map函数的输出溢写到内存中的环形缓冲区，同时调用Partitioner类对数据分区，每一个分区对应一个reducer。当缓冲区即将充满(80%)，溢写会被执行(并行，缓冲区可以继续写入，当溢写未完成而缓冲区已满，map会停止写入内存)具体过程<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.创建一个溢写记录SpillRecord 和一个FSOutputStream 文件输出流（本地文件系统）<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.内存内排序缓冲中的块：输出的数据会使用快排算法按照partitionIdx, key排序<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.分区序列化写到磁盘,序列化(快排)之前可进行combiner(可选)，方便排序<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;d.merge合并溢写文件,如果合并后文件较大，可以再进行一次combiner<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;e.再进行一次Partitioner对数据分区 (为什么要两次呢,因为这个时候可能进行了两次combiner,应该分配到每个reducer上的数据出现变化)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii. combiner合并阶段(可选,有两次触发时机):简单地合并key值<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.减少传到reducer的数据量（即通过减少key-value对减少网络传输)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.减轻reducer的负担<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.缺点 job没有依赖，有磁盘io开销<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iii.Partitioner(补充): <br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.Hadoop Mapreduce默认的Partitioner是Hash Partitioner,对key计算hash值并分区<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.TotalOrderPartitioner 按照数据大小分区 常用于全局排序 按照大小将数据分成多个区间，后一个区间的数据一定大于前一个区间<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c. Partitioner可以被重写，克服低效分区，解决数据倾斜和全局排序问题<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iv. 排序原因:<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.方便reducer找到自己分区的数据<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; b.减轻reducer中排序负担<br><br><font size=5><strong>Reduce阶段</strong></font><br>&#160;&#160;&#160;&#160;1.shuffle(Reduce端):<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;i.copy: Reduce端并行的从多个map下载该reduce对应的partition部分数据（通过HTTP)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii.merge(内存到磁盘): Reduce将map结果下载到本地时，需要把多个mapper输入流合并成一个,一直在进行，直到从map下载数据完毕。<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iii.split: Reduce对下载下来的map数据，会先缓存在内存中,当内存达到一定用量时写入硬盘(这里也可以进行combiner)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iv.merge(磁盘到磁盘)：map数据下载过程中，一个后台线程把这些文件合并为更大的，有序的文件，也就是进行全局排序，为最后的最终合并减少工作量(多轮)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;v. 最终merge(方式不确定): map数据下载完毕后，所有数据被合并成一个整体有序的文件作为Reduce的输入。有可能是都来自于硬盘，有可能都来自于内存，也有可能两边都有<br>&#160;&#160;&#160;&#160;2.Reduce任务:<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;i.自己实现逻辑 Map阶段的map方法类似 通常做聚合操作<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii.OutputCollector.collect() 方法把 reduce 任务的输出结果写到 HDFS</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/26/%E6%9C%80%E7%BB%88%E5%B9%BB%E6%83%B37%E9%87%8D%E7%BD%AE%E7%89%88-%E5%86%99%E5%9C%A8%E9%80%9A%E5%85%B3%E5%90%8E%E7%9A%84%E7%AC%AC329%E5%A4%A9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -522,91 +613,6 @@
     src=/images/pasted-15.png width = "75%" alt=""/>
     <font style="font-size:14px;color:#C0C0C0;text-decoration:underline">爱丽丝之死</font> 
 </center>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Lanchao">
-      <meta itemprop="description" content="Lanchao's blog, focusing on big data technology, data warehouse and video game.岚朝的博客,关注大数据技术，数据仓库和电子游戏. ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LanChao-JNU Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/" class="post-title-link" itemprop="url">Hadoop-MapReduce流程</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2021-03-26 12:45:03 / Modified: 16:54:37" itemprop="dateCreated datePublished" datetime="2021-03-26T12:45:03+08:00">2021-03-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index"><span itemprop="name">BigData</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan: </span>
-    
-    
-      <a title="changyan" href="/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://example.com/2021/03/26/Hadoop-MapReduce%E6%B5%81%E7%A8%8B/" class="cy_cmt_count" data-xid="2021/03/26/Hadoop-MapReduce流程/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>&#160;&#160;&#160;&#160;本文主要放一下之前学习mapreduce的笔记。也给自己创造一个再次阅读，巩固的机会。首先声明：本人看的Hadoop源码不多，内容主要摘自各博客，然后自己总结精简得出<br><br>￼<br><img src="/images/pasted-6.png" alt="upload successful"><br>&#160;&#160;&#160;&#160;MapReduce包括Mapper（Mapper类)阶段和Reducer(Reducer类)阶段，其实说白了就是两个实现类，其中Map阶段和Reduce阶段都包含部分Shuffle阶段工作，因此也有人把mapreduce流程说成map-&gt;shuffle-&gt;reduce。</p>
-<p><font size=5><strong>Map阶段</strong></font><br>&#160;&#160;&#160;&#160;1.输入分片 input split: 一个大的文件会根据block块切分成多个分片(这里生成多少个分片可以是用户自定义的，只需要通过hive参数设定每个block的大小即可)。每个输入分片会让一个map进程来处理。<br>&#160;&#160;&#160;&#160;2.Map任务:<br>&#160;&#160;&#160;&#160; i. 初始化: 创建context，map.class实例，设置输入输出，创建mapper的上下文Map 任务把分片传递给 TaskTracker 里面的 InputFormat类的 createRecordReader() 方法以便获取分片的 RecordReader 对象,由RecordReader读取分片数据并转成键值对形式。<br>&#160;&#160;&#160;&#160;ii. 执行:  执行 Mapper class.的run()方法，这个方法可以被重写，对每个分片里的数据执行一样的方法。(比如说 给每个key生成一个value=1)<br>3.shuffle(Map端):<br>&#160;&#160;&#160;&#160;i.溢写:map会使用Mapper.Context.write()将map函数的输出溢写到内存中的环形缓冲区，同时调用Partitioner类对数据分区，每一个分区对应一个reducer。当缓冲区即将充满(80%)，溢写会被执行(并行，缓冲区可以继续写入，当溢写未完成而缓冲区已满，map会停止写入内存)具体过程<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.创建一个溢写记录SpillRecord 和一个FSOutputStream 文件输出流（本地文件系统）<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.内存内排序缓冲中的块：输出的数据会使用快排算法按照partitionIdx, key排序<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.分区序列化写到磁盘,序列化(快排)之前可进行combiner(可选)，方便排序<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;d.merge合并溢写文件,如果合并后文件较大，可以再进行一次combiner<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;e.再进行一次Partitioner对数据分区 (为什么要两次呢,因为这个时候可能进行了两次combiner,应该分配到每个reducer上的数据出现变化)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii. combiner合并阶段(可选,有两次触发时机):简单地合并key值<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.减少传到reducer的数据量（即通过减少key-value对减少网络传输)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.减轻reducer的负担<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.缺点 job没有依赖，有磁盘io开销<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iii.Partitioner(补充): <br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.Hadoop Mapreduce默认的Partitioner是Hash Partitioner,对key计算hash值并分区<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;b.TotalOrderPartitioner 按照数据大小分区 常用于全局排序 按照大小将数据分成多个区间，后一个区间的数据一定大于前一个区间<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c. Partitioner可以被重写，克服低效分区，解决数据倾斜和全局排序问题<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iv. 排序原因:<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;a.方便reducer找到自己分区的数据<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; b.减轻reducer中排序负担<br><br><font size=5><strong>Reduce阶段</strong></font><br>&#160;&#160;&#160;&#160;1.shuffle(Reduce端):<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;i.copy: Reduce端并行的从多个map下载该reduce对应的partition部分数据（通过HTTP)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii.merge(内存到磁盘): Reduce将map结果下载到本地时，需要把多个mapper输入流合并成一个,一直在进行，直到从map下载数据完毕。<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iii.split: Reduce对下载下来的map数据，会先缓存在内存中,当内存达到一定用量时写入硬盘(这里也可以进行combiner)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;iv.merge(磁盘到磁盘)：map数据下载过程中，一个后台线程把这些文件合并为更大的，有序的文件，也就是进行全局排序，为最后的最终合并减少工作量(多轮)<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;v. 最终merge(方式不确定): map数据下载完毕后，所有数据被合并成一个整体有序的文件作为Reduce的输入。有可能是都来自于硬盘，有可能都来自于内存，也有可能两边都有<br>&#160;&#160;&#160;&#160;2.Reduce任务:<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;i.自己实现逻辑 Map阶段的map方法类似 通常做聚合操作<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ii.OutputCollector.collect() 方法把 reduce 任务的输出结果写到 HDFS</p>
-
       
     </div>
 
@@ -741,7 +747,7 @@
 </tbody></table>
 <p>&#160;&#160;&#160;&#160;三.具体实现:<br><br>&#160;&#160;&#160;&#160;根据mapreduce的工作原理，我们可以画一张流程图。把iterate想象成map()函数，merge想象成combine(),terminate想象成reduce()函数。</p>
 <p><img src="/images/pasted-1.png" alt="upload successful"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">代码如下</span><br><span class="line">package com.yupaopao.udaf;</span><br><span class="line"></span><br><span class="line">import com.aliyun.odps.io.Text;</span><br><span class="line">import com.aliyun.odps.io.Writable;</span><br><span class="line">import com.aliyun.odps.udf.UDFException;</span><br><span class="line">import com.aliyun.odps.udf.Aggregator;</span><br><span class="line">import com.aliyun.odps.udf.annotation.Resolve;</span><br><span class="line">import java.io.DataInput;</span><br><span class="line">import java.io.DataOutput;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 定义输入输出类型</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Resolve(&#123;&quot;String-&gt;String&quot;&#125;)</span><br><span class="line">public class GroupConcat extends Aggregator &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 继承Writable接口 自定义buffer进行序列化</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private static class GroupConcatBuffer implements Writable &#123;</span><br><span class="line">        private String str &#x3D; &quot;&quot;;</span><br><span class="line">        @Override</span><br><span class="line">        public void write(DataOutput out) throws IOException &#123;</span><br><span class="line">            out.writeChars(str);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;**</span><br><span class="line">         * Writable的readFields方法， 由于partial的writable对象是重用的，</span><br><span class="line">         * 同一个对象的readFields方法会被调用多次。该方法每次调用的时候重置整个对象，如果对象中包含Collection，则需要清空。</span><br><span class="line">         *&#x2F;</span><br><span class="line">        @Override</span><br><span class="line">        public void readFields(DataInput in) throws IOException &#123;</span><br><span class="line">            str &#x3D; in.readLine();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 声明最终结果变量</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private Text ret &#x3D; new Text();</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 创建初始返回结果的值</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Writable newBuffer() &#123;</span><br><span class="line">        return new GroupConcat.GroupConcatBuffer();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * @param buffer 为一个阶段的汇总数据(在不同map()中汇总出来的group by数据)</span><br><span class="line">     * @param args 表示一行数据 其中args[0]表示传入的第一列(一般仅传入一列)</span><br><span class="line">     * 每次新增一条数据 就把传入的列放入目前已有的累积字符串中。</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public void iterate(Writable buffer, Writable[] args) throws UDFException &#123;</span><br><span class="line">        Text arg &#x3D; (Text) args[0];</span><br><span class="line">        GroupConcat.GroupConcatBuffer buf &#x3D; (GroupConcat.GroupConcatBuffer) buffer;</span><br><span class="line">        if (arg !&#x3D; null) &#123;</span><br><span class="line">            buf.str&#x3D;buf.str+arg+&quot;,&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * @param buffer  聚合buffer</span><br><span class="line">     * @param partial 其他分片聚合结果</span><br><span class="line">     * 在这个方法中，对不同map()的结果进行汇总</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public void merge(Writable buffer, Writable partial) throws UDFException &#123;</span><br><span class="line">        GroupConcat.GroupConcatBuffer buf &#x3D; (GroupConcat.GroupConcatBuffer) buffer;</span><br><span class="line">        GroupConcat.GroupConcatBuffer p &#x3D; (GroupConcat.GroupConcatBuffer) partial;</span><br><span class="line">        buf.str &#x3D; buf.str+ p.str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 设置最终结果，同时把留在最后面的逗号去掉。</span><br><span class="line">     * @param buffer</span><br><span class="line">     * @return Object UDAF的最终结果</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Writable terminate(Writable buffer) throws UDFException &#123;</span><br><span class="line">        GroupConcatBuffer buf &#x3D; (GroupConcatBuffer) buffer;</span><br><span class="line">        if (buf.str&#x3D;&#x3D;&quot;&quot;)&#123;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            String result &#x3D; buf.str.substring(0, buf.str.length()-1);</span><br><span class="line">            ret.set(result);</span><br><span class="line">        &#125;</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">代码如下</span><br><span class="line"><span class="keyword">package</span> com.yupaopao.udaf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.aliyun.odps.io.Text;</span><br><span class="line"><span class="keyword">import</span> com.aliyun.odps.io.Writable;</span><br><span class="line"><span class="keyword">import</span> com.aliyun.odps.udf.UDFException;</span><br><span class="line"><span class="keyword">import</span> com.aliyun.odps.udf.Aggregator;</span><br><span class="line"><span class="keyword">import</span> com.aliyun.odps.udf.annotation.Resolve;</span><br><span class="line"><span class="keyword">import</span> java.io.DataInput;</span><br><span class="line"><span class="keyword">import</span> java.io.DataOutput;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 定义输入输出类型</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Resolve(&#123;&quot;String-&gt;String&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GroupConcat</span> <span class="keyword">extends</span> <span class="title">Aggregator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 继承Writable接口 自定义buffer进行序列化</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">GroupConcatBuffer</span> <span class="keyword">implements</span> <span class="title">Writable</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String str = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(DataOutput out)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">            out.writeChars(str);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Writable的readFields方法， 由于partial的writable对象是重用的，</span></span><br><span class="line"><span class="comment">         * 同一个对象的readFields方法会被调用多次。该方法每次调用的时候重置整个对象，如果对象中包含Collection，则需要清空。</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readFields</span><span class="params">(DataInput in)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">            str = in.readLine();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 声明最终结果变量</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Text ret = <span class="keyword">new</span> Text();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建初始返回结果的值</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Writable <span class="title">newBuffer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> GroupConcat.GroupConcatBuffer();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> buffer 为一个阶段的汇总数据(在不同map()中汇总出来的group by数据)</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> args 表示一行数据 其中args[0]表示传入的第一列(一般仅传入一列)</span></span><br><span class="line"><span class="comment">     * 每次新增一条数据 就把传入的列放入目前已有的累积字符串中。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">iterate</span><span class="params">(Writable buffer, Writable[] args)</span> <span class="keyword">throws</span> UDFException </span>&#123;</span><br><span class="line">        Text arg = (Text) args[<span class="number">0</span>];</span><br><span class="line">        GroupConcat.GroupConcatBuffer buf = (GroupConcat.GroupConcatBuffer) buffer;</span><br><span class="line">        <span class="keyword">if</span> (arg != <span class="keyword">null</span>) &#123;</span><br><span class="line">            buf.str=buf.str+arg+<span class="string">&quot;,&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> buffer  聚合buffer</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> partial 其他分片聚合结果</span></span><br><span class="line"><span class="comment">     * 在这个方法中，对不同map()的结果进行汇总</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(Writable buffer, Writable partial)</span> <span class="keyword">throws</span> UDFException </span>&#123;</span><br><span class="line">        GroupConcat.GroupConcatBuffer buf = (GroupConcat.GroupConcatBuffer) buffer;</span><br><span class="line">        GroupConcat.GroupConcatBuffer p = (GroupConcat.GroupConcatBuffer) partial;</span><br><span class="line">        buf.str = buf.str+ p.str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置最终结果，同时把留在最后面的逗号去掉。</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> buffer</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Object UDAF的最终结果</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Writable <span class="title">terminate</span><span class="params">(Writable buffer)</span> <span class="keyword">throws</span> UDFException </span>&#123;</span><br><span class="line">        GroupConcatBuffer buf = (GroupConcatBuffer) buffer;</span><br><span class="line">        <span class="keyword">if</span> (buf.str==<span class="string">&quot;&quot;</span>)&#123;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            String result = buf.str.substring(<span class="number">0</span>, buf.str.length()-<span class="number">1</span>);</span><br><span class="line">            ret.set(result);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
