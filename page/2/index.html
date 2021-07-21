@@ -164,6 +164,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/01/ClickHouse%E4%B8%AD%E7%9A%84%E5%87%A0%E7%A7%8DJOIN%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lanchao">
+      <meta itemprop="description" content="Lanchao's blog, focusing on big data technology, data warehouse and video game.岚朝的博客,关注大数据技术，数据仓库和电子游戏. ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LanChao-JNU Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/01/ClickHouse%E4%B8%AD%E7%9A%84%E5%87%A0%E7%A7%8DJOIN%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">ClickHouse中的几种JOIN方式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-04-01 12:49:00 / Modified: 13:54:11" itemprop="dateCreated datePublished" datetime="2021-04-01T12:49:00+08:00">2021-04-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BigData/" itemprop="url" rel="index"><span itemprop="name">BigData</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan: </span>
+    
+    
+      <a title="changyan" href="/2021/04/01/ClickHouse%E4%B8%AD%E7%9A%84%E5%87%A0%E7%A7%8DJOIN%E6%96%B9%E5%BC%8F/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://example.com/2021/04/01/ClickHouse%E4%B8%AD%E7%9A%84%E5%87%A0%E7%A7%8DJOIN%E6%96%B9%E5%BC%8F/" class="cy_cmt_count" data-xid="2021/04/01/ClickHouse中的几种JOIN方式/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>&#160;&#160;&#160;&#160;ClickHouse中的SQL很多时候跟MySQL的访问协议是不兼容的，个人在使用的时候感觉大概有20%的SQL语法有区别。今天主要讲讲ClickHouse支持的所有JOIN方式，其中有跟MySQL一样的，也有一些ClickHouse独家支持的。<br><br>&#160;&#160;&#160;&#160;<font size=5><strong>Join方式汇总</strong></font><br><br>&#160;&#160;与MySQL一致: INNER JOIN, LEFT OUTER JOIN, RIGHT OUTER JOIN, FULL OUTER JOIN,CROSS JOIN<br><br>&#160;&#160;&#160;&#160;与HIVE一致: LEFT SEMI JOIN, RIGHT SEMI JOIN<br><br>&#160;&#160;&#160;&#160;ClickHouse独家支持: LEFT ANY JOIN / RIGHT ANY JOIN / ANY JOIN, LEFT ASOF JOIN / ASOF JOIN, GLOBAL JOIN<br><br>&#160;&#160;&#160;&#160;<font size=5><strong>Join方式详解</strong></font><br><br>&#160;&#160;&#160;&#160;1.<strong>INNER JOIN</strong>: 只返回左右表中key都匹配的行。同MySQL一样。<br><br>&#160;&#160;&#160;&#160;2.<strong>LEFT OUTER JOIN</strong>: 除了匹配的行之外，还返回左表中的非匹配行，同MySQL一样。<br><br>&#160;&#160;&#160;&#160;3.<strong>RIGHT OUTER JOIN</strong>: 除了匹配的行之外，还返回右表中的非匹配行，同MySQL一样。<br><br>&#160;&#160;&#160;&#160;4.<strong>FULL OUTER JOIN</strong>: 除了匹配的行之外，还会返回两个表中的非匹配行。同MySQL一样。<br><br>&#160;&#160;&#160;&#160;5.<strong>CROSS JOIN</strong>: 产生整个表的笛卡尔积，不需要指定join key。同MySQL一样。<br><br>&#160;&#160;&#160;&#160;6.<strong>LEFT SEMI JOIN</strong>: 返回左表中所有能和右表的join key匹配的行，不产生笛卡尔积(相当于 in 右表子查询 )。同Hive一样。<br></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">LEFT</span> SEMI <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">where</span> tab1.id <span class="keyword">in</span> (<span class="keyword">select</span> id <span class="keyword">from</span> tab2)</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;7.<strong>RIGHT SEMI JOIN</strong>: 返回右表中所有能和左表的join key匹配的行，不产生笛卡尔积(相当于 in 左表子查询 )。同Hive一样。<br></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">RIGHT</span> SEMI <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab2 <span class="keyword">where</span> tab2.id <span class="keyword">in</span> (<span class="keyword">select</span> id <span class="keyword">from</span> tab1)</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;8.<strong>LEFT SEMI JOIN</strong>: 返回右表中所有能和左表的join key匹配的行，不产生笛卡尔积(相当于 in 左表子查询 )。同Hive一样。<br></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">RIGHT</span> SEMI <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab2 <span class="keyword">where</span> tab2.id <span class="keyword">in</span> (<span class="keyword">select</span> id <span class="keyword">from</span> tab1)</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;9.<strong>LEFT ANY JOIN / RIGHT ANY JOIN / ANY JOIN</strong>: 连接两表，出现笛卡尔积的时候最多只返回2条。Clickhouse特性。<br></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">ANY</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于HIVE</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> </span><br><span class="line">(</span><br><span class="line">	<span class="keyword">select</span> <span class="operator">*</span>，</span><br><span class="line">    <span class="built_in">row_number</span>()<span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> tab1.id) <span class="keyword">as</span> rn </span><br><span class="line">    <span class="keyword">from</span> tab1 </span><br><span class="line">    <span class="keyword">JOIN</span> tab2 </span><br><span class="line">    <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line">)<span class="keyword">where</span> rn<span class="operator">&lt;=</span><span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;10.<strong>LEFT ASOF JOIN / ASOF JOIN</strong>: 连接两表，接受不等值连接。Clickhouse特性。<br></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">ANY</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">&lt;=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于HIVE</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">ANY</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">&lt;=</span>tab2.id</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;11.<strong>GLOBAL JOIN</strong>: 分布式连接。Clickhouse特性。<br><br>&#160;&#160;&#160;&#160;讲GLOBAL JOIN的时候必须讲讲GLOBAL JOIN和普通JOIN的执行区别。<br><br>&#160;&#160;&#160;&#160;当使用正常 JOIN，将查询发送到远程服务器。 为了创建正确的表，在每个子查询上运行子查询，并使用此表执行联接。换句话说，在每个服务器上单独形成右表。子查询将开始在每个远程服务器上运行。由于子查询使用分布式表，所以每个远程服务器上的子查询将会对每个远程服务器都感到不满，如果您有一个100个服务器集群，执行整个查询将需要10000个基本请求，这通常被认为是不可接受的举个例子。下面用SQL的形式讲解。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>一个普通的<span class="keyword">join</span>，分布式查询发起。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>发送到每个远程服务器上，每个远程服务器生成右表，分布式查询替换成远程服务器查询。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1_local <span class="keyword">JOIN</span> tab2_local <span class="keyword">on</span> tab1_local.id<span class="operator">=</span>tab2_local.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>因为每个远程服务器中的可能没有所有数据，所以每个远程服务器中生成的右表都不完整，这个时候该服务器需要向除自己外的所有远程服务器请求右表中的其余数据，才能完整地连接本服务器上的所有数据(这里觉得不好理解的话，可以想一下map<span class="operator">-</span>reduce中的common <span class="keyword">join</span>，为什么必须启动reduce来完成),因此这个时候就产生了远程服务器数<span class="operator">^</span><span class="number">2</span>的请求数。</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;而使用GLOBAL JOIN时，首先请求者服务器运行查询并创建一个临时表（右表）。 此临时表将传递到每个远程服务器，并使用传输的临时数据对其运行连接。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>一个<span class="keyword">global</span> <span class="keyword">join</span>，分布式查询发起。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">global</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>请求服务器先生成一个完整的右表临时表。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab </span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>该右表这里命名为tmp_tab,然后发送到所有的远程服务器上。然后每个远程服务器运行。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">JOIN</span> tmp_tab <span class="keyword">on</span> tab1.id<span class="operator">=</span>tmp_tab.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>这个时候每个远程服务器中的左表都能完整地连接右表，然后再进行后续的合并。(这里觉得不好理解的话，可以想一下map<span class="operator">-</span>reduce中的hash <span class="keyword">join</span>是怎么不启动reduce完成<span class="keyword">join</span>的。)</span><br></pre></td></tr></table></figure>
+<p>&#160;&#160;&#160;&#160;建议在Clickhouse中不要使用普通的join，直接替换成GLOBAL JOIN即可。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/30/%E7%BC%93%E6%85%A2%E5%8F%98%E5%8C%96%E7%BB%B4%E7%9A%84%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -841,7 +939,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

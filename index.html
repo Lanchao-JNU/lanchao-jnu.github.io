@@ -164,6 +164,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/21/%E5%BE%AE%E8%BD%AF%E8%8B%8F%E5%B7%9EData-and-Applied-Scientist-2%E2%80%8C%E9%9D%A2%E7%BB%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Lanchao">
+      <meta itemprop="description" content="Lanchao's blog, focusing on big data technology, data warehouse and video game.岚朝的博客,关注大数据技术，数据仓库和电子游戏. ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LanChao-JNU Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/21/%E5%BE%AE%E8%BD%AF%E8%8B%8F%E5%B7%9EData-and-Applied-Scientist-2%E2%80%8C%E9%9D%A2%E7%BB%8F/" class="post-title-link" itemprop="url">微软苏州Data and Applied Scientist 2‌六面面经</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-07-21 14:07:01 / Modified: 15:11:05" itemprop="dateCreated datePublished" datetime="2021-07-21T14:07:01+08:00">2021-07-21</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Changyan: </span>
+    
+    
+      <a title="changyan" href="/2021/07/21/%E5%BE%AE%E8%BD%AF%E8%8B%8F%E5%B7%9EData-and-Applied-Scientist-2%E2%80%8C%E9%9D%A2%E7%BB%8F/#SOHUCS" itemprop="discussionUrl">
+        <span id="url::http://example.com/2021/07/21/%E5%BE%AE%E8%BD%AF%E8%8B%8F%E5%B7%9EData-and-Applied-Scientist-2%E2%80%8C%E9%9D%A2%E7%BB%8F/" class="cy_cmt_count" data-xid="2021/07/21/微软苏州Data-and-Applied-Scientist-2‌面经/" itemprop="commentCount"></span>
+      </a>
+    
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>&#160;&#160;&#160;&#160;总的来说微软的面试跟国内互联网公司面试风格是很不一样的，差异主要集中在hr的参与度，算法重要性的比重和面试流程上。<br></p>
+<p>&#160;&#160;&#160;&#160;首先跟国内其他互联网公司不同，微软hr的第一个电话聊的内容会比较多，包括团队文化，团队技术栈，公司业务，职业规划甚至苏州这个城市状况都会跟你简单的聊一聊，同时还会提醒你要进行面试注重算法，要进行算法题的准备。聊完了会跟你约一面。由于我在上海，所以面试全程为线上面试。<br></p>
+<p>&#160;&#160;&#160;&#160;<font size=5><strong>一面(时长60分钟)</strong></font><br><br>&#160;&#160;&#160;&#160;微软的面试真的特别直接，上来做个简单的自我介绍就直接进入正题。一面给我出了道比较简单的题。首先给我发了个在线编辑文档的链接，引导着我回忆了下搜索二叉树和AVL树的基础知识，然后给出一颗搜索二叉树，让我返回一个这棵树的AVL树。这道题的原型是leetcode1382，中等难度题，我没做过，一开始画了不少时间构思，最后用层序遍历+排序+递归差不多20分钟做出来了。做出来后对方要求进行优化，我又原地思考了5分钟后发现搜索二叉树的中序遍历是有序的，把层序遍历替换成中序遍历可以节省排序的时间。赶紧写了个递归实现中序遍历出来，结果对方又要求不能用递归。因为以前递归中序遍历写管了，非递归的栈实现方式想了差不多15分钟。。。好在最后还是做出来了，然后计算了一下时间复杂度。这一轮没什么好说的，基本上算法题写出来就能过。<br><br>&#160;&#160;&#160;&#160;微软是这样的，如果过了一面，后面就会有五面，这五面是相对独立的，由五个面试官分别独立决定给不给予通过，就算有一面发挥不好也有被雇佣的可能性。面完一面差不多10分钟hr就通知我通过了，同时约了后面的五轮面试（都在同一天）。</p>
+<p>&#160;&#160;&#160;&#160;<font size=5><strong>二面(时长60分钟)</strong></font><br><br>&#160;&#160;&#160;&#160;面试官差不多迟到了20分钟，所以上来简单自我介绍就直接开始写算法了。<br></p>
+<p>&#160;&#160;&#160;&#160;<strong>题目一:二叉树的锯齿形层序遍历</strong>:<br><br>&#160;&#160;&#160;&#160;leetcode原题，leetcode103。也是一道经典题，想起来上次面试字节也出了这道题，硬是被面试官教会了。这次就不是在共享文档里面了，对方要求共享屏幕，直接在ide里面写，所以也会要求编译结果正确。由于我以前做过，所以大概10分钟写出来，但是双端队列的api想不起来。。。就写了个队列代替。可能因为做得比较快，面试官要求不能用双端队列怎么做。本来想用数组的，但是感觉有点傻，没说出来。最后面试官也说可以用数组，这个问题就是她想看看leetcode之外的方法…然后还是老规矩，计算时间复杂度。因为这个时候只剩下10分钟了所以就问了项目。<br></p>
+<p>&#160;&#160;&#160;&#160;<font size=5><strong>三面(时长60分钟)</strong></font><br><br>&#160;&#160;&#160;&#160;三面面试官就在边上，我去喝了口水就直接开始三面了。上来也是算法题伺候。<br></p>
+<p>&#160;&#160;&#160;&#160;<strong>题目一:2个一组反转链表</strong>:<br><br>&#160;&#160;&#160;&#160;leetcode的题目改了一下，稍微降低了难度。原型题是leetcode25，hard题。这题我以前一直写不出来，所以在leetcode上写了两遍，在牛客上写了一遍，可以说是炉火纯青。难点在于指针的变化。差不多写了10分钟ac了吧，对方有点惊讶，说既然这么快那再做道难点的吧。<br></p>
+<p>&#160;&#160;&#160;&#160;<strong>题目二:按小大小对数组进行排序</strong>:<br><br>&#160;&#160;&#160;&#160;这题没见过，可能leetcode有原题但是我没搜到，简单来说就是输入一个数组，比如说输入[1,1,1,4,5,6]，对这个数组进行排序，使得数组里的元素顺序为小大小大小…比如[1,4,1,5,1,6]。我的思路是先对数组进行排序，创建一个新数组，双数位置从前往后扫描原数组，单数从后往前。但是对方立马给我一个反例[4,5,5,6]。然后我就卡住了，最后面试官给了提示双数位置可以从中间往前扫描才ac出来。做完题目就是问项目，微软的问项目就是只问项目，很少问项目里的技术八股文。<br></p>
+<p>&#160;&#160;&#160;&#160;<font size=5><strong>四面(时长60分钟)</strong></font><br><br>&#160;&#160;&#160;&#160;早上两面面完已经累疯了，赶紧睡一觉继续。下午第四面又是一个女面试官，简单自我介绍后就是共享屏幕写算法题。<br></p>
+<p>&#160;&#160;&#160;&#160;<strong>题目一: 岛屿数量</strong>:<br><br>&#160;&#160;&#160;&#160;leetcode原题，leetcode200，中等难度。这题我记得我初见就ac了，（我觉得）特别简单，辅助数组+bfs就完事，大概写了10分钟运行了一下ac了，还顺便计算了时间复杂度。对方有点被惊到，让我说实话是不是做过（当然不承认），还问我刷了多少题了，是不是现在大家都知道面微软要刷算法。然后看时间还多就让我再做一道题。<br></p>
+<p>&#160;&#160;&#160;&#160;<strong>题目二: 回文数</strong>:<br><br>&#160;&#160;&#160;&#160;leetcode原题，leetcode9，简单难度。没啥好说的，写了五分钟ac。然后问我能不能再优化，我想了一个优化的方式初步得写了一下，虽然没有ac，但是对方觉得思路没问题就过了（她说这个表现已经完全ok了，问这个只是想为难我一下），然后就是随便聊了聊项目，最后发现她不在我应聘的组里，所以其实也没什么好聊的。<br></p>
+<p>&#160;&#160;&#160;&#160;<font size=5><strong>五面(时长60分钟)</strong></font><br><br>&#160;&#160;&#160;&#160;微软面试真的车轮战一样，四面刚结束水都没喝五面就开始了。这轮就没之前的面试那么幸运了，先是聊了很久的项目，老实说感觉聊的点不在一个。对方很关心我之前的数据同步工作，但那个工作就是体力活也没啥好探究的。接着出了一道系统设计，2个t流式点击数据，10台memory为256disk无限的机器，要怎么设计这个系统来支撑数据使用（双维度查询）。系统设计我完全没有接触过，这个问题也是一脸懵逼直接说不会，对方显然有点失望。然后给了一道算法题。<br></p>
+<p>&#160;&#160;&#160;&#160;<strong>题目一: 判断两个数是否除得尽</strong>:<br><br>&#160;&#160;&#160;&#160;leetcode没找到，估计是原创题。输入是两个整数。如果这两个数能除得尽输出除数，否则输出无尽循环小数的循环部分。这题完全没思路，最后面试官提示可以使用人工除法的思路，勉强想出了用set存储余数的思路，但是已经没有时间代码实现了。</p>
+<p>&#160;&#160;&#160;&#160;<font size=5><strong>六面(时长60分钟)</strong></font><br><br>&#160;&#160;&#160;&#160;六面的时候我已经累坏了，加上前一轮面的不好，所以整个人都有点懵。面试官似乎是部门的老板，全程用英文。我本来就有点晕乎乎的，还被要求用英文做自我介绍和介绍项目。这个还能勉强做，最绝望的部门是让我用英文介绍clickhouse的原理，我直接开始胡编乱造。然后一顿牛头不对马嘴的交流之后，给了我一道题。我直接进入状态，想着英文不行我算法还是可以撑一撑场面的。</p>
+<p>&#160;&#160;&#160;&#160;<strong>题目一: Compiler design</strong>:<br><br>&#160;&#160;&#160;&#160;题目我随便起的，总之是一道依赖相关的题。就是假设有这么几个Compiler，他们的依赖关系如下。{lib0:null,lib1:null,lib2:lib1,lib0,lib3:lib1,lib2}，要求进行Compiler design。数据结构自定。<br>&#160;&#160;&#160;&#160;拿到这道题我是懵的，我都不知道要干嘛，所以打算把compiler按照顺序放进list里。写完面试官才说这是一道系统设计题不是算法题，要从多线程，阻塞，循环依赖等角度考虑，我？？？然后面试就结束了，这次面试的体验。。。实在一言难尽。</p>
+<p>&#160;&#160;&#160;&#160;总之微软苏州的面试就这么结束了，不得不说外企的面试还是难啊，但是也有体会到很多轮次里面几乎就只考察算法能力，算法写出来基本上等于面试通过。但与此同时也有国内互联网公司没问过的系统设计题，这方面后续还要进行准备，现在确实不了解。希望明年后年冲击微软能更有自信一些。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/21/%E9%98%BF%E9%87%8C%E5%8D%81%E4%B8%80%E9%9D%A2%E8%A1%80%E6%B3%AA%E7%BB%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1198,104 +1288,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/04/01/ClickHouse%E4%B8%AD%E7%9A%84%E5%87%A0%E7%A7%8DJOIN%E6%96%B9%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Lanchao">
-      <meta itemprop="description" content="Lanchao's blog, focusing on big data technology, data warehouse and video game.岚朝的博客,关注大数据技术，数据仓库和电子游戏. ">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LanChao-JNU Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/01/ClickHouse%E4%B8%AD%E7%9A%84%E5%87%A0%E7%A7%8DJOIN%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">ClickHouse中的几种JOIN方式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2021-04-01 12:49:00 / Modified: 13:54:11" itemprop="dateCreated datePublished" datetime="2021-04-01T12:49:00+08:00">2021-04-01</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/BigData/" itemprop="url" rel="index"><span itemprop="name">BigData</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Changyan: </span>
-    
-    
-      <a title="changyan" href="/2021/04/01/ClickHouse%E4%B8%AD%E7%9A%84%E5%87%A0%E7%A7%8DJOIN%E6%96%B9%E5%BC%8F/#SOHUCS" itemprop="discussionUrl">
-        <span id="url::http://example.com/2021/04/01/ClickHouse%E4%B8%AD%E7%9A%84%E5%87%A0%E7%A7%8DJOIN%E6%96%B9%E5%BC%8F/" class="cy_cmt_count" data-xid="2021/04/01/ClickHouse中的几种JOIN方式/" itemprop="commentCount"></span>
-      </a>
-    
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>&#160;&#160;&#160;&#160;ClickHouse中的SQL很多时候跟MySQL的访问协议是不兼容的，个人在使用的时候感觉大概有20%的SQL语法有区别。今天主要讲讲ClickHouse支持的所有JOIN方式，其中有跟MySQL一样的，也有一些ClickHouse独家支持的。<br><br>&#160;&#160;&#160;&#160;<font size=5><strong>Join方式汇总</strong></font><br><br>&#160;&#160;与MySQL一致: INNER JOIN, LEFT OUTER JOIN, RIGHT OUTER JOIN, FULL OUTER JOIN,CROSS JOIN<br><br>&#160;&#160;&#160;&#160;与HIVE一致: LEFT SEMI JOIN, RIGHT SEMI JOIN<br><br>&#160;&#160;&#160;&#160;ClickHouse独家支持: LEFT ANY JOIN / RIGHT ANY JOIN / ANY JOIN, LEFT ASOF JOIN / ASOF JOIN, GLOBAL JOIN<br><br>&#160;&#160;&#160;&#160;<font size=5><strong>Join方式详解</strong></font><br><br>&#160;&#160;&#160;&#160;1.<strong>INNER JOIN</strong>: 只返回左右表中key都匹配的行。同MySQL一样。<br><br>&#160;&#160;&#160;&#160;2.<strong>LEFT OUTER JOIN</strong>: 除了匹配的行之外，还返回左表中的非匹配行，同MySQL一样。<br><br>&#160;&#160;&#160;&#160;3.<strong>RIGHT OUTER JOIN</strong>: 除了匹配的行之外，还返回右表中的非匹配行，同MySQL一样。<br><br>&#160;&#160;&#160;&#160;4.<strong>FULL OUTER JOIN</strong>: 除了匹配的行之外，还会返回两个表中的非匹配行。同MySQL一样。<br><br>&#160;&#160;&#160;&#160;5.<strong>CROSS JOIN</strong>: 产生整个表的笛卡尔积，不需要指定join key。同MySQL一样。<br><br>&#160;&#160;&#160;&#160;6.<strong>LEFT SEMI JOIN</strong>: 返回左表中所有能和右表的join key匹配的行，不产生笛卡尔积(相当于 in 右表子查询 )。同Hive一样。<br></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">LEFT</span> SEMI <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">where</span> tab1.id <span class="keyword">in</span> (<span class="keyword">select</span> id <span class="keyword">from</span> tab2)</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;7.<strong>RIGHT SEMI JOIN</strong>: 返回右表中所有能和左表的join key匹配的行，不产生笛卡尔积(相当于 in 左表子查询 )。同Hive一样。<br></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">RIGHT</span> SEMI <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab2 <span class="keyword">where</span> tab2.id <span class="keyword">in</span> (<span class="keyword">select</span> id <span class="keyword">from</span> tab1)</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;8.<strong>LEFT SEMI JOIN</strong>: 返回右表中所有能和左表的join key匹配的行，不产生笛卡尔积(相当于 in 左表子查询 )。同Hive一样。<br></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">RIGHT</span> SEMI <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab2 <span class="keyword">where</span> tab2.id <span class="keyword">in</span> (<span class="keyword">select</span> id <span class="keyword">from</span> tab1)</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;9.<strong>LEFT ANY JOIN / RIGHT ANY JOIN / ANY JOIN</strong>: 连接两表，出现笛卡尔积的时候最多只返回2条。Clickhouse特性。<br></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">ANY</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于HIVE</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> </span><br><span class="line">(</span><br><span class="line">	<span class="keyword">select</span> <span class="operator">*</span>，</span><br><span class="line">    <span class="built_in">row_number</span>()<span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> tab1.id) <span class="keyword">as</span> rn </span><br><span class="line">    <span class="keyword">from</span> tab1 </span><br><span class="line">    <span class="keyword">JOIN</span> tab2 </span><br><span class="line">    <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line">)<span class="keyword">where</span> rn<span class="operator">&lt;=</span><span class="number">2</span>;</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;10.<strong>LEFT ASOF JOIN / ASOF JOIN</strong>: 连接两表，接受不等值连接。Clickhouse特性。<br></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">ANY</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">&lt;=</span>tab2.id</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>等价于HIVE</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">ANY</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">&lt;=</span>tab2.id</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;11.<strong>GLOBAL JOIN</strong>: 分布式连接。Clickhouse特性。<br><br>&#160;&#160;&#160;&#160;讲GLOBAL JOIN的时候必须讲讲GLOBAL JOIN和普通JOIN的执行区别。<br><br>&#160;&#160;&#160;&#160;当使用正常 JOIN，将查询发送到远程服务器。 为了创建正确的表，在每个子查询上运行子查询，并使用此表执行联接。换句话说，在每个服务器上单独形成右表。子查询将开始在每个远程服务器上运行。由于子查询使用分布式表，所以每个远程服务器上的子查询将会对每个远程服务器都感到不满，如果您有一个100个服务器集群，执行整个查询将需要10000个基本请求，这通常被认为是不可接受的举个例子。下面用SQL的形式讲解。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>一个普通的<span class="keyword">join</span>，分布式查询发起。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>发送到每个远程服务器上，每个远程服务器生成右表，分布式查询替换成远程服务器查询。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1_local <span class="keyword">JOIN</span> tab2_local <span class="keyword">on</span> tab1_local.id<span class="operator">=</span>tab2_local.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>因为每个远程服务器中的可能没有所有数据，所以每个远程服务器中生成的右表都不完整，这个时候该服务器需要向除自己外的所有远程服务器请求右表中的其余数据，才能完整地连接本服务器上的所有数据(这里觉得不好理解的话，可以想一下map<span class="operator">-</span>reduce中的common <span class="keyword">join</span>，为什么必须启动reduce来完成),因此这个时候就产生了远程服务器数<span class="operator">^</span><span class="number">2</span>的请求数。</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;而使用GLOBAL JOIN时，首先请求者服务器运行查询并创建一个临时表（右表）。 此临时表将传递到每个远程服务器，并使用传输的临时数据对其运行连接。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>一个<span class="keyword">global</span> <span class="keyword">join</span>，分布式查询发起。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1 <span class="keyword">global</span> <span class="keyword">JOIN</span> tab2 <span class="keyword">on</span> tab1.id<span class="operator">=</span>tab2.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>请求服务器先生成一个完整的右表临时表。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab </span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>该右表这里命名为tmp_tab,然后发送到所有的远程服务器上。然后每个远程服务器运行。</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tab1  <span class="keyword">JOIN</span> tmp_tab <span class="keyword">on</span> tab1.id<span class="operator">=</span>tmp_tab.id</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>这个时候每个远程服务器中的左表都能完整地连接右表，然后再进行后续的合并。(这里觉得不好理解的话，可以想一下map<span class="operator">-</span>reduce中的hash <span class="keyword">join</span>是怎么不启动reduce完成<span class="keyword">join</span>的。)</span><br></pre></td></tr></table></figure>
-<p>&#160;&#160;&#160;&#160;建议在Clickhouse中不要使用普通的join，直接替换成GLOBAL JOIN即可。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1365,7 +1357,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
